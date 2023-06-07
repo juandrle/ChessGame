@@ -1,8 +1,7 @@
 package Business.GameLogic;
 
 public interface Game {
-    
-    int turncount;
+
 
     public void switchPlayersTurn();
 

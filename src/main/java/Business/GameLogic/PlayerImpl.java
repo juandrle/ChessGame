@@ -1,14 +1,28 @@
 package Business.GameLogic;
 
 import Business.Gamepiece.Gamepiece;
+import Business.Gamepiece.Pawn;
+import Business.Gamepiece.Queen;
+import Business.Gamepiece.Tower;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerImpl implements Player{
     String name;
     List<Gamepiece> ownGamepieces;
+
+    public PlayerImpl(String name) {
+        this.name = name;
+        ownGamepieces = new ArrayList<>();
+        ownGamepieces.add(new Pawn());
+        ownGamepieces.add(new Pawn());
+        ownGamepieces.add(new Queen());
+        ownGamepieces.add(new Tower());
+    }
     @Override
-    public void moveGamepiece(Gamepiece gamepiece) {
+    public void moveGamepiece(Gamepiece gamepiece, Field field) {
+
     }
 
     @Override
