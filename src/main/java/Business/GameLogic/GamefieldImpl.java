@@ -2,7 +2,6 @@ package Business.GameLogic;
 
 import Business.Gamepiece.Gamepiece;
 import Business.Item.Item;
-import Business.Item.ItemImpl;
 import Business.Item.StatusChange.Manipulator.RankManipulator;
 import Business.Item.StatusChange.Manipulator.TimeManipulator;
 import Business.Item.StatusChange.Shield;
@@ -17,7 +16,7 @@ public class GamefieldImpl implements Gamefield{
     List<Field> fields;
     Player player1;
     Player player2;
-    GamefieldImpl(){
+    public GamefieldImpl(){
         fields = new ArrayList<>();
         player1 = new PlayerImpl("susi");
         player2 = new PlayerImpl("busi");
@@ -27,7 +26,6 @@ public class GamefieldImpl implements Gamefield{
 
     public void createGamefield(){
         Gamepiece gamepiece;
-        ItemImpl items = new ItemImpl();
         int randNum;
         Item item = null;
         for (int row = 0; row < 8; row++) {
