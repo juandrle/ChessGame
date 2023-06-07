@@ -1,10 +1,14 @@
 package Business.Gamepiece;
 
+import Business.GameLogic.Field;
+import Business.Item.Item;
+
 public class Pawn implements Gamepiece{
 
     Item inventory;
     int rank;
     boolean moveable;
+    Field position;
 
     public Pawn(){
         inventory = null;
@@ -31,10 +35,6 @@ public class Pawn implements Gamepiece{
     public void setMoveable(boolean moveab){
         moveable = moveab;
     }
-
-    public boolean getInventory(){
-        return moveable;
-    }
     //TODO:
     public boolean isValidMove(){
         return false;
@@ -42,5 +42,13 @@ public class Pawn implements Gamepiece{
 
     public boolean isMoveable(){
         return true;
+    }
+
+    public Field getPosition() {
+        return position;
+    }
+
+    public void setPosition(Field position) {
+        this.position = position;
     }
 }

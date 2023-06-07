@@ -53,4 +53,7 @@ public class PlayerImpl implements Player{
         ownGamepieces.remove(gamepiece);
     }
 
+    public List<Gamepiece> getOwnGamepieces() {
+        return ownGamepieces;
+    }
 }

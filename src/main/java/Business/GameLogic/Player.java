@@ -2,6 +2,8 @@ package Business.GameLogic;
 
 import Business.Gamepiece.Gamepiece;
 
+import java.util.List;
+
 public interface Player {
     public void moveGamepiece(Gamepiece gamepiece, Field field);
 
@@ -12,6 +14,7 @@ public interface Player {
     public void setName(String name);
     public String getName();
     public void removeGamepiece(Gamepiece gamepiece);
+    public List<Gamepiece> getOwnGamepieces();
 
 
 
