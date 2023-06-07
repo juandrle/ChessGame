@@ -22,11 +22,14 @@ public class PlayerImpl implements Player{
     }
     @Override
     public void moveGamepiece(Gamepiece gamepiece, Field field) {
-
+        chooseGamepiece(gamepiece).setPosition(field);
     }
 
     @Override
-    public Gamepiece chooseGamepiece() {
+    public Gamepiece chooseGamepiece(Gamepiece gamepiece) {
+        for (Gamepiece currGamepiece: ownGamepieces)
+            if (currGamepiece.equals(gamepiece))
+                return currGamepiece;
         return null;
     }
 
@@ -47,11 +50,7 @@ public class PlayerImpl implements Player{
 
     @Override
     public void removeGamepiece(Gamepiece gamepiece) {
-
+        ownGamepieces.remove(gamepiece);
     }
 
-    @Override
-    public Gamepiece getGamepiece(Gamepiece gamepiece) {
-        return null;
-    }
 }
