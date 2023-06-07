@@ -21,6 +21,7 @@ public class GamefieldImpl implements Gamefield{
         fields = new ArrayList<>();
         player1 = new PlayerImpl("susi");
         player2 = new PlayerImpl("busi");
+        createGamefield();
 
     }
 
