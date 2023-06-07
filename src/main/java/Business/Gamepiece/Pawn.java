@@ -38,7 +38,7 @@ public class Pawn implements Gamepiece{
     }
     //TODO:
     public boolean isValidMove(Field newPos){
-        return true;
+        int actRow = position.row;
     }
 
     public boolean isMoveable(){
