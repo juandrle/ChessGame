@@ -2,6 +2,12 @@ package Business.GameLogic;
 
 import Business.Gamepiece.Gamepiece;
 import Business.Item.Item;
+import Business.Item.ItemImpl;
+import Business.Item.StatusChange.Manipulator.RankManipulator;
+import Business.Item.StatusChange.Manipulator.TimeManipulator;
+import Business.Item.StatusChange.Shield;
+import Business.Item.Trap.MotionTrap;
+import Business.Item.Trap.TeleportationTrap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +26,21 @@ public class GamefieldImpl implements Gamefield{
 
     public void createGamefield(){
         Gamepiece gamepiece;
+        ItemImpl items = new ItemImpl();
+        int randNum;
         Item item = null;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
-                if((int)(Math.random() *10) > 5 && maxItemAmount > 0) {
-                    item = null;
+                if((randNum = (int)(Math.random() *10)) > 5 && maxItemAmount > 0) {
+                    switch (randNum) {
+                        case 6 -> item = new Shield("shield");
+                        case 7 -> item = new RankManipulator("rankmanipulator");
+                        case 8 -> item = new TimeManipulator("timemanipulator");
+                        case 9 -> item = new TeleportationTrap("teleportationtrap");
+                        case 10 -> item = new MotionTrap("motiontrap");
+                    }
                     maxItemAmount--;
-                }
+                } else item = null;
                 switch (row) {
                     case 3 -> {
                         switch (column) {
