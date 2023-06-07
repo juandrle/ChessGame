@@ -2,14 +2,23 @@ package Business.Gamepiece;
 
 public class Queen implements Gamepiece{
     
-    Item inventory;
-    int rank;
-    boolean moveable;
+    private Item inventory;
+    private int rank;
+    private boolean moveable;
+    private Field position;
 
     public Queen(){
         inventory = null;
         int rank = 2;
         moveable = true;
+    }
+
+    public void setPosition(Field pos){
+        position = pos;
+    }
+
+    public Field getPosition(){
+        return position;
     }
 
     public void setInventory(Item inv){
@@ -37,11 +46,12 @@ public class Queen implements Gamepiece{
     }
 
     //TODO:
-    public boolean isValidMove(){
+    public boolean isValidMove(Field newPos){
         return false;
     }
 
     public boolean isMoveable(){
-        return true;
+        if (moveable) return true;
+        else return false;
     }
 }

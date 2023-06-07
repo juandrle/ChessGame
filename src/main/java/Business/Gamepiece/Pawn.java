@@ -2,9 +2,10 @@ package Business.Gamepiece;
 
 public class Pawn implements Gamepiece{
 
-    Item inventory;
-    int rank;
-    boolean moveable;
+    private Item inventory;
+    private int rank;
+    private boolean moveable;
+    private Field position;
 
     public Pawn(){
         inventory = null;
@@ -36,11 +37,12 @@ public class Pawn implements Gamepiece{
         return moveable;
     }
     //TODO:
-    public boolean isValidMove(){
-        return false;
+    public boolean isValidMove(Field newPos){
+        return true;
     }
 
     public boolean isMoveable(){
-        return true;
+        if (moveable) return true;
+        else return false;
     }
 }

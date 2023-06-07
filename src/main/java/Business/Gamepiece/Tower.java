@@ -2,16 +2,24 @@ package Business.Gamepiece;
 
 public class Tower implements Gamepiece{
     
-    Item inventory;
-    int rank;
-    boolean moveable;
+    private Item inventory;
+    private int rank;
+    private boolean moveable;
+    private Field position;
 
-    public Tower(){
+    public Queen(){
         inventory = null;
         int rank = 1;
         moveable = true;
     }
 
+    public void setPosition(Field pos){
+        position = pos;
+    }
+
+    public Field getPosition(){
+        return position;
+    }
     public void setInventory(Item inv){
         inventory = inv;
     }
@@ -37,11 +45,12 @@ public class Tower implements Gamepiece{
     }
 
     //TODO:
-    public boolean isValidMove(){
+    public boolean isValidMove(Field newPos){
         return false;
     }
 
     public boolean isMoveable(){
-        return true;
+        if (moveable) return true;
+        else return false;
     }
 }
