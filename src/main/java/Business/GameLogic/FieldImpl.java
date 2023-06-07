@@ -4,14 +4,14 @@ import Business.Gamepiece.Gamepiece;
 import Business.Item.Item;
 
 public class FieldImpl implements Field{
-    private int coloumn;
-    private int row;
+    final private int column;
+    final private int row;
     private Item item;
     private Gamepiece gamepiece;
 
     public FieldImpl(int row, int coloumn, Gamepiece gamepiece, Item item) {
         this.row = row;
-        this.coloumn = coloumn;
+        this.column = coloumn;
         this.gamepiece = gamepiece;
         this.item = item;
     }
@@ -35,16 +35,7 @@ public class FieldImpl implements Field{
     public int getRow() {
         return row;
     }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColoumn() {
-        return coloumn;
-    }
-
-    public void setColoumn(int coloumn) {
-        this.coloumn = coloumn;
+    public int getColumn() {
+        return column;
     }
 }

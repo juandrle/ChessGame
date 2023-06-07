@@ -2,7 +2,11 @@ package Business.GameLogic;
 
 public class GameImpl implements Game{
 
-    private int turnCount;
+    private int turnCount = 0;
+    private final Gamefield gamefield;
+    public GameImpl(){
+        gamefield = new GamefieldImpl();
+    }
 
     public void setTurnCount(int tc){
         turnCount = tc;
@@ -13,7 +17,6 @@ public class GameImpl implements Game{
     }
 
     public void switchPlayersTurn(){
-
     }
 
     public Game startGame(){
@@ -24,7 +27,7 @@ public class GameImpl implements Game{
         return null;
     }
 
-    public void safeGame(){
+    public void saveGame(){
 
     }
 
@@ -34,5 +37,8 @@ public class GameImpl implements Game{
 
     public void runGame(){
 
+    }
+    public Gamefield getGamefield() {
+        return gamefield;
     }
 }

@@ -9,9 +9,10 @@ public interface Game {
 
     public Game loadGame();
 
-    public void safeGame();
+    public void saveGame();
 
     public void exitGame();
 
     public void runGame();
+    public Gamefield getGamefield();
 }

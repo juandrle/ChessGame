@@ -11,12 +11,13 @@ import Business.Item.Trap.TeleportationTrap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GamefieldImpl implements Gamefield{
-    int maxItemAmount = 15 ;
+public class GamefieldImpl implements Gamefield {
+    int maxItemAmount = 15;
     List<Field> fields;
     Player player1;
     Player player2;
-    public GamefieldImpl(){
+
+    public GamefieldImpl() {
         fields = new ArrayList<>();
         player1 = new PlayerImpl("susi");
         player2 = new PlayerImpl("busi");
@@ -24,13 +25,13 @@ public class GamefieldImpl implements Gamefield{
 
     }
 
-    public void createGamefield(){
+    public void createGamefield() {
         Gamepiece gamepiece;
         int randNum;
         Item item = null;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
-                if((randNum = (int)(Math.random() *10)) > 5 && maxItemAmount > 0) {
+                if ((randNum = (int) (Math.random() * 10)) > 5 && maxItemAmount > 0) {
                     switch (randNum) {
                         case 6 -> item = new Shield("shield");
                         case 7 -> item = new RankManipulator("rankmanipulator");
@@ -64,5 +65,16 @@ public class GamefieldImpl implements Gamefield{
                 fields.add(new FieldImpl(row, column, gamepiece, item));
             }
         }
+    }
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }

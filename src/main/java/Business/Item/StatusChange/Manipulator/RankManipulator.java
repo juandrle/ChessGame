@@ -11,6 +11,9 @@ public class RankManipulator extends StatusChangeImpl {
 
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-
+        int rank;
+        if ((rank = gamepiece.getRank()) < 2)
+            gamepiece.setRank(rank + 1);
+        else gamepiece.setRank(rank - 1);
     }
 }
