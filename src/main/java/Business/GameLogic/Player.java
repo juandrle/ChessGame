@@ -3,7 +3,7 @@ package Business.GameLogic;
 import Business.Gamepiece.Gamepiece;
 
 public interface Player {
-    public void moveGamepiece(Gamepiece gamepiece);
+    public void moveGamepiece(Gamepiece gamepiece, Field field);
 
     public Gamepiece chooseGamepiece();
 
