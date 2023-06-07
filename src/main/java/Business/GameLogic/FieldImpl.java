@@ -25,7 +25,7 @@ public class FieldImpl implements Field{
     }
 
     public Item getItem() {
-        return item;
+        return this.item;
     }
 
     public void setItem(Item item) {
@@ -33,9 +33,9 @@ public class FieldImpl implements Field{
     }
 
     public int getRow() {
-        return row;
+        return this.row;
     }
     public int getColumn() {
-        return column;
+        return this.column;
     }
 }

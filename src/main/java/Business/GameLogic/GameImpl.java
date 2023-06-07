@@ -4,19 +4,23 @@ public class GameImpl implements Game{
 
     private int turnCount = 0;
     private final Gamefield gamefield;
+    private Player currPlayer = null;
     public GameImpl(){
-        gamefield = new GamefieldImpl();
+        this.gamefield = new GamefieldImpl();
     }
 
     public void setTurnCount(int tc){
-        turnCount = tc;
+        this.turnCount = tc;
     }
 
     public int getTurnCount(){
-        return turnCount;
+        return this.turnCount;
     }
 
     public void switchPlayersTurn(){
+        if (this.currPlayer == null || this.currPlayer.equals(this.gamefield.getPlayer2()))
+            this.currPlayer = this.gamefield.getPlayer1();
+        else this.currPlayer = this.gamefield.getPlayer2();
     }
 
     public Game startGame(){
@@ -39,6 +43,6 @@ public class GameImpl implements Game{
 
     }
     public Gamefield getGamefield() {
-        return gamefield;
+        return this.gamefield;
     }
 }
