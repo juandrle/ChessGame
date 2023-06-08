@@ -1,11 +1,11 @@
-package UI.GameField;
+package UI.Elements.Start;
 
 import Business.GameLogic.Game;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
-public class GameFieldViewController extends ViewController<MonsterApplication> {
-    public GameFieldViewController(MonsterApplication application, Game game) {
+public class StartViewController extends ViewController<MonsterApplication> {
+    public StartViewController(MonsterApplication application, Game game) {
         super(application);
     }
 

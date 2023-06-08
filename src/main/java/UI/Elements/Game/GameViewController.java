@@ -1,4 +1,4 @@
-package UI.Game;
+package UI.Elements.Game;
 
 import Business.GameLogic.Game;
 import UI.Presentation.MonsterApplication;

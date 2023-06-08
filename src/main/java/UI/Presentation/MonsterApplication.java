@@ -2,12 +2,12 @@ package UI.Presentation;
 
 import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
-import UI.CalculationGame.CalculationGameViewController;
-import UI.ClickEventGame.ClickEventGameViewController;
-import UI.Game.GameViewController;
-import UI.GameField.GameFieldViewController;
+import UI.Elements.CalculationGame.CalculationGameViewController;
+import UI.Elements.ClickEventGame.ClickEventGameViewController;
+import UI.Elements.Game.GameViewController;
+import UI.Elements.GameField.GameFieldViewController;
 import UI.Scenes;
-import UI.Start.StartViewController;
+import UI.Elements.Start.StartViewController;
 import UI.ViewController;
 import javafx.application.Application;
 import javafx.scene.Scene;

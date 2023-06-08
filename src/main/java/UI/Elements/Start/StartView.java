@@ -1,4 +1,4 @@
-package UI.Start;
+package UI.Elements.Start;
 
 public class StartView {
 }

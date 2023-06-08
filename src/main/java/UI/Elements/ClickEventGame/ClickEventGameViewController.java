@@ -1,4 +1,4 @@
-package UI.ClickEventGame;
+package UI.Elements.ClickEventGame;
 
 import Business.GameLogic.Game;
 import UI.Presentation.MonsterApplication;
