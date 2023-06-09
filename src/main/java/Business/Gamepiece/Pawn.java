@@ -1,11 +1,21 @@
 package Business.Gamepiece;
 
+import Business.GameLogic.Field;
+import Business.Item.Item;
+
 public class Pawn implements Gamepiece{
 
+<<<<<<< HEAD
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
+=======
+    Item inventory;
+    int rank;
+    boolean moveable;
+    Field position;
+>>>>>>> e2c3bf25c1bdd0ba08f824621f697e227fdb2c8f
 
     public Pawn(){
         inventory = null;
@@ -13,36 +23,47 @@ public class Pawn implements Gamepiece{
         moveable = true;
     }
 
-    public void setInventory(Item inv){
-        inventory = inv;
+    public void setInventory(Item inventory){
+        this.inventory = inventory;
     }
 
     public Item getInventory(){
-        return inventory;
+        return this.inventory;
     }
 
-    public void setRank(int rnk){
-        rank = rnk;
+    public void setRank(int rank){
+        this.rank = rank;
     }
 
     public int getRank(){
-        return rank;
+        return this.rank;
     }
 
-    public void setMoveable(boolean moveab){
-        moveable = moveab;
+    public void setMoveable(boolean moveable){
+        this.moveable = moveable;
     }
 
-    public boolean getInventory(){
-        return moveable;
-    }
-    //TODO:
-    public boolean isValidMove(Field newPos){
-        int actRow = position.row;
+    public boolean isValidMove(Field newPos) {
+        int checkRow = newPos.getRow() - position.getRow();
+        int checkColoumn = newPos.getColumn() - position.getColumn();
+
+        if(checkRow >= -1 && checkRow <= 1 && checkColoumn >= -1 && checkColoumn <= 1){
+            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7)
+                return true;
+        }
+        return false;
     }
 
     public boolean isMoveable(){
-        if (moveable) return true;
-        else return false;
+        if (this.moveable) return true;
+        return false;
+    }
+
+    public Field getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Field position) {
+        this.position = position;
     }
 }

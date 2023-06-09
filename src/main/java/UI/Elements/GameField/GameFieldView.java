@@ -1,4 +1,4 @@
-package UI.GameField;
+package UI.Elements.GameField;
 
 public class GameFieldView {
 }

@@ -14,19 +14,22 @@ public class PlayerImpl implements Player{
 
     public PlayerImpl(String name) {
         this.name = name;
-        ownGamepieces = new ArrayList<>();
-        ownGamepieces.add(new Pawn());
-        ownGamepieces.add(new Pawn());
-        ownGamepieces.add(new Queen());
-        ownGamepieces.add(new Tower());
+        this.ownGamepieces = new ArrayList<>();
+        this.ownGamepieces.add(new Pawn());
+        this.ownGamepieces.add(new Pawn());
+        this.ownGamepieces.add(new Queen());
+        this.ownGamepieces.add(new Tower());
     }
     @Override
     public void moveGamepiece(Gamepiece gamepiece, Field field) {
-
+        chooseGamepiece(gamepiece).setPosition(field);
     }
 
     @Override
-    public Gamepiece chooseGamepiece() {
+    public Gamepiece chooseGamepiece(Gamepiece gamepiece) {
+        for (Gamepiece currGamepiece: ownGamepieces)
+            if (currGamepiece.equals(gamepiece))
+                return currGamepiece;
         return null;
     }
 
@@ -47,11 +50,10 @@ public class PlayerImpl implements Player{
 
     @Override
     public void removeGamepiece(Gamepiece gamepiece) {
-
+        this.ownGamepieces.remove(gamepiece);
     }
 
-    @Override
-    public Gamepiece getGamepiece(Gamepiece gamepiece) {
-        return null;
+    public List<Gamepiece> getOwnGamepieces() {
+        return this.ownGamepieces;
     }
 }

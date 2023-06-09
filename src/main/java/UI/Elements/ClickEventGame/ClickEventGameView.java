@@ -1,4 +1,4 @@
-package UI.ClickEventGame;
+package UI.Elements.ClickEventGame;
 
 public class ClickEventGameView {
 }

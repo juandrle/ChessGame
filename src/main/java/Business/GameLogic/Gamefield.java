@@ -1,13 +1,18 @@
 package Business.GameLogic;
 
+import java.util.List;
+
 public interface Gamefield {
 
 
     public void createGamefield();
 
-    public void placeItems();
+    public Player getPlayer1();
 
-    public void setGamepieces();
-    
+    public List<Field> getFields();
+
+    public Player getPlayer2();
+
+
 }
 

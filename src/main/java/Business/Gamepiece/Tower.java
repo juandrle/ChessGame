@@ -1,11 +1,13 @@
 package Business.Gamepiece;
 
+import Business.GameLogic.Field;
+import Business.Item.Item;
+
 public class Tower implements Gamepiece{
     
-    private Item inventory;
-    private int rank;
-    private boolean moveable;
-    private Field position;
+    Item inventory;
+    int rank;
+    boolean moveable;
 
     public Queen(){
         inventory = null;
@@ -40,12 +42,16 @@ public class Tower implements Gamepiece{
         moveable = moveab;
     }
 
-    public boolean getInventory(){
-        return moveable;
+    public void setPosition(Field field) {
+        this.position = field;
+    }
+
+    public Field getPosition() {
+        return this.position;
     }
 
     //TODO:
-    public boolean isValidMove(Field newPos){
+    public boolean isValidMove(){
         return false;
     }
 

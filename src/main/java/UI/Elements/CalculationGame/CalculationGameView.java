@@ -1,4 +1,4 @@
-package UI.CalculationGame;
+package UI.Elements.CalculationGame;
 
 public class CalculationGameView {
 }

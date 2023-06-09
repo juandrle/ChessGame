@@ -1,4 +1,15 @@
 package Business.Item.StatusChange;
 
-public class Shield extends StatusChangeImpl{
+import Business.Gamepiece.Gamepiece;
+
+public class Shield extends StatusChangeImpl {
+
+    public Shield(String description) {
+        super(description);
+    }
+
+    @Override
+    public void applyStatusChange(Gamepiece gamepiece) {
+    }
+
 }
