@@ -43,13 +43,17 @@ public class Pawn implements Gamepiece{
         this.moveable = moveable;
     }
 
-    public boolean isValidMove(Field newPos) {
+    public boolean isValidMove(FieldImpl newPos) {
         int checkRow = newPos.getRow() - position.getRow();
         int checkColoumn = newPos.getColumn() - position.getColumn();
 
         if(checkRow >= -1 && checkRow <= 1 && checkColoumn >= -1 && checkColoumn <= 1){
-            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7)
+            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7){
+                if(this.inventory != null && newPos.getItem != null){
+                    return false;
+                }
                 return true;
+            }
         }
         return false;
     }

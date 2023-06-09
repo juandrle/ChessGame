@@ -74,6 +74,14 @@ public class GamefieldImpl implements Gamefield {
         return this.fields;
     }
 
+    public FieldImpl getField(int row, int coloumn){
+        for(Field f: this.fields){
+            if(f.getColoumn() == coloumn && f.getRow() == row)
+                return f;
+        }
+        return null;
+    }
+
     public Player getPlayer2() {
         return this.player2;
     }
