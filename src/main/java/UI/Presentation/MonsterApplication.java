@@ -1,5 +1,6 @@
 package UI.Presentation;
 
+import Business.Competition.CalculatorGame;
 import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
 import UI.Elements.CalculationGame.CalculationGameViewController;
@@ -40,7 +41,7 @@ public class MonsterApplication extends Application {
             controller = new GameFieldViewController(this, game);
             scenes.put(Scenes.GAMEFIELD_VIEW, controller.getRootView());
 
-            controller = new CalculationGameViewController(this, game);
+            controller = new CalculationGameViewController(new CalculatorGame(60), this, game);
             scenes.put(Scenes.CALCULATIONGAME_VIEW, controller.getRootView());
 
             controller = new ClickEventGameViewController(this, game);
