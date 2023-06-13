@@ -10,7 +10,7 @@ public class Tower implements Gamepiece{
     boolean moveable;
     GamefieldImpl gamefield;
 
-    public Queen(){
+    public Tower(){
         inventory = null;
         int rank = 1;
         moveable = true;
