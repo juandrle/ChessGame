@@ -4,18 +4,11 @@ import Business.GameLogic.Field;
 import Business.Item.Item;
 
 public class Pawn implements Gamepiece{
-
-<<<<<<< HEAD
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
-=======
-    Item inventory;
-    int rank;
-    boolean moveable;
-    Field position;
->>>>>>> e2c3bf25c1bdd0ba08f824621f697e227fdb2c8f
+
 
     public Pawn(){
         inventory = null;
@@ -43,16 +36,13 @@ public class Pawn implements Gamepiece{
         this.moveable = moveable;
     }
 
-    public boolean isValidMove(FieldImpl newPos) {
+    public boolean isValidMove(Field newPos) {
         int checkRow = newPos.getRow() - position.getRow();
-        int checkColoumn = newPos.getColumn() - position.getColumn();
+        int checkColumn = newPos.getColumn() - position.getColumn();
 
-        if(checkRow >= -1 && checkRow <= 1 && checkColoumn >= -1 && checkColoumn <= 1){
+        if(checkRow >= -1 && checkRow <= 1 && checkColumn >= -1 && checkColumn <= 1){
             if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7){
-                if(this.inventory != null && newPos.getItem != null){
-                    return false;
-                }
-                return true;
+                return this.inventory == null || newPos.getItem() == null;
             }
         }
         return false;

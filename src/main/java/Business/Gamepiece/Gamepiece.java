@@ -5,7 +5,7 @@ import Business.Item.Item;
 
 public interface Gamepiece {
 
-    public boolean isValidMove();
+    public boolean isValidMove(Field newPos);
 
     public boolean isMoveable();
     public void setInventory(Item inv);

@@ -1,35 +1,22 @@
 package Business.Gamepiece;
 
 import Business.GameLogic.Field;
+import Business.GameLogic.Gamefield;
 import Business.Item.Item;
 
 public class Queen implements Gamepiece{
-    
-<<<<<<< HEAD
+
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
-=======
-    Item inventory;
-    int rank;
-    boolean moveable;
-    Field position;
->>>>>>> e2c3bf25c1bdd0ba08f824621f697e227fdb2c8f
-
+    private Gamefield gamefield;
     public Queen(){
         inventory = null;
         int rank = 2;
         moveable = true;
     }
-
-    public void setPosition(Field pos){
-        position = pos;
-    }
-
-    public Field getPosition(){
-        return position;
-    }
+    
 
     public void setInventory(Item inv){
         inventory = inv;
@@ -59,64 +46,64 @@ public class Queen implements Gamepiece{
     }
 
     //TODO:
-public boolean isValidMove(FieldImpl newPos) {
+public boolean isValidMove(Field newPos) {
         int curRow = position.getRow();
-        int curColoumn = position.getColumn();
+        int curColumn = position.getColumn();
 
         if(curRow == newPos.getRow()){//Horizontal
             if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7){
                 if(this.inventory != null){
-                    for(int i = curColoumn; i <= newPos.getColoumn();i++){
-                        if(!gamefield.getField(curRow,i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                    for(int i = curColumn; i <= newPos.getColumn();i++){
+                        if(gamefield.getField(curRow,i).getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
                     }
                 }
                 return true;
             }
         }
-        else if(curColoumn == newPos.getColoumn()){// Vertikal
+        else if(curColumn == newPos.getColumn()){// Vertikal
             if(newPos.getRow() >= 0 && newPos.getRow() <= 7){
                 if(this.inventory != null){
                     for(int i = curRow; i <= newPos.getRow();i++){
-                        if(!gamefield.getField(i,curColoumn).getItem() != null)// check every single field if it contains item if not its valid else its not
+                        if(gamefield.getField(i,curColumn).getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
                     }
                 }
             }
                 return true;
         }
-        else if(curColoumn != newPos.getColoumn() && curRow != newPos.getRow()){//Diagonal
-            int tmpColoumn = curColoumn - newPos.getColoumn();
+        else if(curColumn != newPos.getColumn() && curRow != newPos.getRow()){//Diagonal
+            int tmpColumn = curColumn - newPos.getColumn();
             int tmpRow = curRow - newPos.getRow();
             if(newPos.getRow() >= 0 && newPos.getRow() <= 7 && newPos.getColumn() >= 0 && newPos.getColumn() <= 7){
-                if(Math.abs(tmpColoumn) - Math.abs(tmpRow) == 0){
-                    if(tmpRow > 0 && tmpColoumn > 0){// nach links unten
+                if(Math.abs(tmpColumn) - Math.abs(tmpRow) == 0){
+                    if(tmpRow > 0 && tmpColumn > 0){// nach links unten
                         for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(!gamefield.getField(curRow - i,curColoumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            if(gamefield.getField(curRow - i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
                                 return false;
                         }
                     }
-                    else if(tmpRow < 0 && tmpColoumn > 0){// nach links oben <<<<<< Check
+                    else if(tmpRow < 0 && tmpColumn > 0){// nach links oben <<<<<< Check
                         for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(!gamefield.getField(curRow + i,curColoumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            if(gamefield.getField(curRow + i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
                                 return false;
                         }
                     }
-                    else if(tmpRow > 0 && tmpColoumn < 0){// nach rechts unten <<<<<<<<<<<<<check
+                    else if(tmpRow > 0 && tmpColumn < 0){// nach rechts unten <<<<<<<<<<<<<check
                         for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(!gamefield.getField(curRow - i,curColoumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            if(gamefield.getField(curRow - i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
                                 return false;
                         }
                     }
-                    else if(tmpRow < 0 && tmpColoumn < 0){// nach rechts oben
+                    else if(tmpRow < 0 && tmpColumn < 0){// nach rechts oben
                         for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(!gamefield.getField(curRow + i,curColoumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            if(gamefield.getField(curRow + i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
                                 return false;
                         }
                     }
                     
                 }
-                return true; <<<check
+                return true;
             }
         }
         return false;

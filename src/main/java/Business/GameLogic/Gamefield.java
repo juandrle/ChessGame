@@ -11,7 +11,7 @@ public interface Gamefield {
 
     public List<Field> getFields();
 
-    public FieldImpl getField();
+    public Field getField(int row, int column);
 
     public Player getPlayer2();
 

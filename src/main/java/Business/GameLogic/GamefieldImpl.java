@@ -63,6 +63,7 @@ public class GamefieldImpl implements Gamefield {
                     default -> gamepiece = null;
                 }
                 this.fields.add(new FieldImpl(row, column, gamepiece, item));
+                if(gamepiece != null) gamepiece.setPosition(fields.get(row + column));
             }
         }
     }
@@ -74,9 +75,9 @@ public class GamefieldImpl implements Gamefield {
         return this.fields;
     }
 
-    public FieldImpl getField(int row, int coloumn){
+    public Field getField(int row, int coloumn){
         for(Field f: this.fields){
-            if(f.getColoumn() == coloumn && f.getRow() == row)
+            if(f.getColumn() == coloumn && f.getRow() == row)
                 return f;
         }
         return null;
