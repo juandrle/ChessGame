@@ -11,7 +11,7 @@ public class TimeManipulator extends StatusChangeImpl {
 
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-        TimeManipulator timeManipulator = new TimeManipulator();
+        TimeManipulator timeManipulator = new TimeManipulator("manipulates time");
         gamepiece.setInventory(timeManipulator);
     }
 }

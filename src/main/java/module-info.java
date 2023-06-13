@@ -1,10 +1,12 @@
-module com.example.monsterschach {
+module UI.Presentation {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.monsterschach to javafx.fxml;
-    exports com.example.monsterschach;
+    opens UI.Presentation to javafx.fxml;
+    opens UI.Elements.CalculationGame to javafx.fxml; // Add this line to open the package
+
+    exports UI.Presentation;
 }
