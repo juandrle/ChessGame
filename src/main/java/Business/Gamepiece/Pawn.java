@@ -4,18 +4,10 @@ import Business.GameLogic.Field;
 import Business.Item.Item;
 
 public class Pawn implements Gamepiece{
-<<<<<<< HEAD
-
-=======
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
 
     public Pawn(){
         this.inventory = null;
@@ -49,15 +41,8 @@ public class Pawn implements Gamepiece{
 
         if(checkRow >= -1 && checkRow <= 1 && checkColumn >= -1 && checkColumn <= 1){
             if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7){
-<<<<<<< HEAD
-                if(this.inventory != null && newPos.getItem() != null){
-                    return false;
-                }
-                return true;
-=======
-                return this.inventory == null || newPos.getItem() == null;
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
-            }
+
+                return this.inventory == null || newPos.getItem() == null;            }
         }
         return false;
     }

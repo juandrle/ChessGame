@@ -5,11 +5,6 @@ import Business.GameLogic.Gamefield;
 import Business.Item.Item;
 
 public class Tower implements Gamepiece{
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
     private Item inventory;
     private int rank;
     private boolean moveable;
@@ -22,16 +17,8 @@ public class Tower implements Gamepiece{
         this.moveable = true;
     }
 
-<<<<<<< HEAD
-=======
-    public void setPosition(Field position){
-        this.position = position;
-    }
 
-    public Field getPosition(){
-        return this.position;
-    }
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
+   
     public void setInventory(Item inventory){
         this.inventory = inventory;
     }
@@ -52,7 +39,7 @@ public class Tower implements Gamepiece{
         this.moveable = moveable;
     }
 
-<<<<<<< HEAD
+
     public void setPosition(Field field) {
         this.position = field;
     }
@@ -61,8 +48,6 @@ public class Tower implements Gamepiece{
         return this.position;
     }
 
-=======
->>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
     public boolean isValidMove(Field newPos) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
