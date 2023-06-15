@@ -5,18 +5,31 @@ import Business.GameLogic.Gamefield;
 import Business.Item.Item;
 
 public class Queen implements Gamepiece{
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
     private Gamefield gamefield;
+<<<<<<< HEAD
 
     public Queen(){
         this.inventory = null;
         this.rank = 2;
         this.moveable = true;
     }
+=======
+    public Queen(){
+        inventory = null;
+        int rank = 2;
+        moveable = true;
+    }
+    
+>>>>>>> 1b5ab4ce0f50c017df7e452d6f630b8e9f0e6d3f
 
     public void setInventory(Item inv){
         inventory = inv;

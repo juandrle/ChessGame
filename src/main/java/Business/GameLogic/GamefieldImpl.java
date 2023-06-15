@@ -63,6 +63,7 @@ public class GamefieldImpl implements Gamefield {
                     default -> gamepiece = null;
                 }
                 this.fields.add(new FieldImpl(row, column, gamepiece, item));
+                if(gamepiece != null) gamepiece.setPosition(fields.get(row + column));
             }
         }
     }

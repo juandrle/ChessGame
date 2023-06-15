@@ -47,9 +47,9 @@ public class MonsterApplication extends Application {
             controller = new ClickEventGameViewController(this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
 
-            Pane root = scenes.get(Scenes.START_VIEW);
+            Pane root = scenes.get(Scenes.CALCULATIONGAME_VIEW);
             scene = new Scene(root, 550, 500);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+            //scene.getStylesheets().add(getClass().getResource("application.css").toString());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

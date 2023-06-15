@@ -55,7 +55,7 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 		this.calculationGame = calculationGame;
 		try {
 			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("/MonsterSchach/src/main/java/UI/Elements/CalculationGame/CalculationGameView.fxml"));
+					getClass().getResource("/views/CalculationGameView.fxml"));
 			loader.setController(this);
 			rootView = loader.load();
 		} catch (IOException e) {
@@ -91,7 +91,7 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 					}
 					message.setVisible(true);
 				} else {
-					message.setText("Keine weiteren Eingaben möglich!");
+					message.setText("Keine weiteren Eingaben moeglich!");
 				}
 			}
 		});
