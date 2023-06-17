@@ -9,7 +9,7 @@ public interface Player {
 
     Gamepiece chooseGamepiece(Gamepiece gamepiece);
 
-    public void useItem();
+    public void useItem(Gamepiece gamepiece);
 
     public void setName(String name);
     public String getName();

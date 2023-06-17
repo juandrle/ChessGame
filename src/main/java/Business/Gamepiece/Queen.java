@@ -117,4 +117,5 @@ public boolean isValidMove(Field newPos) {
         if (moveable) return true;
         else return false;
     }
+
 }

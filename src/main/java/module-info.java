@@ -6,7 +6,8 @@ module UI.Presentation {
     requires org.kordamp.bootstrapfx.core;
 
     opens UI.Presentation to javafx.fxml;
-    opens UI.Elements.CalculationGame to javafx.fxml; // Add this line to open the package
+    opens UI.Elements.CalculationGame to javafx.fxml;
+    opens UI.Elements.GameField to javafx.fxml;// Add this line to open the package
 
     exports UI.Presentation;
 }

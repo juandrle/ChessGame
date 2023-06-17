@@ -31,16 +31,6 @@ public class GamefieldImpl implements Gamefield {
         Item item = null;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
-                if ((randNum = (int) (Math.random() * 10)) > 5 && this.maxItemAmount > 0) {
-                    switch (randNum) {
-                        case 6 -> item = new Shield("shield");
-                        case 7 -> item = new RankManipulator("rankmanipulator");
-                        case 8 -> item = new TimeManipulator("timemanipulator");
-                        case 9 -> item = new TeleportationTrap("teleportationtrap");
-                        case 10 -> item = new MotionTrap("motiontrap");
-                    }
-                    this.maxItemAmount--;
-                } else item = null;
                 switch (row) {
                     case 3 -> {
                         switch (column) {
@@ -60,8 +50,21 @@ public class GamefieldImpl implements Gamefield {
                             default -> gamepiece = null;
                         }
                     }
-                    default -> gamepiece = null;
+                    default -> {
+                        gamepiece = null;
+                        if ((randNum = (int) (Math.random() * 10)) > 5 && this.maxItemAmount > 0) {
+                            switch (randNum) {
+                                case 6 -> item = new Shield("shield");
+                                case 7 -> item = new RankManipulator("rankmanipulator");
+                                case 8 -> item = new TimeManipulator("timemanipulator");
+                                case 9 -> item = new TeleportationTrap("teleportationtrap");
+                                case 10 -> item = new MotionTrap("motiontrap");
+                            }
+                            this.maxItemAmount--;
+                        } else item = null;
+                    }
                 }
+
                 this.fields.add(new FieldImpl(row, column, gamepiece, item));
                 if(gamepiece != null) gamepiece.setPosition(fields.get(row + column));
             }

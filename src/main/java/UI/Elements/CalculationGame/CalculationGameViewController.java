@@ -66,59 +66,39 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 	@FXML
 	public void initialize() {
 
-		clearButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				textField.clear();
-			}
-		});
+		clearButton.addEventHandler(ActionEvent.ACTION, event -> textField.clear());
 
-		processButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				String inputText = textField.getText();
-				System.out.println("Input text: " + inputText);
-				String result = getResultOfMathProblem(mathProblem);
-				if (endGame == false) {
-					if (inputText.equals(result)) {
-						message.setText("Richtig!");
-						calculationGame.setHelpCountCorrectAnswer(1);
-						removeMathProblem(mathProblem);
-						mathProblem = showNextTask();
-						textField.clear();
-					} else {
-						message.setText("Falsch!");
-					}
-					message.setVisible(true);
+		processButton.addEventHandler(ActionEvent.ACTION, event -> {
+			String inputText = textField.getText();
+			System.out.println("Input text: " + inputText);
+			String result = getResultOfMathProblem(mathProblem);
+			if (endGame == false) {
+				if (inputText.equals(result)) {
+					message.setText("Richtig!");
+					calculationGame.setHelpCountCorrectAnswer(1);
+					removeMathProblem(mathProblem);
+					mathProblem = showNextTask();
+					textField.clear();
 				} else {
-					message.setText("Keine weiteren Eingaben moeglich!");
+					message.setText("Falsch!");
 				}
+				message.setVisible(true);
+			} else {
+				message.setText("Keine weiteren Eingaben moeglich!");
 			}
 		});
 
-		calculationGame.getActTime().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				Platform.runLater(() -> {
-					time.setText(newValue.toString());
-					if (newValue.intValue() == 0) {
-						message.setText("Zeit ist abgelaufen!");
-						endGame = true;
-					}
-				});
+		calculationGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
+			time.setText(newValue.toString());
+			if (newValue.intValue() == 0) {
+				message.setText("Zeit ist abgelaufen!");
+				endGame = true;
 			}
-		});
+		}));
 
-		calculationGame.getCountCorrectAnswer().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				Platform.runLater(() -> {
-					score.setText("Punktestand: " + newValue.toString());
-				});
-
-			}
-		});
+		calculationGame.getCountCorrectAnswer().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
+			score.setText("Punktestand: " + newValue.toString());
+		}));
 
 		// Eigenscahften die am Anfang bestimmt werden:
 		// Mathe aufgaben
