@@ -59,4 +59,6 @@ public class Pawn implements Gamepiece{
     public void setPosition(Field position) {
         this.position = position;
     }
+
 }
+

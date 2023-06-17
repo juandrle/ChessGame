@@ -80,4 +80,5 @@ public class Tower implements Gamepiece{
     public boolean isMoveable(){
         return moveable;
     }
+
 }

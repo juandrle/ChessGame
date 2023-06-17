@@ -34,7 +34,7 @@ public class PlayerImpl implements Player{
     }
 
     @Override
-    public void useItem() {
+    public void useItem(Gamepiece gamepiece) {
 
     }
 
