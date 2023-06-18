@@ -19,7 +19,7 @@ public class CalculatorGame extends CompetitionImpl {
 
 	public void fillTask() {
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("src/application/Resources/mathProblems.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/files/mathProblems.txt"));
 			String line;
 			try {
 				while ((line = reader.readLine()) != null) {

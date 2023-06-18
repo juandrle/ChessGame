@@ -31,7 +31,7 @@ public class ReactionGameView {
 		VBox widthBetween = new VBox();
 		VBox timeVBox = new VBox();
 
-		widthBetween.setPrefWidth(250);
+		widthBetween.setPrefWidth(350);
 		widthFromRightToScore.setPrefWidth(20);
 		timeVBox.getChildren().add(time);
 		bottomHBox.getChildren().addAll(widthFromRightToScore, score, widthBetween, timeVBox);
@@ -49,16 +49,16 @@ public class ReactionGameView {
 		circles.add(circle);
 		System.out.println("Aktueller Kreisindex: " + circles.indexOf(circle));
 
-		// Zufällige Position für den Kreis innerhalb der Pane
+		// ZufÃ¤llige Position fÃ¼r den Kreis innerhalb der Pane
 		double circleX = Math.random() * (pane.getWidth() - circle.getRadius() * 2) + circle.getRadius();
 		double circleY = Math.random() * (pane.getHeight() - circle.getRadius() * 2) + circle.getRadius();
 
-		// Überprüfen, ob der Kreis zu nah am oberen Rand liegt
+		// ÃœberprÃ¼fen, ob der Kreis zu nah am oberen Rand liegt
 		if (circleY < circle.getRadius()) {
 			circleY = circle.getRadius() * 2;
 		}
 
-		// Überprüfen, ob der Kreis zu nah am linken Rand liegt
+		// ÃœberprÃ¼fen, ob der Kreis zu nah am linken Rand liegt
 		if (circleX < circle.getRadius()) {
 			circleX = circle.getRadius() * 2;
 		}

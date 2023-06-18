@@ -70,7 +70,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 			}
 		});
 
-		// Für jeden Kreis das Klick-Ereignis registrieren
+		// FÃ¼r jeden Kreis das Klick-Ereignis registrieren
 		if (endGame == false) {
 			for (ShrinkingCircle circle : circles) {
 				currentCircle = circle;
