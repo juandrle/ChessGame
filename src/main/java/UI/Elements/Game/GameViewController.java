@@ -21,5 +21,6 @@ public class GameViewController extends ViewController<MonsterApplication> {
     public void initialize() {
         view.demoGameField.setOnAction(e -> application.switchScene(Scenes.GAMEFIELD_VIEW));
         view.demoCalcGame.setOnAction(e -> application.switchScene(Scenes.CALCULATIONGAME_VIEW));
+        view.demoReacGame.setOnAction(e -> application.switchScene(Scenes.CLICKEVENTGAME_VIEW));
     }
 }
