@@ -1,6 +1,10 @@
 package Business.Gamepiece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Business.GameLogic.Field;
+import Business.GameLogic.Game;
 import Business.Item.Item;
 
 public class Pawn implements Gamepiece{
@@ -8,6 +12,7 @@ public class Pawn implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
+    private Game game;
 
     public Pawn(){
         this.inventory = null;
@@ -33,6 +38,17 @@ public class Pawn implements Gamepiece{
 
     public void setMoveable(boolean moveable){
         this.moveable = moveable;
+    }
+
+    public List<Field> possibleMoves(){
+        List<Field> result = new ArrayList<Field>(null);
+        if(!this.isMoveable())return null;
+        else{
+            for(Field f: game.getGamefield().getFields()){
+                if(isValidMove(f)) result.add(f);
+            }
+        }
+        return result;
     }
 
     public boolean isValidMove(Field newPos) {

@@ -1,7 +1,10 @@
 package Business.Gamepiece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Business.GameLogic.Field;
-import Business.GameLogic.Gamefield;
+import Business.GameLogic.Game;
 import Business.Item.Item;
 
 public class Tower implements Gamepiece{
@@ -9,7 +12,7 @@ public class Tower implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
-    private Gamefield gamefield;
+    private Game game;
 
     public Tower(){
         this.inventory = null;
@@ -53,27 +56,42 @@ public class Tower implements Gamepiece{
         int curColumn = position.getColumn();
 
         if(curRow == newPos.getRow()){
-            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7){
-                if(this.inventory != null){
-                    for(int i = curColumn; i <= newPos.getColumn();i++){
-                        if(gamefield.getField(curRow,i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                    }
+            if(curColumn < newPos.getColumn()){
+                for(int i = curColumn; i <= newPos.getColumn();i++){
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
+                    if(!checkFieldColumn(curRow,curColumn,tmpItem,newPos)) return false;
                 }
                 return true;
             }
+
+            if(curColumn > newPos.getColumn()){
+                for(int i = curColumn; i >= newPos.getColumn();i--){
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
+                    if(!checkFieldColumn(curRow,curColumn,tmpItem,newPos)) return false;
+                }
+                return true;
+            }
+
         }
+
         else if(curColumn == newPos.getColumn()){
-            if(newPos.getRow() >= 0 && newPos.getRow() <= 7){
-                if(this.inventory != null){
-                    for(int i = curRow; i <= newPos.getRow();i++){
-                        if(gamefield.getField(i,curColumn).getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                    }
+            if(curRow < newPos.getRow()){
+                for(int i = curRow; i <= newPos.getRow();i++){
+                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
+                    if(!checkFieldRow(curRow,curColumn,tmpItem,newPos)) return false;
                 }
-            }
                 return true;
+            }
+
+            if(curRow > newPos.getRow()){
+                for(int i = curRow; i >= newPos.getRow();i--){
+                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
+                    if(!checkFieldRow(curRow,curColumn,tmpItem,newPos)) return false;
+                }
+                return true;
+            }            
         }
+
         return false;
     }
 
@@ -81,4 +99,46 @@ public class Tower implements Gamepiece{
         return moveable;
     }
 
+        public List<Field> possibleMoves(){
+        List<Field> result = new ArrayList<Field>(null);
+        if(!this.isMoveable())return null;
+        else{
+            for(Field f: game.getGamefield().getFields()){
+                if(isValidMove(f)) result.add(f);
+            }
+        }
+        return result;
+    }
+
+    private boolean checkFieldRow(int curRow, int curColumn,Item tmpItem, Field newPos){
+        if(curRow == newPos.getRow()){
+            if(this.inventory != null && tmpItem != null){
+                return false;
+            }
+            //unsicher
+            if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        
+            }
+        }
+        return true;
+    }
+
+        private boolean checkFieldColumn(int curRow, int curColumn,Item tmpItem, Field newPos){
+        if(curColumn == newPos.getColumn()){
+            if(this.inventory != null && tmpItem != null){
+                return false;
+            }
+            //unsicher
+            if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        
+            }
+        }
+        return true;
+    }
 }
