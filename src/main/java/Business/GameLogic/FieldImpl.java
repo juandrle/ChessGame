@@ -9,9 +9,9 @@ public class FieldImpl implements Field{
     private Item item;
     private Gamepiece gamepiece;
 
-    public FieldImpl(int row, int coloumn, Gamepiece gamepiece, Item item) {
+    public FieldImpl(int row, int column, Gamepiece gamepiece, Item item) {
         this.row = row;
-        this.column = coloumn;
+        this.column = column;
         this.gamepiece = gamepiece;
         this.item = item;
     }

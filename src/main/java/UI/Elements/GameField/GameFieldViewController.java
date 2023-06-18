@@ -82,6 +82,11 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     game.getGamefield().getPlayer1().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
                 else
                     game.getGamefield().getPlayer2().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
+                if (targetImageView.getId().contains(ITEM)) {
+                    sourceGamepiece.setInventory(game.getGamefield().getField(targetRow,targetCol).getItem());
+                    game.getGamefield().getField(targetRow,targetCol).setItem(null);
+
+                }
                 // Copy the image from the source ImageView
                 Image draggedImage = sourceImageView.getImage();
 
@@ -110,6 +115,8 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 int col = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / 80);
                 // Perform the logic for handling the selected field here
                 System.out.println("row: " + row + " column: " + col);
+                if (game.getGamefield().getField(row, col).getGamepiece() != null)
+                    System.out.println(game.getGamefield().getField(row, col).getGamepiece().getInventory());
 
 
             }
