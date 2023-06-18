@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamefieldImpl implements Gamefield {
-    int maxItemAmount = 15;
+    int maxItemAmount = 10;
     List<Field> fields;
     Player player1;
     Player player2;
@@ -52,13 +52,14 @@ public class GamefieldImpl implements Gamefield {
                     }
                     default -> {
                         gamepiece = null;
-                        if ((randNum = (int) (Math.random() * 10)) > 5 && this.maxItemAmount > 0) {
+                        if ((int) (Math.random() * 6) == 1 && this.maxItemAmount > 0) {
+                            randNum = (int) (Math.random() * 5);
                             switch (randNum) {
-                                case 6 -> item = new Shield("shield");
-                                case 7 -> item = new RankManipulator("rankmanipulator");
-                                case 8 -> item = new TimeManipulator("timemanipulator");
-                                case 9 -> item = new TeleportationTrap("teleportationtrap");
-                                case 10 -> item = new MotionTrap("motiontrap");
+                                case 0 -> item = new Shield("shield");
+                                case 1 -> item = new RankManipulator("rankmanipulator");
+                                case 2 -> item = new TimeManipulator("timemanipulator");
+                                case 3 -> item = new TeleportationTrap("teleportationtrap");
+                                case 4 -> item = new MotionTrap("motiontrap");
                             }
                             this.maxItemAmount--;
                         } else item = null;

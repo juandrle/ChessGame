@@ -47,7 +47,7 @@ public class MonsterApplication extends Application {
             controller = new ClickEventGameViewController(this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
 
-            Pane root = scenes.get(Scenes.GAMEFIELD_VIEW);
+            Pane root = scenes.get(Scenes.GAME_VIEW);
             scene = new Scene(root, 550, 500);
             //scene.getStylesheets().add(getClass().getResource("application.css").toString());
             primaryStage.setScene(scene);

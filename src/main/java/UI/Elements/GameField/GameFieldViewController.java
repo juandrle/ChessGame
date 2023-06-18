@@ -1,18 +1,21 @@
 package UI.Elements.GameField;
 
 import Business.GameLogic.Game;
+import Business.Gamepiece.Gamepiece;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.GridPane;
 
 
 public class GameFieldViewController extends ViewController<MonsterApplication> {
-    private final GridPane view;
+    private final GameFieldView view;
     private final Game game;
+    private static final String GAMEPIECE = ";Gamepiece";
+    private static final String ITEM = ";Item";
 
     public GameFieldViewController(MonsterApplication application, Game game) {
         super(application);
@@ -25,95 +28,136 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
 
     @Override
     public void initialize() {
-        for (int row = 0; row < view.getRowCount(); row++) {
-            for (int col = 0; col < view.getColumnCount(); col++) {
-                ImageView imageView = new ImageView(); // Create ImageView instance
-                imageView.setFitWidth(GameFieldView.CELL_SIZE);
-                imageView.setFitHeight(GameFieldView.CELL_SIZE);
-                view.add(imageView, col, row);
-                if (game.getGamefield().getField(row, col).getGamepiece() != null)
-                    if (col < 3)
-                        switch (game.getGamefield().getField(row, col).getGamepiece().getRank()) {
-                            case 0 -> imageView.setImage(new Image("files/pictures/gamepieces/PawnPlayer1.png"));
-                            case 1 -> imageView.setImage(new Image("files/pictures/gamepieces/TowerPlayer1.png"));
-                            case 2 -> imageView.setImage(new Image("files/pictures/gamepieces/QueenPlayer1.png"));
-                        }
-                    else
-                        switch (game.getGamefield().getField(row, col).getGamepiece().getRank()) {
-                            case 0 -> imageView.setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));
-                            case 1 -> imageView.setImage(new Image("files/pictures/gamepieces/TowerPlayer2.png"));
-                            case 2 -> imageView.setImage(new Image("files/pictures/gamepieces/QueenPlayer2.png"));
-                        }
-                    if (game.getGamefield().getField(row, col).getItem() != null)
-                        imageView.setImage(new Image("files/pictures/Item.png"));
-
-                // Add drag and drop event handlers to the ImageView
-                addDragEventHandlers(imageView);
-            }
-        }
+        gamefieldInitializer();
 
     }
 
-    private void addDragEventHandlers(ImageView imageView) {
+    private void setDragAndDrop(ImageView imageView) {
         imageView.setOnDragDetected(event -> {
-            /*
-             * This method is called when the drag gesture is detected on the ImageView.
-             * Here, you can start the drag operation and set the appropriate content to be dragged.
-             * For example, you can set a custom data format and store the image information.
-             */
+            if (!imageView.getId().contains(GAMEPIECE)) return;
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
-            content.putString("Some custom data"); // Set your custom data here
+            content.putImage(imageView.getImage());
             dragboard.setContent(content);
-
             event.consume();
+
         });
 
         imageView.setOnDragOver(event -> {
-            /*
-             * This method is called when the dragged object is over the ImageView.
-             * You can check the dragged data and decide whether to accept the drop or not.
-             */
-            if (event.getGestureSource() != imageView && event.getDragboard().hasString()) {
-                // Allow the drop
+            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
+            event.consume();
+        });
 
+        imageView.setOnDragEntered(event -> {
+            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
+                imageView.setOpacity(0.7); // fix this
+            }
+            event.consume();
+        });
+
+        imageView.setOnDragExited(event -> {
+            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
+                imageView.setOpacity(1.0);
+            }
             event.consume();
         });
 
         imageView.setOnDragDropped(event -> {
-            /*
-             * This method is called when the dragged object is dropped on the ImageView.
-             * Here, you can handle the drop action and retrieve the dropped data.
-             */
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
 
-            if (dragboard.hasString()) {
-                // Retrieve and process the dropped data
-                String droppedData = dragboard.getString();
-                // Perform necessary actions based on the dropped data
+            if (dragboard.hasImage()) {
+                ImageView sourceImageView = (ImageView) event.getGestureSource();
+                ImageView targetImageView = (ImageView) event.getTarget();
+                int sourceRow = ((int) sourceImageView.getLayoutY() / 80);
+                int sourceCol = ((int) sourceImageView.getLayoutX() / 80);
+                Gamepiece sourceGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece(); // auslagern in business
+                game.getGamefield().getField(sourceRow, sourceCol).setGamepiece(null);
+                int targetRow = ((int) targetImageView.getLayoutY() / 80);
+                int targetCol = ((int) targetImageView.getLayoutX() / 80);
+                game.getGamefield().getField(targetRow, targetCol).setGamepiece(sourceGamepiece); // auslagern in business
+                if (game.getGamefield().getPlayer1().chooseGamepiece(sourceGamepiece) != null)
+                    game.getGamefield().getPlayer1().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
+                else
+                    game.getGamefield().getPlayer2().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
+                // Copy the image from the source ImageView
+                Image draggedImage = sourceImageView.getImage();
 
+                // Remove the image from the source ImageView
+                if (sourceImageView.getId().contains("white")) {
+                    sourceImageView.setImage(new Image("files/pictures/white_placeholder.png"));
+                    sourceImageView.setId("white");
+                } else {
+                    sourceImageView.setImage(new Image("files/pictures/black_placeholder.jpg"));
+                    sourceImageView.setId("black");
+                }
+                // Set the dropped image to the current ImageView
+
+                targetImageView.setId(targetImageView.getId() + GAMEPIECE);
+                targetImageView.setImage(draggedImage);
                 success = true;
             }
-
             event.setDropCompleted(success);
             event.consume();
         });
 
-        imageView.setOnDragDone(event -> {
-            /*
-             * This method is called when the drag and drop operation is complete.
-             * Here, you can perform any cleanup or additional actions after the drop.
-             */
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                // Perform any necessary cleanup or actions after the drop
-            }
+        imageView.setOnDragDone(DragEvent::consume);
+        imageView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                int row = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutY() / 80);
+                int col = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / 80);
+                // Perform the logic for handling the selected field here
+                System.out.println("row: " + row + " column: " + col);
 
-            event.consume();
+
+            }
         });
     }
 
-}
+    private void gamefieldInitializer() {
+        for (int row = 0; row < view.getRowCount(); row++) {
+            for (int col = 0; col < view.getColumnCount(); col++) {
+                Node currNode = view.getChildren().get(row * view.getRowCount() + col);
+                if (game.getGamefield().getField(row, col).getGamepiece() != null) {
+                    currNode.setId(currNode.getId() + GAMEPIECE);
+                    if (game.getGamefield().getPlayer1().getOwnGamepieces().contains(game.getGamefield().getField(row, col).getGamepiece()))
+                        switch (game.getGamefield().getField(row, col).getGamepiece().getRank()) {
+                            case 0 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/PawnPlayer1.png"));
 
+                            case 1 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/TowerPlayer1.png"));
+
+                            case 2 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/QueenPlayer1.png"));
+
+                        }
+                    else
+                        switch (game.getGamefield().getField(row, col).getGamepiece().getRank()) {
+                            case 0 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));
+
+                            case 1 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/TowerPlayer2.png"));
+
+
+                            case 2 ->
+                                    ((ImageView) currNode).setImage(new Image("files/pictures/gamepieces/QueenPlayer2.png"));
+
+
+                        }
+                }
+                if (game.getGamefield().getField(row, col).getItem() != null) {
+                    ((ImageView) currNode).setImage(new Image("files/pictures/Item.png"));
+                    currNode.setId(currNode.getId() + ITEM);
+                }
+
+                setDragAndDrop((ImageView) currNode);
+            }
+        }
+    }
+
+
+}
