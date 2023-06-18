@@ -1,18 +1,22 @@
 package Business.Competition;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class CompetitionImpl implements Competition{
 	private int time;
+	private int helpCountCorrectAnswer;
+	private SimpleIntegerProperty countCorrectAnswer;
+	private SimpleIntegerProperty actTime;
+	private int helpActTime;
 	
 
 	public CompetitionImpl(int time) {
 		super();
 		this.time = time;
-	}
-
-	@Override
-	public int countTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		this.helpActTime = time;
+		this.helpCountCorrectAnswer = 0;
+		this.actTime = new SimpleIntegerProperty();
+		this.countCorrectAnswer = new SimpleIntegerProperty();
 	}
 
 	@Override
@@ -20,20 +24,46 @@ public class CompetitionImpl implements Competition{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
-	public void stopTime() {
-		// TODO Auto-generated method stub
+	public void startTimer() {
+		Thread timerThread = new Thread(() -> {
+			try {
+				while (helpActTime != 0) {
+					Thread.sleep(1000);
+					helpActTime-=1;
+					actTime.set(helpActTime);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+		timerThread.start();
 		
 	}
 
-	public int getTime() {
-		return time;
+	public void setHelpActTime(int helpActTime) {
+		this.helpActTime = helpActTime;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
+	public SimpleIntegerProperty getActTime() {
+		return actTime;
 	}
-	
+
+	public void setActTime(SimpleIntegerProperty actTime) {
+		this.actTime = actTime;
+	}
+	public int getHelpCountCorrectAnswer() {
+		return helpCountCorrectAnswer;
+	}
+
+	public void setHelpCountCorrectAnswer(int helpCountCorrectAnswer) {
+		this.helpCountCorrectAnswer += helpCountCorrectAnswer;
+		countCorrectAnswer.set(this.helpCountCorrectAnswer);
+	}
+
+	public SimpleIntegerProperty getCountCorrectAnswer() {
+		return countCorrectAnswer;
+	}
 	
 }

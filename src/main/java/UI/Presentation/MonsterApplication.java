@@ -1,10 +1,11 @@
 package UI.Presentation;
 
 import Business.Competition.CalculatorGame;
+import Business.Competition.ReactionGame;
 import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
 import UI.Elements.CalculationGame.CalculationGameViewController;
-import UI.Elements.ClickEventGame.ClickEventGameViewController;
+import UI.Elements.ClickEventGame.ReactionGameViewController;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.Scenes;
@@ -44,7 +45,7 @@ public class MonsterApplication extends Application {
             controller = new CalculationGameViewController(new CalculatorGame(60), this, game);
             scenes.put(Scenes.CALCULATIONGAME_VIEW, controller.getRootView());
 
-            controller = new ClickEventGameViewController(this, game);
+            controller = new ReactionGameViewController (new ReactionGame(30),this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.GAME_VIEW);

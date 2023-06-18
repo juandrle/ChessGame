@@ -1,6 +1,10 @@
 package Business.Gamepiece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Business.GameLogic.Field;
+import Business.GameLogic.Game;
 import Business.GameLogic.Gamefield;
 import Business.Item.Item;
 
@@ -10,7 +14,7 @@ public class Queen implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
-    private Gamefield gamefield;
+    private Game game;
 
 
     public Queen(){
@@ -49,73 +53,140 @@ public class Queen implements Gamepiece{
         return this.position;
     }
 
-    //TODO:
-public boolean isValidMove(Field newPos) {
+
+
+    public boolean isValidMove(Field newPos) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
 
-        if(curRow == newPos.getRow()){//Horizontal
-            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7){
-                if(this.inventory != null){
-                    for(int i = curColumn; i <= newPos.getColumn();i++){
-                        if(gamefield.getField(curRow,i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                    }
+        if(curRow == newPos.getRow()){
+            if(curColumn < newPos.getColumn()){
+                for(int i = curColumn; i <= newPos.getColumn();i++){
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
+                    if(!checkFieldColumn(curRow,curColumn,tmpItem,newPos)) return false;
                 }
                 return true;
             }
-        }
-        else if(curColumn == newPos.getColumn()){// Vertikal
-            if(newPos.getRow() >= 0 && newPos.getRow() <= 7){
-                if(this.inventory != null){
-                    for(int i = curRow; i <= newPos.getRow();i++){
-                        if(gamefield.getField(i,curColumn).getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                    }
+
+            if(curColumn > newPos.getColumn()){
+                for(int i = curColumn; i >= newPos.getColumn();i--){
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
+                    if(!checkFieldColumn(curRow,curColumn,tmpItem,newPos)) return false;
                 }
-            }
                 return true;
+            }
+
         }
-        else if(curColumn != newPos.getColumn() && curRow != newPos.getRow()){//Diagonal
+
+        else if(curColumn == newPos.getColumn()){
+            if(curRow < newPos.getRow()){
+                for(int i = curRow; i <= newPos.getRow();i++){
+                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
+                    if(!checkFieldRow(curRow,curColumn,tmpItem,newPos)) return false;
+                }
+                return true;
+            }
+
+            if(curRow > newPos.getRow()){
+                for(int i = curRow; i >= newPos.getRow();i--){
+                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
+                    if(!checkFieldRow(curRow,curColumn,tmpItem,newPos)) return false;
+                }
+                return true;
+            }            
+        }
+        if(curColumn != newPos.getColumn() && curRow != newPos.getRow()){//Diagonal
             int tmpColumn = curColumn - newPos.getColumn();
             int tmpRow = curRow - newPos.getRow();
-            if(newPos.getRow() >= 0 && newPos.getRow() <= 7 && newPos.getColumn() >= 0 && newPos.getColumn() <= 7){
-                if(Math.abs(tmpColumn) - Math.abs(tmpRow) == 0){
-                    if(tmpRow > 0 && tmpColumn > 0){// nach links unten
-                        for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(gamefield.getField(curRow - i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                                return false;
-                        }
+            if(Math.abs(tmpColumn) - Math.abs(tmpRow) == 0){
+                if(tmpRow > 0 && tmpColumn > 0){// nach links unten
+                    for(int i = 1; i <= Math.abs(tmpRow);i++){
+                        if(game.getGamefield().getField(curRow - i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            return false;
                     }
-                    else if(tmpRow < 0 && tmpColumn > 0){// nach links oben <<<<<< Check
-                        for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(gamefield.getField(curRow + i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                                return false;
-                        }
+                }
+                else if(tmpRow < 0 && tmpColumn > 0){// nach links oben <<<<<< Check
+                    for(int i = 1; i <= Math.abs(tmpRow);i++){
+                        if(game.getGamefield().getField(curRow + i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            return false;
                     }
-                    else if(tmpRow > 0 && tmpColumn < 0){// nach rechts unten <<<<<<<<<<<<<check
-                        for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(gamefield.getField(curRow - i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                                return false;
-                        }
+                }
+                else if(tmpRow > 0 && tmpColumn < 0){// nach rechts unten <<<<<<<<<<<<<check
+                    for(int i = 1; i <= Math.abs(tmpRow);i++){
+                        if(game.getGamefield().getField(curRow - i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            return false;
                     }
-                    else if(tmpRow < 0 && tmpColumn < 0){// nach rechts oben
-                        for(int i = 1; i <= Math.abs(tmpRow);i++){
-                            if(gamefield.getField(curRow + i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
-                                return false;
-                        }
+                }
+                else if(tmpRow < 0 && tmpColumn < 0){// nach rechts oben
+                    for(int i = 1; i <= Math.abs(tmpRow);i++){
+                        if(game.getGamefield().getField(curRow + i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                            return false;
                     }
-                    
                 }
                 return true;
             }
         }
+
         return false;
     }
 
     public boolean isMoveable(){
-        if (moveable) return true;
-        else return false;
+        return moveable;
+    }
+
+        public List<Field> possibleMoves(){
+        List<Field> result = new ArrayList<Field>(null);
+        if(!this.isMoveable())return null;
+        else{
+            for(Field f: game.getGamefield().getFields()){
+                if(isValidMove(f)) result.add(f);
+            }
+        }
+        return result;
+    }
+
+     private boolean checkFieldRow(int curRow, int curColumn,Item tmpItem, Field newPos){
+        if(newPos.getGamepiece() != null)return false;
+        else if(curRow == newPos.getRow()){
+            if(this.inventory != null && tmpItem != null){
+                return false;
+            }
+            //unsicher
+            if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        
+            }
+        }
+        if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        }
+        return true;
+    }
+
+        private boolean checkFieldColumn(int curRow, int curColumn,Item tmpItem, Field newPos){
+        if(newPos.getGamepiece() != null)return false;
+        else if(curColumn == newPos.getColumn()){
+            if(this.inventory != null && tmpItem != null){
+                return false;
+            }
+            //unsicher
+            if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        
+            }
+        }
+        if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        }
+        return true;
     }
 
 }
