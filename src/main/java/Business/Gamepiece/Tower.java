@@ -111,7 +111,8 @@ public class Tower implements Gamepiece{
     }
 
     private boolean checkFieldRow(int curRow, int curColumn,Item tmpItem, Field newPos){
-        if(curRow == newPos.getRow()){
+        if(newPos.getGamepiece() != null)return false;
+        else if(curRow == newPos.getRow()){
             if(this.inventory != null && tmpItem != null){
                 return false;
             }
@@ -123,11 +124,17 @@ public class Tower implements Gamepiece{
         
             }
         }
+        if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
+        }
         return true;
     }
 
         private boolean checkFieldColumn(int curRow, int curColumn,Item tmpItem, Field newPos){
-        if(curColumn == newPos.getColumn()){
+        if(newPos.getGamepiece() != null)return false;
+        else if(curColumn == newPos.getColumn()){
             if(this.inventory != null && tmpItem != null){
                 return false;
             }
@@ -138,6 +145,11 @@ public class Tower implements Gamepiece{
                 return false;
         
             }
+        }
+        if(tmpItem != null){
+                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
+                    return true;
+                return false;
         }
         return true;
     }

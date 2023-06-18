@@ -56,9 +56,9 @@ public class Pawn implements Gamepiece{
         int checkColumn = newPos.getColumn() - position.getColumn();
 
         if(checkRow >= -1 && checkRow <= 1 && checkColumn >= -1 && checkColumn <= 1){
-            if(newPos.getColumn() >= 0 && newPos.getColumn() <= 7 && newPos.getRow() >= 0 && newPos.getRow() <= 7){
-
-                return this.inventory == null || newPos.getItem() == null;            }
+            if(newPos.getGamepiece()== null){
+                if(this.inventory == null || newPos.getItem() == null) return true;
+            }
         }
         return false;
     }
