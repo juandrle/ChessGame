@@ -8,6 +8,7 @@ import UI.Elements.CalculationGame.CalculationGameViewController;
 import UI.Elements.ClickEventGame.ReactionGameViewController;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
+import UI.FullGame.CombinedViewController;
 import UI.Scenes;
 import UI.Elements.Start.StartViewController;
 import UI.ViewController;
@@ -47,10 +48,12 @@ public class MonsterApplication extends Application {
 
             controller = new ReactionGameViewController (new ReactionGame(30),this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
+            controller = new CombinedViewController(this,game);
+            scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.START_VIEW);
-            scene = new Scene(root, 550, 500);
-            //scene.getStylesheets().add(getClass().getResource("application.css").toString());
+            scene = new Scene(root, 640, 800);
+            //scene.getStylesheets().add(getClass().getResource("UI/Presentation/application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

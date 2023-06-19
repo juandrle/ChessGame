@@ -1,11 +1,9 @@
 package UI.Elements.GameField;
 
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 
 public class GameFieldView extends GridPane {
     public static final int BOARD_SIZE = 8;
@@ -13,8 +11,11 @@ public class GameFieldView extends GridPane {
 
 
     public GameFieldView() {
+
         setPrefSize(CELL_SIZE * BOARD_SIZE, CELL_SIZE * BOARD_SIZE);
-        setStyle("-fx-background-color: #ababab;");
+
+        setMaxSize(CELL_SIZE*BOARD_SIZE, CELL_SIZE * BOARD_SIZE);
+        setStyle("-fx-background-color: #c9c9c9;");
 
         // Create the chessboard cells
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -36,15 +37,5 @@ public class GameFieldView extends GridPane {
         setGridLinesVisible(true);
 
 
-    }
-    public void update() {
-        // Call this method to refresh the view after making changes
-
-        // Force a layout pass to ensure the changes are reflected
-        requestLayout();
-
-        // Trigger a repaint of the view
-        getParent().applyCss();
-        getParent().layout();
     }
 }

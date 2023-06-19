@@ -16,7 +16,6 @@ public class Queen implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
-    private Game game;
     SimpleObjectProperty<Image> image;
 
 
@@ -59,7 +58,7 @@ public class Queen implements Gamepiece{
 
 
 
-    public boolean isValidMove(Field newPos) {
+    public boolean isValidMove(Field newPos, Game game) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
 
@@ -138,12 +137,12 @@ public class Queen implements Gamepiece{
         return moveable;
     }
 
-        public List<Field> possibleMoves(){
-        List<Field> result = new ArrayList<Field>(null);
+        public List<Field> possibleMoves(Game game){
+        List<Field> result = new ArrayList<Field>();
         if(!this.isMoveable())return null;
         else{
             for(Field f: game.getGamefield().getFields()){
-                if(isValidMove(f)) result.add(f);
+                if(isValidMove(f, game)) result.add(f);
             }
         }
         return result;

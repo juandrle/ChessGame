@@ -14,7 +14,6 @@ public class Tower implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
-    private Game game;
     SimpleObjectProperty<Image> image;
 
     public Tower(){
@@ -55,7 +54,7 @@ public class Tower implements Gamepiece{
         return this.position;
     }
 
-    public boolean isValidMove(Field newPos) {
+    public boolean isValidMove(Field newPos, Game game) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
 
@@ -99,16 +98,17 @@ public class Tower implements Gamepiece{
         return false;
     }
 
+
     public boolean isMoveable(){
         return moveable;
     }
 
-        public List<Field> possibleMoves(){
-        List<Field> result = new ArrayList<Field>(null);
+        public List<Field> possibleMoves(Game game){
+        List<Field> result = new ArrayList<Field>();
         if(!this.isMoveable())return null;
         else{
             for(Field f: game.getGamefield().getFields()){
-                if(isValidMove(f)) result.add(f);
+                if(isValidMove(f, game)) result.add(f);
             }
         }
         return result;

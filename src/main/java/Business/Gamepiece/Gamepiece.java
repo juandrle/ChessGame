@@ -1,13 +1,16 @@
 package Business.Gamepiece;
 
 import Business.GameLogic.Field;
+import Business.GameLogic.Game;
 import Business.Item.Item;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 public interface Gamepiece {
 
-    public boolean isValidMove(Field newPos);
+    public boolean isValidMove(Field newPos, Game game);
 
     public boolean isMoveable();
     
@@ -27,4 +30,6 @@ public interface Gamepiece {
     public SimpleObjectProperty<Image> getImage();
 
     public void setImage(Image image);
+    public List<Field> possibleMoves(Game game);
+
 }

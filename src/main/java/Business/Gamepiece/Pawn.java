@@ -14,7 +14,6 @@ public class Pawn implements Gamepiece{
     private int rank;
     private boolean moveable;
     private Field position;
-    private Game game;
     SimpleObjectProperty<Image> image;
 
     public Pawn(){
@@ -44,18 +43,18 @@ public class Pawn implements Gamepiece{
         this.moveable = moveable;
     }
 
-    public List<Field> possibleMoves(){
-        List<Field> result = new ArrayList<Field>(null);
+    public List<Field> possibleMoves(Game game){
+        List<Field> result = new ArrayList<Field>();
         if(!this.isMoveable())return null;
         else{
             for(Field f: game.getGamefield().getFields()){
-                if(isValidMove(f)) result.add(f);
+                if(isValidMove(f, game)) result.add(f);
             }
         }
         return result;
     }
 
-    public boolean isValidMove(Field newPos) {
+    public boolean isValidMove(Field newPos, Game game) {
         int checkRow = newPos.getRow() - position.getRow();
         int checkColumn = newPos.getColumn() - position.getColumn();
 
@@ -66,6 +65,8 @@ public class Pawn implements Gamepiece{
         }
         return false;
     }
+
+
 
     public boolean isMoveable(){
         if (this.moveable) return true;

@@ -2,17 +2,14 @@ package UI.Elements.Game;
 
 import Business.Gamepiece.Gamepiece;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
-public class GameView extends BorderPane {
+public class GameView extends HBox {
     public HBox playerInfoBox;
     public HBox player1Box;
     public ListView<Gamepiece> player1Gamepieces;
@@ -42,6 +39,7 @@ public class GameView extends BorderPane {
         player1Gamepieces = new ListView<>();
         player1Gamepieces.setOrientation(Orientation.HORIZONTAL);
         player1Gamepieces.setPrefHeight(60);
+        player1Gamepieces.setPrefWidth(228);
         player1ItemHBox.getChildren().addAll(selPiece1, selPiece1Item, useItemPlayer1);
         player1VBox.getChildren().addAll(player1ItemHBox, player1Gamepieces);
         player1Box.getChildren().add(player1VBox);
@@ -60,11 +58,10 @@ public class GameView extends BorderPane {
         player2Gamepieces = new ListView<>();
         player2Gamepieces.setOrientation(Orientation.HORIZONTAL);
         player2Gamepieces.setPrefHeight(60);
+        player2Gamepieces.setPrefWidth(228);
         player2ItemHBox.getChildren().addAll(selPiece2, selPiece2Item, useItemPlayer2);
         player2VBox.getChildren().addAll(player2ItemHBox, player2Gamepieces);
         player2Box.getChildren().add(player2VBox);
-        playerInfoBox.getChildren().addAll(player1Box,player2Box);
-        playerInfoBox.setStyle("--fxbackground-color: blue");
-        setBottom(playerInfoBox);
+        this.getChildren().addAll(player1Box,player2Box);
     }
 }

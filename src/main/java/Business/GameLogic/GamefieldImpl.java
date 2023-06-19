@@ -34,19 +34,35 @@ public class GamefieldImpl implements Gamefield {
                 switch (row) {
                     case 3 -> {
                         switch (column) {
-                            case 0 -> gamepiece = this.player1.getOwnGamepieces().get(2);
-                            case 1 -> gamepiece = this.player1.getOwnGamepieces().get(0);
-                            case 6 -> gamepiece = this.player2.getOwnGamepieces().get(0);
-                            case 7 -> gamepiece = this.player2.getOwnGamepieces().get(3);
+                            case 0 -> {
+                                gamepiece = this.player1.getOwnGamepieces().get(2);
+                            }
+                            case 1 -> {
+                                gamepiece = this.player1.getOwnGamepieces().get(0);
+                            }
+                            case 6 -> {
+                                gamepiece = this.player2.getOwnGamepieces().get(0);
+                            }
+                            case 7 -> {
+                                gamepiece = this.player2.getOwnGamepieces().get(3);
+                            }
                             default -> gamepiece = null;
                         }
                     }
                     case 4 -> {
                         switch (column) {
-                            case 0 -> gamepiece = this.player1.getOwnGamepieces().get(3);
-                            case 1 -> gamepiece = this.player1.getOwnGamepieces().get(1);
-                            case 6 -> gamepiece = this.player2.getOwnGamepieces().get(1);
-                            case 7 -> gamepiece = this.player2.getOwnGamepieces().get(2);
+                            case 0 -> {
+                                gamepiece = this.player1.getOwnGamepieces().get(3);
+                            }
+                            case 1 -> {
+                                gamepiece = this.player1.getOwnGamepieces().get(1);
+                            }
+                            case 6 -> {
+                                gamepiece = this.player2.getOwnGamepieces().get(1);
+                            }
+                            case 7 -> {
+                                gamepiece = this.player2.getOwnGamepieces().get(2);
+                            }
                             default -> gamepiece = null;
                         }
                     }
@@ -65,9 +81,9 @@ public class GamefieldImpl implements Gamefield {
                         } else item = null;
                     }
                 }
-
                 this.fields.add(new FieldImpl(row, column, gamepiece, item));
-                if(gamepiece != null) gamepiece.setPosition(fields.get(row + column));
+
+                if(gamepiece != null) gamepiece.setPosition(fields.get(row * 8 + column));
             }
         }
     }
