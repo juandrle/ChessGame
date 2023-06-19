@@ -2,6 +2,8 @@ package Business.Gamepiece;
 
 import Business.GameLogic.Field;
 import Business.Item.Item;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 
 public interface Gamepiece {
 
@@ -22,4 +24,7 @@ public interface Gamepiece {
     void setPosition(Field field);
 
     public Field getPosition();
+    public SimpleObjectProperty<Image> getImage();
+
+    public void setImage(Image image);
 }

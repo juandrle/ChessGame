@@ -4,11 +4,14 @@ import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
 import Business.Item.StatusChange.StatusChangeImpl;
+import javafx.scene.image.Image;
 
 public class RankManipulator extends StatusChangeImpl {
+    Image image;
 
     public RankManipulator(String description) {
         super(description);
+        image = new Image("files/pictures/Items/Rankmanipulator.png");
     }
     
     @Override
@@ -33,5 +36,9 @@ public class RankManipulator extends StatusChangeImpl {
             if(gamepiece.getInventory() != null)
                 queenToTower.setInventory(gamepiece.getInventory());
         }
+    }
+    @Override
+    public Image getImage() {
+        return image;
     }
 }

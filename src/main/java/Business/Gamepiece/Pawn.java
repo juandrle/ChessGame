@@ -6,6 +6,8 @@ import java.util.List;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Item.Item;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 
 public class Pawn implements Gamepiece{
     private Item inventory;
@@ -13,11 +15,13 @@ public class Pawn implements Gamepiece{
     private boolean moveable;
     private Field position;
     private Game game;
+    SimpleObjectProperty<Image> image;
 
     public Pawn(){
         this.inventory = null;
         this.rank = 0;
         this.moveable = true;
+        image = new SimpleObjectProperty<>();
     }
 
     public void setInventory(Item inventory){
@@ -70,6 +74,16 @@ public class Pawn implements Gamepiece{
 
     public Field getPosition() {
         return this.position;
+    }
+
+    @Override
+    public SimpleObjectProperty<Image> getImage() {
+        return this.image;
+    }
+
+    @Override
+    public void setImage(Image image) {
+        this.image.set(image);
     }
 
     public void setPosition(Field position) {

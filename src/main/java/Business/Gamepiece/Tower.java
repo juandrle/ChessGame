@@ -6,6 +6,8 @@ import java.util.List;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Item.Item;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 
 public class Tower implements Gamepiece{
     private Item inventory;
@@ -13,11 +15,13 @@ public class Tower implements Gamepiece{
     private boolean moveable;
     private Field position;
     private Game game;
+    SimpleObjectProperty<Image> image;
 
     public Tower(){
         this.inventory = null;
         this.rank = 1;
         this.moveable = true;
+        image = new SimpleObjectProperty<>();
     }
 
 
@@ -152,5 +156,14 @@ public class Tower implements Gamepiece{
                 return false;
         }
         return true;
+    }
+    @Override
+    public SimpleObjectProperty<Image> getImage() {
+        return this.image;
+    }
+
+    @Override
+    public void setImage(Image image) {
+        this.image.set(image);
     }
 }

@@ -4,6 +4,7 @@ import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
+import Business.Item.Trap.MotionTrap;
 
 import java.util.ArrayList;
 import java.util.List;

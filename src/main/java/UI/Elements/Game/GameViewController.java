@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 public class GameViewController extends ViewController<MonsterApplication> {
     private final Game game;
@@ -48,9 +47,18 @@ public class GameViewController extends ViewController<MonsterApplication> {
                 super.updateItem(item, empty);
                 if (!empty) {
                     switch (item.getRank()) {
-                        case 0 -> gamepiece.setImage(new Image("files/pictures/gamepieces/PawnPlayer1.png"));
-                        case 1 -> gamepiece.setImage(new Image("files/pictures/gamepieces/TowerPlayer1.png"));
-                        case 2 -> gamepiece.setImage(new Image("files/pictures/gamepieces/QueenPlayer1.png"));
+                        case 0 -> {
+                            item.setImage(new Image ("files/pictures/gamepieces/PawnPlayer1.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
+                        case 1 -> {
+                            item.setImage(new Image ("files/pictures/gamepieces/TowerPlayer1.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
+                        case 2 -> {
+                            item.setImage(new Image ("files/pictures/gamepieces/QueenPlayer1.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
                     }
                 }
             }
@@ -68,12 +76,35 @@ public class GameViewController extends ViewController<MonsterApplication> {
                 super.updateItem(item, empty);
                 if (!empty) {
                     switch (item.getRank()) {
-                        case 0 -> gamepiece.setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));
-                        case 1 -> gamepiece.setImage(new Image("files/pictures/gamepieces/TowerPlayer2.png"));
-                        case 2 -> gamepiece.setImage(new Image("files/pictures/gamepieces/QueenPlayer2.png"));
+                        case 0 -> {
+                            item.setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
+                        case 1 -> {
+                            item.setImage(new Image ("files/pictures/gamepieces/TowerPlayer2.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
+                        case 2 -> {
+                            item.setImage(new Image ("files/pictures/gamepieces/QueenPlayer2.png"));
+                            gamepiece.setImage(item.getImage().get());
+                        }
                     }
                 }
             }
         });
+
+        view.player1Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            view.selPiece1.setImage(newValue.getImage().get());
+            if (newValue.getInventory() != null) {
+                view.selPiece1Item.setImage(newValue.getInventory().getImage());
+                System.out.println(newValue.getInventory().getImage());
+            }
+            else view.selPiece1Item.setImage(new Image("files/pictures/white_placeholder.png"));
+        }));
+        view.player2Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            view.selPiece2.setImage(newValue.getImage().get());
+            if (newValue.getInventory() != null) view.selPiece2Item.setImage(newValue.getInventory().getImage());
+            else view.selPiece2Item.setImage(new Image("files/pictures/white_placeholder.png"));
+        }));
     }
 }
