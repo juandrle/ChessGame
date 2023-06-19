@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 public class GameViewController extends ViewController<MonsterApplication> {
     private final Game game;
@@ -36,6 +37,11 @@ public class GameViewController extends ViewController<MonsterApplication> {
         view.player1Gamepieces.setCellFactory(e -> new ListCell<>(){
 
             ImageView gamepiece = new ImageView();
+            {
+                gamepiece.setFitWidth(50);
+                gamepiece.setFitHeight(50);
+                setGraphic(gamepiece);
+            }
 
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
@@ -51,6 +57,11 @@ public class GameViewController extends ViewController<MonsterApplication> {
         });
         view.player2Gamepieces.setCellFactory(e -> new ListCell<>(){
             ImageView gamepiece = new ImageView();
+            {
+                gamepiece.setFitWidth(50);
+                gamepiece.setFitHeight(50);
+                setGraphic(gamepiece);
+            }
 
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
