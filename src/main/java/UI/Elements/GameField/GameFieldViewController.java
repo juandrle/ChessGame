@@ -34,7 +34,10 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
 
     private void setDragAndDrop(ImageView imageView) {
         imageView.setOnDragDetected(event -> {
-            if (!imageView.getId().contains(GAMEPIECE)) return;
+            int sourceRow = ((int) imageView.getLayoutY() / 80);
+            int sourceCol = ((int) imageView.getLayoutX() / 80);
+            Gamepiece selGamepiece = game.getGamefield().getField(sourceRow,sourceCol).getGamepiece();
+            if (selGamepiece == null) return;
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putImage(imageView.getImage());
@@ -117,11 +120,13 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 System.out.println("row: " + row + " column: " + col);
                 if (game.getGamefield().getField(row, col).getGamepiece() != null)
                     System.out.println(game.getGamefield().getField(row, col).getGamepiece().getInventory());
+                
 
 
             }
         });
     }
+    
 
     private void gamefieldInitializer() {
         for (int row = 0; row < view.getRowCount(); row++) {

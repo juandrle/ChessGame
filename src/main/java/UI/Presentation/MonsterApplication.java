@@ -48,7 +48,7 @@ public class MonsterApplication extends Application {
             controller = new ReactionGameViewController (new ReactionGame(30),this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
 
-            Pane root = scenes.get(Scenes.GAME_VIEW);
+            Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 550, 500);
             //scene.getStylesheets().add(getClass().getResource("application.css").toString());
             primaryStage.setScene(scene);
