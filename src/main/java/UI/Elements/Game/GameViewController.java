@@ -38,8 +38,8 @@ public class GameViewController extends ViewController<MonsterApplication> {
 
             ImageView gamepiece = new ImageView();
             {
-                gamepiece.setFitWidth(50);
-                gamepiece.setFitHeight(50);
+                gamepiece.setFitWidth(40);
+                gamepiece.setFitHeight(40);
                 setGraphic(gamepiece);
             }
 
@@ -58,8 +58,8 @@ public class GameViewController extends ViewController<MonsterApplication> {
         view.player2Gamepieces.setCellFactory(e -> new ListCell<>(){
             ImageView gamepiece = new ImageView();
             {
-                gamepiece.setFitWidth(50);
-                gamepiece.setFitHeight(50);
+                gamepiece.setFitWidth(40);
+                gamepiece.setFitHeight(40);
                 setGraphic(gamepiece);
             }
 
