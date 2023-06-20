@@ -45,4 +45,9 @@ public class GameImpl implements Game{
     public Gamefield getGamefield() {
         return this.gamefield;
     }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return this.currPlayer;
+    }
 }

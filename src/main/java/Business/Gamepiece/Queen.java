@@ -5,8 +5,8 @@ import java.util.List;
 
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
-import Business.GameLogic.Gamefield;
 import Business.Item.Item;
+import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -61,20 +61,22 @@ public class Queen implements Gamepiece{
     public boolean isValidMove(Field newPos, Game game) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
+        List<Gamepiece> ownGamepiece = game.getCurrentPlayer().getOwnGamepieces();
 
         if(curRow == newPos.getRow()){
             if(curColumn < newPos.getColumn()){
                 for(int i = curColumn; i <= newPos.getColumn();i++){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
-                    if(!checkField(tmpItem,newPos,curColumn, newPos.getColumn())) return false;
+                    Field tmpField = game.getGamefield().getField(curRow,i);
+                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
                 return true;
             }
 
             if(curColumn > newPos.getColumn()){
                 for(int i = curColumn; i >= newPos.getColumn();i--){
-                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
-                    if(!checkField(tmpItem,newPos,curColumn, newPos.getColumn())) return false;
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();Field tmpField = game.getGamefield().getField(curRow,i);
+                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
                 return true;
             }
@@ -85,7 +87,8 @@ public class Queen implements Gamepiece{
             if(curRow < newPos.getRow()){
                 for(int i = curRow; i <= newPos.getRow();i++){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
-                    if(!checkField(tmpItem,newPos,curRow, newPos.getRow())) return false;
+                    Field tmpField = game.getGamefield().getField(i,curColumn);
+                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
                 return true;
             }
@@ -93,7 +96,8 @@ public class Queen implements Gamepiece{
             if(curRow > newPos.getRow()){
                 for(int i = curRow; i >= newPos.getRow();i--){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
-                    if(!checkField(tmpItem,newPos,curRow, newPos.getRow())) return false;
+                    Field tmpField = game.getGamefield().getField(i,curColumn);
+                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
                 return true;
             }            
@@ -138,7 +142,7 @@ public class Queen implements Gamepiece{
     }
 
         public List<Field> possibleMoves(Game game){
-        List<Field> result = new ArrayList<Field>();
+        List<Field> result = new ArrayList<>();
         if(!this.isMoveable())return null;
         else{
             for(Field f: game.getGamefield().getFields()){
@@ -150,24 +154,20 @@ public class Queen implements Gamepiece{
 
 
 
-        private boolean checkField(Item tmpItem, Field newPos,int curValue,int border){
-        if(newPos.getGamepiece() != null)return false;
-        else if(curValue == border){
+    private boolean checkField(Item tmpItem, Field newPos,Field tmpField,List<Gamepiece> ownGamepieces){
+
+        for(Gamepiece g: ownGamepieces) {
+            if(tmpField == g.getPosition()) return false;
+        }
+        if(newPos == tmpField){
             if(this.inventory != null && tmpItem != null){
                 return false;
             }
-            //unsicher
-            if(tmpItem != null){
-                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
-                    return true;
-                return false;
-        
-            }
         }
         if(tmpItem != null){
-                if(tmpItem.getClass().getClassLoader().getParent().getName().equals("Trap") && !tmpItem.isDropable())
-                    return true;
-                return false;
+            if(tmpItem instanceof Trap && !tmpItem.isDropable())
+                return true;
+            return false;
         }
         return true;
     }

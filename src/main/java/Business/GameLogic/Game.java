@@ -15,4 +15,6 @@ public interface Game {
 
     public void runGame();
     public Gamefield getGamefield();
+
+    public Player getCurrentPlayer();
 }

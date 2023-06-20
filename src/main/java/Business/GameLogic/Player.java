@@ -17,5 +17,4 @@ public interface Player {
     public List<Gamepiece> getOwnGamepieces();
 
 
-
 }
