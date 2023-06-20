@@ -62,7 +62,7 @@ public class Tower implements Gamepiece{
 
         if(curRow == newPos.getRow()){
             if(curColumn < newPos.getColumn()){
-                for(int i = curColumn; i <= newPos.getColumn();i++){
+                for(int i = curColumn+1; i <= newPos.getColumn();i++){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
                     Field tmpField = game.getGamefield().getField(curRow,i);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -71,7 +71,7 @@ public class Tower implements Gamepiece{
             }
 
             if(curColumn > newPos.getColumn()){
-                for(int i = curColumn; i >= newPos.getColumn();i--){
+                for(int i = curColumn-1; i >= newPos.getColumn();i--){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
                     Field tmpField = game.getGamefield().getField(curRow,i);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -83,7 +83,7 @@ public class Tower implements Gamepiece{
 
         else if(curColumn == newPos.getColumn()){
             if(curRow < newPos.getRow()){
-                for(int i = curRow; i <= newPos.getRow();i++){
+                for(int i = curRow+1; i <= newPos.getRow();i++){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
                     Field tmpField = game.getGamefield().getField(i,curColumn);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -92,7 +92,7 @@ public class Tower implements Gamepiece{
             }
 
             if(curRow > newPos.getRow()){
-                for(int i = curRow; i >= newPos.getRow();i--){
+                for(int i = curRow-1; i >= newPos.getRow();i--){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
                     Field tmpField = game.getGamefield().getField(i,curColumn);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;

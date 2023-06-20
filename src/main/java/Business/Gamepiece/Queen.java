@@ -26,9 +26,6 @@ public class Queen implements Gamepiece{
         image = new SimpleObjectProperty<>();
     }
 
-    
-
-
     public void setInventory(Item inv){
         inventory = inv;
     }
@@ -56,8 +53,6 @@ public class Queen implements Gamepiece{
         return this.position;
     }
 
-
-
     public boolean isValidMove(Field newPos, Game game) {
         int curRow = position.getRow();
         int curColumn = position.getColumn();
@@ -65,7 +60,7 @@ public class Queen implements Gamepiece{
 
         if(curRow == newPos.getRow()){//wagerecht
             if(curColumn < newPos.getColumn()){
-                for(int i = curColumn; i <= newPos.getColumn();i++){
+                for(int i = curColumn+1; i <= newPos.getColumn();i++){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
                     Field tmpField = game.getGamefield().getField(curRow,i);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -74,7 +69,7 @@ public class Queen implements Gamepiece{
             }
 
             if(curColumn > newPos.getColumn()){
-                for(int i = curColumn; i >= newPos.getColumn();i--){
+                for(int i = curColumn-1; i >= newPos.getColumn();i--){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();Field tmpField = game.getGamefield().getField(curRow,i);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
@@ -85,7 +80,7 @@ public class Queen implements Gamepiece{
 
         else if(curColumn == newPos.getColumn()){//senkrecht
             if(curRow < newPos.getRow()){
-                for(int i = curRow; i <= newPos.getRow();i++){
+                for(int i = curRow+1; i <= newPos.getRow();i++){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
                     Field tmpField = game.getGamefield().getField(i,curColumn);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -94,7 +89,7 @@ public class Queen implements Gamepiece{
             }
 
             if(curRow > newPos.getRow()){
-                for(int i = curRow; i >= newPos.getRow();i--){
+                for(int i = curRow-1; i >= newPos.getRow();i--){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
                     Field tmpField = game.getGamefield().getField(i,curColumn);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
@@ -109,45 +104,33 @@ public class Queen implements Gamepiece{
                 if(tmpRow > 0 && tmpColumn > 0){// nach links unten
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
                         Field tmpField = game.getGamefield().getField(curRow - i,curColumn - i);
-                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                        for(Gamepiece g: ownGamepiece) {
-                            if(tmpField == g.getPosition()) return false;
-                        }
+                        if(!checkField(tmpField.getItem(), newPos,tmpField,ownGamepiece)) return false;
                     }
+                    return true;
                 }
                 else if(tmpRow < 0 && tmpColumn > 0){// nach links oben <<<<<< Check
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
                         Field tmpField = game.getGamefield().getField(curRow + i,curColumn - i);
-                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                        for(Gamepiece g: ownGamepiece) {
-                            if(tmpField == g.getPosition()) return false;
-                        }
+                        if(!checkField(tmpField.getItem(), newPos,tmpField,ownGamepiece)) return false;
                     }
+                    return true;
                 }
                 else if(tmpRow > 0 && tmpColumn < 0){// nach rechts unten <<<<<<<<<<<<<check
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
                         Field tmpField = game.getGamefield().getField(curRow - i,curColumn + i);
-                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                        for(Gamepiece g: ownGamepiece) {
-                            if(tmpField == g.getPosition()) return false;
-                        }
+                        if(!checkField(tmpField.getItem(), newPos,tmpField,ownGamepiece)) return false;
                     }
+                    return true;
                 }
                 else if(tmpRow < 0 && tmpColumn < 0){// nach rechts oben
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
                         Field tmpField = game.getGamefield().getField(curRow + i,curColumn + i);
-                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
-                            return false;
-                        for(Gamepiece g: ownGamepiece) {
-                            if(tmpField == g.getPosition()) return false;
-                        }
+                        if(!checkField(tmpField.getItem(), newPos,tmpField,ownGamepiece)) return false;
                     }
+                    return true;
                 }
-                return true;
             }
+            return false;
         }
 
         return false;
@@ -176,7 +159,7 @@ public class Queen implements Gamepiece{
             if(tmpField == g.getPosition()) return false;
         }
         if(newPos == tmpField){
-            if(this.inventory != null && tmpItem != null){
+            if(this.getInventory() != null && tmpItem != null){
                 return false;
             }
             return true;
