@@ -1,13 +1,16 @@
 package UI.Elements.Game;
 
 import Business.Gamepiece.Gamepiece;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 
 public class GameView extends HBox {
@@ -17,14 +20,14 @@ public class GameView extends HBox {
     public Button useItemPlayer1;
     public ImageView selPiece1;
     public ImageView selPiece1Item;
-    public Label player1ItemDesc;
+    public TextArea player1ItemDesc;
 
     public HBox player2Box;
     public ListView<Gamepiece> player2Gamepieces;
     public Button useItemPlayer2;
     public ImageView selPiece2;
     public ImageView selPiece2Item;
-    public Label player2ItemDesc;
+    public TextArea player2ItemDesc;
 
     public GameView() {
         playerInfoBox = new HBox();
@@ -41,7 +44,11 @@ public class GameView extends HBox {
         selPiece1Item.setFitHeight(30);
         selPiece1Item.setFitWidth(30);
 
-        player1ItemDesc = new Label();
+        player1ItemDesc = new TextArea();
+        player1ItemDesc.setMaxHeight(50);
+        player1ItemDesc.setMaxWidth(150);
+        player1ItemDesc.setEditable(false);
+        player1ItemDesc.setStyle("-fx-control-inner-background: #c9c9c9");
         useItemPlayer1 = new Button("Use Item");
 
         player1Gamepieces = new ListView<>();
@@ -49,8 +56,10 @@ public class GameView extends HBox {
         player1Gamepieces.setPrefHeight(60);
         player1Gamepieces.setPrefWidth(228);
 
-        player1ItemHBox.getChildren().addAll(selPiece1, selPiece1Item, player1ItemDesc, useItemPlayer1);
-        player1VBox.getChildren().addAll(player1ItemHBox, player1Gamepieces);
+        player1ItemHBox.getChildren().addAll(selPiece1, selPiece1Item, useItemPlayer1);
+        VBox player1ItemVBox = new VBox(player1ItemHBox, player1ItemDesc);
+        player1ItemVBox.setTranslateX(40);
+        player1VBox.getChildren().addAll(player1ItemVBox, player1Gamepieces);
         player1Box.getChildren().add(player1VBox);
 
 
@@ -66,7 +75,11 @@ public class GameView extends HBox {
         selPiece2Item.setFitHeight(30);
         selPiece2Item.setFitWidth(30);
 
-        player2ItemDesc = new Label();
+        player2ItemDesc = new TextArea();
+        player2ItemDesc.setMaxHeight(50);
+        player2ItemDesc.setMaxWidth(150);
+        player2ItemDesc.setEditable(false);
+        player2ItemDesc.setStyle("-fx-control-inner-background: #c9c9c9");
         useItemPlayer2 = new Button("Use Item");
 
         player2Gamepieces = new ListView<>();
@@ -74,10 +87,14 @@ public class GameView extends HBox {
         player2Gamepieces.setPrefHeight(60);
         player2Gamepieces.setPrefWidth(228);
 
-        player2ItemHBox.getChildren().addAll(selPiece2, selPiece2Item, player2ItemDesc, useItemPlayer2);
-        player2VBox.getChildren().addAll(player2ItemHBox, player2Gamepieces);
-        player2Box.getChildren().add(player2VBox);
-        this.getChildren().addAll(player1Box, player2Box);
+        player2ItemHBox.getChildren().addAll(selPiece2, selPiece2Item, useItemPlayer2);
 
+        VBox player2ItemVBox = new VBox(player2ItemHBox, player2ItemDesc);
+        player2ItemVBox.setTranslateX(40);
+        player2VBox.getChildren().addAll(player2ItemVBox, player2Gamepieces);
+        player2Box.getChildren().add(player2VBox);
+        setSpacing(30);
+
+        this.getChildren().addAll(player1Box, player2Box);
     }
 }

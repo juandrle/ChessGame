@@ -45,7 +45,9 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
+                setStyle("-fx-background-color: #c9c9c9");
                 if (!empty) {
+
                     switch (item.getRank()) {
                         case 0 -> {
                             item.setImage(new Image ("files/pictures/gamepieces/PawnPlayer1.png"));
@@ -74,7 +76,9 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
+                setStyle("-fx-background-color: #c9c9c9");
                 if (!empty) {
+
                     switch (item.getRank()) {
                         case 0 -> {
                             item.setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));

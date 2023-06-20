@@ -6,9 +6,7 @@ import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
 import UI.Elements.Competition.CalculationGame.CalculationGameViewController;
 import UI.Elements.Competition.ClickEventGame.ReactionGameViewController;
-import UI.Elements.Game.GameViewController;
-import UI.Elements.GameField.GameFieldViewController;
-import UI.FullGame.CombinedViewController;
+import UI.Elements.FullGame.CombinedViewController;
 import UI.Scenes;
 import UI.Elements.Start.StartViewController;
 import UI.ViewController;
@@ -37,23 +35,18 @@ public class MonsterApplication extends Application {
             controller = new StartViewController(this, game);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
-            controller = new GameViewController(this, game);
-            scenes.put(Scenes.GAME_VIEW, controller.getRootView());
-
-            controller = new GameFieldViewController(this, game);
-            scenes.put(Scenes.GAMEFIELD_VIEW, controller.getRootView());
-
             controller = new CalculationGameViewController(new CalculatorGame(60), this, game);
             scenes.put(Scenes.CALCULATIONGAME_VIEW, controller.getRootView());
 
             controller = new ReactionGameViewController (new ReactionGame(30),this, game);
             scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
+
             controller = new CombinedViewController(this,game);
             scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 640, 800);
-            scene.getStylesheets().add(getClass().getResource("src/main/java/UI/Presentation/application.css").toExternalForm());
+            //scene.getStylesheets().add(getClass().getResource("/UI/Presentation/application.css").toExternalForm()); doesnt work?
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

@@ -1,8 +1,6 @@
-package UI.FullGame;
+package UI.Elements.FullGame;
 
 import Business.GameLogic.Game;
-import UI.Elements.Competition.CalculationGame.CalculationGameViewController;
-import UI.Elements.Competition.ClickEventGame.ReactionGameViewController;
 import UI.Elements.Competition.chooseCompetition.chooseCompetitionViewController;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
@@ -34,6 +32,8 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.setCenter(gameFieldViewController.getRootView());
         view.getBottom().setStyle("-fx-alignment: center;");
         view.nextTurn.setOnAction(e -> turnSwitch(true));
+        view.saveGame.setOnAction(e -> game.saveGame());
+        view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
@@ -46,7 +46,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
     }
 
     void turnSwitch(boolean swap) {
-        if (swap)game.switchPlayersTurn();
+        if (swap) game.switchPlayersTurn();
         String color = game.getCurrentPlayer().equals(game.getGamefield().getPlayer1()) ? "(White)" : "(Black)";
         view.playerTurn.setText("Currently it's " + game.getCurrentPlayer().getName() + "'s turn " + color);
     }

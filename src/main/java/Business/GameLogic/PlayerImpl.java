@@ -32,6 +32,7 @@ public class PlayerImpl implements Player {
         //engaged.set(true);
         if (!this.turn) return false;
         Gamepiece currGamepiece = chooseGamepiece(gamepiece);
+        if (currGamepiece == null) return false;
         if (!currGamepiece.isValidMove(field, game)) return false;
         currGamepiece.getPosition().setGamepiece(null);
         currGamepiece.setPosition(field);

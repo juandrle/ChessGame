@@ -10,6 +10,6 @@ module UI.Presentation {
     opens UI.Elements.GameField to javafx.fxml;// Add this line to open the package
 
     exports UI.Presentation;
-    exports UI.FullGame;
-    opens UI.FullGame to javafx.fxml;
+    exports UI.Elements.FullGame;
+    opens UI.Elements.FullGame to javafx.fxml;
 }
