@@ -63,7 +63,7 @@ public class Queen implements Gamepiece{
         int curColumn = position.getColumn();
         List<Gamepiece> ownGamepiece = game.getCurrentPlayer().getOwnGamepieces();
 
-        if(curRow == newPos.getRow()){
+        if(curRow == newPos.getRow()){//wagerecht
             if(curColumn < newPos.getColumn()){
                 for(int i = curColumn; i <= newPos.getColumn();i++){
                     Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
@@ -83,7 +83,7 @@ public class Queen implements Gamepiece{
 
         }
 
-        else if(curColumn == newPos.getColumn()){
+        else if(curColumn == newPos.getColumn()){//senkrecht
             if(curRow < newPos.getRow()){
                 for(int i = curRow; i <= newPos.getRow();i++){
                     Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
@@ -108,26 +108,42 @@ public class Queen implements Gamepiece{
             if(Math.abs(tmpColumn) - Math.abs(tmpRow) == 0){
                 if(tmpRow > 0 && tmpColumn > 0){// nach links unten
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
-                        if(game.getGamefield().getField(curRow - i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                        Field tmpField = game.getGamefield().getField(curRow - i,curColumn - i);
+                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
+                        for(Gamepiece g: ownGamepiece) {
+                            if(tmpField == g.getPosition()) return false;
+                        }
                     }
                 }
                 else if(tmpRow < 0 && tmpColumn > 0){// nach links oben <<<<<< Check
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
-                        if(game.getGamefield().getField(curRow + i,curColumn - i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                        Field tmpField = game.getGamefield().getField(curRow + i,curColumn - i);
+                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
+                        for(Gamepiece g: ownGamepiece) {
+                            if(tmpField == g.getPosition()) return false;
+                        }
                     }
                 }
                 else if(tmpRow > 0 && tmpColumn < 0){// nach rechts unten <<<<<<<<<<<<<check
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
-                        if(game.getGamefield().getField(curRow - i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                        Field tmpField = game.getGamefield().getField(curRow - i,curColumn + i);
+                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
+                        for(Gamepiece g: ownGamepiece) {
+                            if(tmpField == g.getPosition()) return false;
+                        }
                     }
                 }
                 else if(tmpRow < 0 && tmpColumn < 0){// nach rechts oben
                     for(int i = 1; i <= Math.abs(tmpRow);i++){
-                        if(game.getGamefield().getField(curRow + i,curColumn + i).getItem() != null)// check every single field if it contains item if not its valid else its not
+                        Field tmpField = game.getGamefield().getField(curRow + i,curColumn + i);
+                        if(tmpField.getItem() != null)// check every single field if it contains item if not its valid else its not
                             return false;
+                        for(Gamepiece g: ownGamepiece) {
+                            if(tmpField == g.getPosition()) return false;
+                        }
                     }
                 }
                 return true;
@@ -163,12 +179,14 @@ public class Queen implements Gamepiece{
             if(this.inventory != null && tmpItem != null){
                 return false;
             }
+            return true;
         }
         if(tmpItem != null){
             if(tmpItem instanceof Trap && !tmpItem.isDropable())
                 return true;
             return false;
         }
+        if(tmpField.getGamepiece() != null) return false;
         return true;
     }
     @Override

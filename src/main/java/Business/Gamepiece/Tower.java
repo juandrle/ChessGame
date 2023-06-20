@@ -72,7 +72,8 @@ public class Tower implements Gamepiece{
 
             if(curColumn > newPos.getColumn()){
                 for(int i = curColumn; i >= newPos.getColumn();i--){
-                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();Field tmpField = game.getGamefield().getField(curRow,i);
+                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
+                    Field tmpField = game.getGamefield().getField(curRow,i);
                     if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
                 }
                 return true;
@@ -129,12 +130,14 @@ public class Tower implements Gamepiece{
             if(this.inventory != null && tmpItem != null){
                 return false;
             }
+            return true;
         }
         if(tmpItem != null){
             if(tmpItem instanceof Trap && !tmpItem.isDropable())
                 return true;
             return false;
         }
+        if(tmpField.getGamepiece() != null) return false;
         return true;
     }
     @Override
