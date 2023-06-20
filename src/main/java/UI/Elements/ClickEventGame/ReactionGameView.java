@@ -31,11 +31,11 @@ public class ReactionGameView {
 		VBox widthBetween = new VBox();
 		VBox timeVBox = new VBox();
 
-		widthBetween.setPrefWidth(350);
-		widthFromRightToScore.setPrefWidth(20);
+		widthBetween.setPrefWidth(370);
+		widthFromRightToScore.setPrefWidth(45);
 		timeVBox.getChildren().add(time);
 		bottomHBox.getChildren().addAll(widthFromRightToScore, score, widthBetween, timeVBox);
-
+		bottomHBox.setPrefHeight(85);
 		bottomVBox.getChildren().add(bottomHBox);
 		borderPane.setBottom(bottomVBox);
 

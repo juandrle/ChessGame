@@ -91,7 +91,7 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 		calculationGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
 			time.setText(newValue.toString());
 			if (newValue.intValue() == 0) {
-				message.setText("Zeit ist abgelaufen!");
+				time.setText("Zeit ist abgelaufen!");
 				endGame = true;
 			}
 		}));
