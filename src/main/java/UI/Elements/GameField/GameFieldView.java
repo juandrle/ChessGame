@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 
 public class GameFieldView extends GridPane {
     public static final int BOARD_SIZE = 8;
-    public static final int CELL_SIZE = 80;
+    public static final int CELL_SIZE = 60;
 
 
     public GameFieldView() {
