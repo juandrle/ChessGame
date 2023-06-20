@@ -1,4 +1,4 @@
-package UI.Elements.ClickEventGame;
+package UI.Elements.Competition.ClickEventGame;
 
 import java.util.List;
 

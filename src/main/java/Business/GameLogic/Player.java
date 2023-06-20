@@ -1,11 +1,12 @@
 package Business.GameLogic;
 
 import Business.Gamepiece.Gamepiece;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.List;
 
 public interface Player {
-    public void moveGamepiece(Gamepiece gamepiece, Field field);
+    public boolean moveGamepiece(Gamepiece gamepiece, Field field, Game game);
 
     Gamepiece chooseGamepiece(Gamepiece gamepiece);
 
@@ -15,6 +16,9 @@ public interface Player {
     public String getName();
     public void removeGamepiece(Gamepiece gamepiece);
     public List<Gamepiece> getOwnGamepieces();
+    public SimpleBooleanProperty isEngaged();
+    public void setTurn(boolean turn);
+    public boolean getTurn();
 
 
 }

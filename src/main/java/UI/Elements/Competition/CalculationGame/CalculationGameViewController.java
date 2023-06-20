@@ -1,4 +1,4 @@
-package UI.Elements.CalculationGame;
+package UI.Elements.Competition.CalculationGame;
 
 import Business.Competition.CalculatorGame;
 import Business.GameLogic.Game;
@@ -8,8 +8,6 @@ import UI.ViewController;
 import java.io.IOException;
 import java.util.Map;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.event.EventHandler;
 import javafx.application.Platform;
 
 public class CalculationGameViewController extends ViewController<MonsterApplication> {

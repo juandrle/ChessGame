@@ -4,8 +4,8 @@ import Business.Competition.CalculatorGame;
 import Business.Competition.ReactionGame;
 import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
-import UI.Elements.CalculationGame.CalculationGameViewController;
-import UI.Elements.ClickEventGame.ReactionGameViewController;
+import UI.Elements.Competition.CalculationGame.CalculationGameViewController;
+import UI.Elements.Competition.ClickEventGame.ReactionGameViewController;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.FullGame.CombinedViewController;
@@ -53,7 +53,7 @@ public class MonsterApplication extends Application {
 
             Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 640, 800);
-            //scene.getStylesheets().add(getClass().getResource("UI/Presentation/application.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("src/main/java/UI/Presentation/application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

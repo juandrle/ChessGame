@@ -13,6 +13,7 @@ public abstract class ViewController<T> {
     public Pane getRootView() {
         return rootView;
     }
+    public void setRootView(Pane rootView){ this.rootView = rootView;}
 
     abstract public void initialize();
 
