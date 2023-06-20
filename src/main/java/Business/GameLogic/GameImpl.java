@@ -1,20 +1,10 @@
 package Business.GameLogic;
 
 public class GameImpl implements Game{
-
-    private int turnCount = 0;
     private final Gamefield gamefield;
     private Player currPlayer = null;
     public GameImpl(){
         this.gamefield = new GamefieldImpl();
-    }
-
-    public void setTurnCount(int tc){
-        this.turnCount = tc;
-    }
-
-    public int getTurnCount(){
-        return this.turnCount;
     }
 
     public void switchPlayersTurn(){

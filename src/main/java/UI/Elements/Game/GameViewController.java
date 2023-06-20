@@ -97,13 +97,16 @@ public class GameViewController extends ViewController<MonsterApplication> {
             view.selPiece1.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece1Item.setImage(newValue.getInventory().getImage());
-                System.out.println(newValue.getInventory().getImage());
+                view.player1ItemDesc.setText(newValue.getInventory().getDescription());
             }
             else view.selPiece1Item.setImage(new Image("files/pictures/white_placeholder.png"));
         }));
         view.player2Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             view.selPiece2.setImage(newValue.getImage().get());
-            if (newValue.getInventory() != null) view.selPiece2Item.setImage(newValue.getInventory().getImage());
+            if (newValue.getInventory() != null) {
+                view.selPiece2Item.setImage(newValue.getInventory().getImage());
+                view.player2ItemDesc.setText(newValue.getInventory().getDescription());
+            }
             else view.selPiece2Item.setImage(new Image("files/pictures/white_placeholder.png"));
         }));
     }

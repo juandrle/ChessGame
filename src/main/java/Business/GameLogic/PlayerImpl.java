@@ -46,7 +46,7 @@ public class PlayerImpl implements Player{
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override

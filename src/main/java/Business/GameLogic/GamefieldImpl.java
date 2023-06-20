@@ -19,8 +19,8 @@ public class GamefieldImpl implements Gamefield {
 
     public GamefieldImpl() {
         this.fields = new ArrayList<>();
-        this.player1 = new PlayerImpl("susi");
-        this.player2 = new PlayerImpl("busi");
+        this.player1 = new PlayerImpl("David");
+        this.player2 = new PlayerImpl("Sadia");
         createGamefield();
 
     }

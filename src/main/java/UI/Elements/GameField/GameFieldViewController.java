@@ -6,7 +6,6 @@ import Business.Gamepiece.Gamepiece;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +17,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
     private final Game game;
     private static final String GAMEPIECE = ";Gamepiece";
     private static final String ITEM = ";Item";
-    private ObservableList<Field> possibleMoves;
 
     public GameFieldViewController(MonsterApplication application, Game game) {
         super(application);
@@ -40,7 +38,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
             int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
             Gamepiece selGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece();
-            if (selGamepiece == null) return;
+            if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece)) return;
             showPossibleMoves(imageView);
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
@@ -177,7 +175,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         // Perform the logic for handling the selected field here
         System.out.println("row: " + selRow + " column: " + selCol);
 
-        if (selField.getGamepiece() == null) {
+        if (selField.getGamepiece() == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selField.getGamepiece())) {
             for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
                 for (int col = 0; col < GameFieldView.BOARD_SIZE; col++)
                     view.getChildren().get(row * view.getRowCount() + col).setOpacity(1.0);
