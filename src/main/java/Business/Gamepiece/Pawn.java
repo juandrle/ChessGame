@@ -6,6 +6,7 @@ import java.util.List;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Item.Item;
+import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -62,9 +63,11 @@ public class Pawn implements Gamepiece{
             for(Gamepiece g: game.getCurrentPlayer().getOwnGamepieces()) {
                 if(newPos == g.getPosition()) return false;
             }
-            if(newPos.getGamepiece()== null){
-                if(this.inventory == null || newPos.getItem() == null) return true;
+            if(newPos.getItem() != null){
+                if(newPos.getItem() instanceof Trap && !newPos.getItem().isDropable())return true;
+                if(this.inventory != null) return false;
             }
+            return true;
         }
         return false;
     }
