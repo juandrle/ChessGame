@@ -11,19 +11,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.BorderPane;
 
-public class ReactionGameView {
-	BorderPane borderPane;
+public class ReactionGameView extends BorderPane{
 	Pane pane;
 	Label time;
 	Label score;
-	private List<ShrinkingCircle> circles;
 
 	public ReactionGameView() {
-		borderPane = new BorderPane();
 		pane = new Pane();
 		time = new Label("Time");
 		score = new Label("Score");
-		circles = new ArrayList<>();
 
 		VBox bottomVBox = new VBox();
 		HBox widthFromRightToScore = new HBox();
@@ -37,51 +33,10 @@ public class ReactionGameView {
 		bottomHBox.getChildren().addAll(widthFromRightToScore, score, widthBetween, timeVBox);
 		bottomHBox.setPrefHeight(40);
 		bottomVBox.getChildren().add(bottomHBox);
-		borderPane.setBottom(bottomVBox);
+		this.setBottom(bottomVBox);
 
-		createCircle();
-		borderPane.setCenter(pane);
+		//createCircle();
 	}
 
-	public void createCircle() {
 
-		ShrinkingCircle circle = new ShrinkingCircle(40, Color.RED);
-		circles.add(circle);
-
-		// Zufällige Position für den Kreis innerhalb der Pane
-		double circleX = Math.random() * (pane.getWidth() - circle.getRadius() * 2) + circle.getRadius();
-		double circleY = Math.random() * (pane.getHeight() - circle.getRadius() * 2) + circle.getRadius();
-
-		// Überprüfen, ob der Kreis zu nah am oberen Rand liegt
-		if (circleY < circle.getRadius()) {
-			circleY = circle.getRadius() * 2;
-		}
-
-		// Überprüfen, ob der Kreis zu nah am linken Rand liegt
-		if (circleX < circle.getRadius()) {
-			circleX = circle.getRadius() * 2;
-		}
-
-		circle.setCenterX(circleX);
-		circle.setCenterY(circleY);
-
-		pane.getChildren().add(circle);
-		circles.add(circle);
-
-		// Animation starten
-		circle.render();
-	}
-
-	public List<ShrinkingCircle> getCircles() {
-		return circles;
-	}
-
-	public void removeCircle(ShrinkingCircle circle) {
-		circles.remove(circle);
-		pane.getChildren().remove(circle);
-	}
-
-	public BorderPane getBorderPane() {
-		return borderPane;
-	}
 }

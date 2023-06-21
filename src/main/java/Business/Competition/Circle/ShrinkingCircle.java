@@ -23,7 +23,7 @@ public class ShrinkingCircle extends Circle implements Sprite {
 	@Override
 	public void render() {
 		// Animation, die dafür sorgt das die Kreise Kleiner werden
-		ScaleTransition shrinkAnimation = new ScaleTransition(Duration.seconds(3), this);
+		ScaleTransition shrinkAnimation = new ScaleTransition(Duration.millis(1800), this);
 		shrinkAnimation.setToX(0);
 		shrinkAnimation.setToY(0);
 		shrinkAnimation.play();
