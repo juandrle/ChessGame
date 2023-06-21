@@ -1,5 +1,7 @@
 package Business.Competition;
 
+import javafx.scene.input.KeyCode;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.io.BufferedReader;
@@ -15,6 +17,11 @@ public class CalculatorGame extends CompetitionImpl {
 		super(time);
 		task = new HashMap<>();
 		fillTask();
+	}
+
+	// nur die Eingabetaste (ENTER) erlauben
+	public boolean keyPermitted(KeyCode code) {
+		return code == KeyCode.ENTER;
 	}
 
 	public void fillTask() {

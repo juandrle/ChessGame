@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.application.Platform;
 
@@ -66,24 +67,16 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 
 		clearButton.addEventHandler(ActionEvent.ACTION, event -> textField.clear());
 
-		processButton.addEventHandler(ActionEvent.ACTION, event -> {
-			String inputText = textField.getText();
-			System.out.println("Input text: " + inputText);
-			String result = getResultOfMathProblem(mathProblem);
-			if (endGame == false) {
-				if (inputText.equals(result)) {
-					message.setText("Richtig!");
-					calculationGame.setHelpCountCorrectAnswer(1);
-					removeMathProblem(mathProblem);
-					mathProblem = showNextTask();
-					textField.clear();
-				} else {
-					message.setText("Falsch!");
-				}
-				message.setVisible(true);
-			} else {
-				message.setText("Keine weiteren Eingaben moeglich!");
+		textField.setOnKeyPressed(event -> {
+			KeyCode keyCode = event.getCode();
+			System.out.println(calculationGame.keyPermitted(keyCode));
+			if (calculationGame.keyPermitted(keyCode)) {
+				processInput();
 			}
+		});
+
+		processButton.addEventHandler(ActionEvent.ACTION, event -> {
+			processInput();
 		});
 
 		calculationGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
@@ -106,6 +99,25 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 		// punktestand: 0
 		score.setText("Punktestand: " + calculationGame.getHelpCountCorrectAnswer());
 		message.setVisible(false);
+	}
+
+	public void processInput(){
+		String inputText = textField.getText();
+		String result = getResultOfMathProblem(mathProblem);
+		if (endGame == false) {
+			if (inputText.equals(result)) {
+				message.setText("Richtig!");
+				calculationGame.setHelpCountCorrectAnswer(1);
+				removeMathProblem(mathProblem);
+				mathProblem = showNextTask();
+				textField.clear();
+			} else {
+				message.setText("Falsch!");
+			}
+			message.setVisible(true);
+		} else {
+			message.setText("Keine weiteren Eingaben moeglich!");
+		}
 	}
 
 	private String showNextTask() {
