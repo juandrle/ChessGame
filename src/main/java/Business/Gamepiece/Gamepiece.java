@@ -31,5 +31,7 @@ public interface Gamepiece {
 
     public void setImage(Image image);
     public List<Field> possibleMoves(Game game);
+    public void setPunkte(int punkte);
+    public int getPunkte();
 
 }

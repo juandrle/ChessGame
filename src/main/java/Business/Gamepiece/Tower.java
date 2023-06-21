@@ -16,6 +16,7 @@ public class Tower implements Gamepiece{
     private boolean moveable;
     private Field position;
     SimpleObjectProperty<Image> image;
+    private int punkte;
 
     public Tower(){
         this.inventory = null;
@@ -148,5 +149,14 @@ public class Tower implements Gamepiece{
     @Override
     public void setImage(Image image) {
         this.image.set(image);
+    }
+    @Override
+    public void setPunkte(int punkte) {
+        this.punkte = punkte;
+    }
+
+    @Override
+    public int getPunkte() {
+        return punkte;
     }
 }

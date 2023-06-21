@@ -42,6 +42,7 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
             //setRootView(calculationGameViewController.getRootView());
             CombinedView parent = (CombinedView) view.getParent();
             parent.setCenter(calculationGameViewController.getRootView());
+
         });
     }
 }

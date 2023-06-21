@@ -17,6 +17,7 @@ public class Queen implements Gamepiece{
     private boolean moveable;
     private Field position;
     SimpleObjectProperty<Image> image;
+    private int punkte;
 
 
     public Queen(){
@@ -181,5 +182,13 @@ public class Queen implements Gamepiece{
     public void setImage(Image image) {
         this.image.set(image);
     }
+    @Override
+    public void setPunkte(int punkte) {
+        this.punkte = punkte;
+    }
 
+    @Override
+    public int getPunkte() {
+        return punkte;
+    }
 }
