@@ -15,6 +15,8 @@ public interface Player {
     public void setName(String name);
     public String getName();
     public void removeGamepiece(Gamepiece gamepiece);
+    public void addNewGamepiece(Gamepiece g);
+    public void initGamepieces();
     public List<Gamepiece> getOwnGamepieces();
     public SimpleBooleanProperty isEngaged();
     public void setTurn(boolean turn);

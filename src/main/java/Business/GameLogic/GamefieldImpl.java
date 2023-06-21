@@ -19,8 +19,8 @@ public class GamefieldImpl implements Gamefield {
 
     public GamefieldImpl() {
         this.fields = new ArrayList<>();
-        this.player1 = new PlayerImpl("David");
-        this.player2 = new PlayerImpl("Sadia");
+        this.player1 = new PlayerImpl("susi");
+        this.player2 = new PlayerImpl("busi");
         createGamefield();
 
     }
@@ -71,11 +71,11 @@ public class GamefieldImpl implements Gamefield {
                         if ((int) (Math.random() * 6) == 1 && this.maxItemAmount > 0) {
                             randNum = (int) (Math.random() * 5);
                             switch (randNum) {
-                                case 0 -> item = new Shield("shieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshieldshield");
-                                case 1 -> item = new RankManipulator("rankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulatorrankmanipulator");
-                                case 2 -> item = new TimeManipulator("timemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulatortimemanipulator");
-                                case 3 -> item = new TeleportationTrap("teleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrapteleportationtrap");
-                                case 4 -> item = new MotionTrap("motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap motiontrap");
+                                case 0 -> item = new Shield("shield");
+                                case 1 -> item = new RankManipulator("rankmanipulator");
+                                case 2 -> item = new TimeManipulator("timemanipulator");
+                                case 3 -> item = new TeleportationTrap("teleportationtrap");
+                                case 4 -> item = new MotionTrap("motiontrap");
                             }
                             this.maxItemAmount--;
                         } else item = null;
