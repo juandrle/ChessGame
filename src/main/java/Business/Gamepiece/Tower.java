@@ -10,15 +10,15 @@ import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
-public class Tower implements Gamepiece{
+public class Tower implements Gamepiece {
     private Item inventory;
     private int rank;
     private boolean moveable;
     private Field position;
     SimpleObjectProperty<Image> image;
-    private int punkte;
+    private int points = -1;
 
-    public Tower(){
+    public Tower() {
         this.inventory = null;
         this.rank = 1;
         this.moveable = true;
@@ -26,24 +26,23 @@ public class Tower implements Gamepiece{
     }
 
 
-   
-    public void setInventory(Item inventory){
+    public void setInventory(Item inventory) {
         this.inventory = inventory;
     }
 
-    public Item getInventory(){
+    public Item getInventory() {
         return this.inventory;
     }
 
-    public void setRank(int rank){
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
-    public int getRank(){
+    public int getRank() {
         return this.rank;
     }
 
-    public void setMoveable(boolean moveable){
+    public void setMoveable(boolean moveable) {
         this.moveable = moveable;
     }
 
@@ -61,42 +60,40 @@ public class Tower implements Gamepiece{
         int curColumn = position.getColumn();
         List<Gamepiece> ownGamepiece = game.getCurrentPlayer().getOwnGamepieces();
 
-        if(curRow == newPos.getRow()){
-            if(curColumn < newPos.getColumn()){
-                for(int i = curColumn+1; i <= newPos.getColumn();i++){
-                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
-                    Field tmpField = game.getGamefield().getField(curRow,i);
-                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
+        if (curRow == newPos.getRow()) {
+            if (curColumn < newPos.getColumn()) {
+                for (int i = curColumn + 1; i <= newPos.getColumn(); i++) {
+                    Item tmpItem = game.getGamefield().getField(curRow, i).getItem();
+                    Field tmpField = game.getGamefield().getField(curRow, i);
+                    if (!checkField(tmpItem, newPos, tmpField, ownGamepiece)) return false;
                 }
                 return true;
             }
 
-            if(curColumn > newPos.getColumn()){
-                for(int i = curColumn-1; i >= newPos.getColumn();i--){
-                    Item tmpItem = game.getGamefield().getField(curRow,i).getItem();
-                    Field tmpField = game.getGamefield().getField(curRow,i);
-                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
+            if (curColumn > newPos.getColumn()) {
+                for (int i = curColumn - 1; i >= newPos.getColumn(); i--) {
+                    Item tmpItem = game.getGamefield().getField(curRow, i).getItem();
+                    Field tmpField = game.getGamefield().getField(curRow, i);
+                    if (!checkField(tmpItem, newPos, tmpField, ownGamepiece)) return false;
                 }
                 return true;
             }
 
-        }
-
-        else if(curColumn == newPos.getColumn()){
-            if(curRow < newPos.getRow()){
-                for(int i = curRow+1; i <= newPos.getRow();i++){
-                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
-                    Field tmpField = game.getGamefield().getField(i,curColumn);
-                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
+        } else if (curColumn == newPos.getColumn()) {
+            if (curRow < newPos.getRow()) {
+                for (int i = curRow + 1; i <= newPos.getRow(); i++) {
+                    Item tmpItem = game.getGamefield().getField(i, curColumn).getItem();
+                    Field tmpField = game.getGamefield().getField(i, curColumn);
+                    if (!checkField(tmpItem, newPos, tmpField, ownGamepiece)) return false;
                 }
                 return true;
             }
 
-            if(curRow > newPos.getRow()){
-                for(int i = curRow-1; i >= newPos.getRow();i--){
-                    Item tmpItem = game.getGamefield().getField(i,curColumn).getItem();
-                    Field tmpField = game.getGamefield().getField(i,curColumn);
-                    if(!checkField(tmpItem,newPos,tmpField,ownGamepiece)) return false;
+            if (curRow > newPos.getRow()) {
+                for (int i = curRow - 1; i >= newPos.getRow(); i--) {
+                    Item tmpItem = game.getGamefield().getField(i, curColumn).getItem();
+                    Field tmpField = game.getGamefield().getField(i, curColumn);
+                    if (!checkField(tmpItem, newPos, tmpField, ownGamepiece)) return false;
                 }
                 return true;
             }
@@ -106,41 +103,42 @@ public class Tower implements Gamepiece{
     }
 
 
-    public boolean isMoveable(){
+    public boolean isMoveable() {
         return moveable;
     }
 
-        public List<Field> possibleMoves(Game game){
+    public List<Field> possibleMoves(Game game) {
         List<Field> result = new ArrayList<Field>();
-        if(!this.isMoveable())return null;
-        else{
-            for(Field f: game.getGamefield().getFields()){
-                if(isValidMove(f, game)) result.add(f);
+        if (!this.isMoveable()) return null;
+        else {
+            for (Field f : game.getGamefield().getFields()) {
+                if (isValidMove(f, game)) result.add(f);
             }
         }
         return result;
     }
 
 
-    private boolean checkField(Item tmpItem, Field newPos,Field tmpField,List<Gamepiece> ownGamepieces){
+    private boolean checkField(Item tmpItem, Field newPos, Field tmpField, List<Gamepiece> ownGamepieces) {
 
-        for(Gamepiece g: ownGamepieces) {
-            if(tmpField == g.getPosition()) return false;
+        for (Gamepiece g : ownGamepieces) {
+            if (tmpField == g.getPosition()) return false;
         }
-        if(newPos == tmpField){
-            if(this.inventory != null && tmpItem != null){
+        if (newPos == tmpField) {
+            if (this.inventory != null && tmpItem != null) {
                 return false;
             }
             return true;
         }
-        if(tmpItem != null){
-            if(tmpItem instanceof Trap && !tmpItem.isDropable())
+        if (tmpItem != null) {
+            if (tmpItem instanceof Trap && !tmpItem.isDropable())
                 return true;
             return false;
         }
-        if(tmpField.getGamepiece() != null) return false;
+        if (tmpField.getGamepiece() != null) return false;
         return true;
     }
+
     @Override
     public SimpleObjectProperty<Image> getImage() {
         return this.image;
@@ -150,13 +148,14 @@ public class Tower implements Gamepiece{
     public void setImage(Image image) {
         this.image.set(image);
     }
+
     @Override
-    public void setPunkte(int punkte) {
-        this.punkte = punkte;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     @Override
-    public int getPunkte() {
-        return punkte;
+    public int getPoints() {
+        return points;
     }
 }

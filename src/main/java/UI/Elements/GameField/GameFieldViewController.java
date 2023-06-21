@@ -103,13 +103,16 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         imageView.setOnDragDone(DragEvent::consume);
         imageView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+                int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
+                int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
+                System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
                 showPossibleMoves(imageView);
             }
         });
     }
 
 
-    private void gamefieldInitializer() {
+    public void gamefieldInitializer() {
         for (int row = 0; row < view.getRowCount(); row++) {
             for (int col = 0; col < view.getColumnCount(); col++) {
                 Node currNode = view.getChildren().get(row * view.getRowCount() + col);

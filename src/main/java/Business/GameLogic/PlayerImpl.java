@@ -1,5 +1,6 @@
 package Business.GameLogic;
 
+import Business.Competition.Competition;
 import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Gamepiece.Queen;
@@ -10,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerImpl implements Player {
-    String name;
-    List<Gamepiece> ownGamepieces;
-    SimpleBooleanProperty engaged;
+    private String name;
+    private List<Gamepiece> ownGamepieces;
+    private SimpleBooleanProperty engaged;
     private boolean turn;
+    private Gamepiece currGamepiece;
+    private Gamepiece enemyGamepiece;
+    private Field competitionField;
 
     public PlayerImpl(String name) {
         this.name = name;
@@ -28,10 +32,16 @@ public class PlayerImpl implements Player {
 
     @Override
     public boolean moveGamepiece(Gamepiece gamepiece, Field field, Game game) {
-        if (field.getGamepiece() != null)
+        currGamepiece = chooseGamepiece(gamepiece);
+        if (field.getGamepiece() != null) {
+            enemyGamepiece = field.getGamepiece();
             engaged.set(true);
+            currGamepiece.getPosition().setGamepiece(null);
+            this.turn = false;
+            competitionField = field;
+            return true;
+        }
         if (!this.turn) return false;
-        Gamepiece currGamepiece = chooseGamepiece(gamepiece);
         if (currGamepiece == null) return false;
         if (!currGamepiece.isValidMove(field, game)) return false;
         currGamepiece.getPosition().setGamepiece(null);
@@ -48,8 +58,9 @@ public class PlayerImpl implements Player {
     @Override
     public Gamepiece chooseGamepiece(Gamepiece gamepiece) {
         for (Gamepiece currGamepiece : ownGamepieces)
-            if (currGamepiece.equals(gamepiece))
+            if (currGamepiece.equals(gamepiece)) {
                 return currGamepiece;
+            }
         return null;
     }
 
@@ -69,8 +80,22 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void removeGamepiece(Gamepiece gamepiece) {
-        this.ownGamepieces.remove(gamepiece);
+    public void removeGamepiece(Player player, Competition competition) {
+        if (!competition.whoWin(currGamepiece, enemyGamepiece).equals(currGamepiece)) {
+            this.ownGamepieces.remove(currGamepiece);
+            try {
+                enemyGamepiece.setPosition(competitionField);
+                enemyGamepiece.getPosition().setGamepiece(enemyGamepiece);
+                enemyGamepiece.setPoints(-1);
+
+            } catch (NullPointerException e) {
+                System.out.println("NullPointer");
+            }
+        } else {
+            player.setCurrGamepiece(enemyGamepiece);
+            player.setEnemyGamepiece(currGamepiece);
+            player.removeGamepiece(this, competition);
+        }
         engaged.set(false);
     }
 
@@ -99,5 +124,20 @@ public class PlayerImpl implements Player {
     @Override
     public boolean getTurn() {
         return this.turn;
+    }
+
+    public Gamepiece getCurrGamepiece() {
+        return currGamepiece;
+    }
+
+    public Gamepiece getEnemyGamepiece() {
+        return enemyGamepiece;
+    }
+    public void setCurrGamepiece(Gamepiece gamepiece) {
+        this.currGamepiece = gamepiece;
+    }
+
+    public void setEnemyGamepiece(Gamepiece gamepiece) {
+         this.enemyGamepiece = gamepiece;
     }
 }

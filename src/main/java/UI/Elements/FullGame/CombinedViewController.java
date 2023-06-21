@@ -3,6 +3,7 @@ package UI.Elements.FullGame;
 import Business.GameLogic.Game;
 import UI.Elements.Competition.chooseCompetition.chooseCompetitionViewController;
 import UI.Elements.Game.GameViewController;
+import UI.Elements.GameField.GameFieldView;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.Presentation.MonsterApplication;
 import UI.Scenes;
@@ -22,7 +23,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view = (CombinedView) rootView;
         gameFieldViewController = new GameFieldViewController(application, game);
         gameViewController = new GameViewController(application, game);
-        chooseCompetitionViewController = new chooseCompetitionViewController(application, game);
+        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
         initialize();
     }
 
@@ -38,11 +39,25 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
-            if (newValue)
+            if (newValue) {
                 view.setCenter(chooseCompetitionViewController.getRootView());
-            if (!newValue)
-                view.setCenter(gameFieldViewController.getRootView());
-
+                view.nextTurn.setDisable(true);
+            }
+            if (!newValue) {
+                gameFieldViewController.gamefieldInitializer();
+                view.nextTurn.setDisable(false);
+            }
+        });
+        game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            if (newValue) {
+                view.setCenter(chooseCompetitionViewController.getRootView());
+                view.nextTurn.setDisable(true);
+            }
+            if (!newValue) {
+                gameFieldViewController.gamefieldInitializer();
+                view.nextTurn.setDisable(false);
+            }
         });
     }
 

@@ -16,7 +16,7 @@ public class Pawn implements Gamepiece{
     private boolean moveable;
     private Field position;
     SimpleObjectProperty<Image> image;
-    private int punkte;
+    private int points = -1;
 
     public Pawn(){
         this.inventory = null;
@@ -57,13 +57,13 @@ public class Pawn implements Gamepiece{
     }
 
     @Override
-    public void setPunkte(int punkte) {
-        this.punkte = punkte;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     @Override
-    public int getPunkte() {
-        return punkte;
+    public int getPoints() {
+        return points;
     }
 
     public boolean isValidMove(Field newPos, Game game) {

@@ -19,4 +19,5 @@ public interface Game {
     public Gamefield getGamefield();
 
     public Player getCurrentPlayer();
+    public Player getNextPlayer();
 }
