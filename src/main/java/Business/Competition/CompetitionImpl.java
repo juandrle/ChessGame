@@ -34,6 +34,10 @@ public class CompetitionImpl implements Competition{
 
 	@Override
 	public Gamepiece whoWin(Gamepiece gamepiece1,Gamepiece gamepiece2) {
+
+		if(gamepiece1.getPunkte() == gamepiece2.getPunkte()) {
+			return null;
+		}
 		if(gamepiece1.getPunkte() > gamepiece2.getPunkte()){
 			return gamepiece1;
 		}else{
