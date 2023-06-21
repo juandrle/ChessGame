@@ -16,8 +16,8 @@ public class StartView extends StackPane {
     public StartView() {
 
         Label header = new Label("Welcome to our Monsterappdemo!");
+        header.setId("header");
         Label authors = new Label("Authors: Sadia, David and Julian");
-        header.setStyle("-fx-font-size: 30px");
         authors.setStyle("-fx-font-size: 15px");
         demoCalcGame = new Button("Demo CalculationGameView");
         demoReacGame = new Button("Demo ReactionGameView");

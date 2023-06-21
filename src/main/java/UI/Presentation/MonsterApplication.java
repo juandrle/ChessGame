@@ -44,9 +44,9 @@ public class MonsterApplication extends Application {
             controller = new CombinedViewController(this,game);
             scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
 
-            Pane root = scenes.get(Scenes.CLICKEVENTGAME_VIEW);
+            Pane root = scenes.get(Scenes.COMBINED_VIEW);
             scene = new Scene(root, 640, 800);
-            //scene.getStylesheets().add(getClass().getResource("/UI/Presentation/application.css").toExternalForm()); doesnt work?
+            scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

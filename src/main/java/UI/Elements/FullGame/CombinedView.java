@@ -19,7 +19,6 @@ public class CombinedView extends BorderPane {
         MenuBar options = new MenuBar();
         playerTurn = new Label();
         nextTurn = new Button("End Turn");
-        nextTurn.setStyle("-fx-background-color: #04a5a8; -fx-background-radius: 15px; -fx-label-padding: 2px; -fx-text-fill: white; -fx-font-size: 15px");
         Menu gameMenu = new Menu("Game");
         saveGame = new MenuItem("Save Game");
         loadGame = new MenuItem("Load Game");

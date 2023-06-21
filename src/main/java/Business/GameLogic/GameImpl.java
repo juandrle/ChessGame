@@ -7,6 +7,7 @@ public class GameImpl implements Game{
     private Player currPlayer = null;
     public GameImpl(){
         this.gamefield = new GamefieldImpl();
+        switchPlayersTurn();
     }
 
     public void setTurnCount(int tc){
@@ -18,9 +19,14 @@ public class GameImpl implements Game{
     }
 
     public void switchPlayersTurn(){
-        if (this.currPlayer == null || this.currPlayer.equals(this.gamefield.getPlayer2()))
+        if (this.currPlayer == null || this.currPlayer.equals(this.gamefield.getPlayer2())) {
             this.currPlayer = this.gamefield.getPlayer1();
-        else this.currPlayer = this.gamefield.getPlayer2();
+            this.gamefield.getPlayer1().setTurn(true);
+        }
+        else {
+            this.currPlayer = this.gamefield.getPlayer2();
+            this.gamefield.getPlayer1().setTurn(true);
+        }
     }
 
     public Game startGame(){

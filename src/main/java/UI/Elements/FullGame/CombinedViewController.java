@@ -22,6 +22,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view = (CombinedView) rootView;
         gameFieldViewController = new GameFieldViewController(application, game);
         gameViewController = new GameViewController(application, game);
+        chooseCompetitionViewController = new chooseCompetitionViewController(application, game);
         initialize();
     }
 
@@ -32,16 +33,16 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.setCenter(gameFieldViewController.getRootView());
         view.getBottom().setStyle("-fx-alignment: center;");
         view.nextTurn.setOnAction(e -> turnSwitch(true));
-        view.saveGame.setOnAction(e -> game.saveGame());
+        //view.saveGame.setOnAction(e -> game.saveGame());
         view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
-            if (newValue) {
-                chooseCompetitionViewController = new chooseCompetitionViewController(application, game);
+            if (newValue)
                 view.setCenter(chooseCompetitionViewController.getRootView());
+            if (!newValue)
+                view.setCenter(gameFieldViewController.getRootView());
 
-            }
         });
     }
 
