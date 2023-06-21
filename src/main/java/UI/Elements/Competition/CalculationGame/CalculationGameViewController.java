@@ -61,6 +61,7 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 	}
 
 	@FXML
+	@Override
 	public void initialize() {
 
 		clearButton.addEventHandler(ActionEvent.ACTION, event -> textField.clear());

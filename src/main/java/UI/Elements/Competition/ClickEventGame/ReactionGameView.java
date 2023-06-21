@@ -35,7 +35,6 @@ public class ReactionGameView extends BorderPane{
 		bottomVBox.getChildren().add(bottomHBox);
 		this.setBottom(bottomVBox);
 
-		//createCircle();
 	}
 
 

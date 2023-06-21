@@ -9,13 +9,9 @@ public class ShrinkingCircle extends Circle implements Sprite {
 	private double radius;
 	private Color color;
 
-	private boolean disappeared;
-
 	public ShrinkingCircle(double radius, Color color) {
 		this.radius = radius;
 		this.color = color;
-		this.disappeared = false;
-
 		setRadius(radius);
 		setFill(color);
 	}
@@ -27,17 +23,6 @@ public class ShrinkingCircle extends Circle implements Sprite {
 		shrinkAnimation.setToX(0);
 		shrinkAnimation.setToY(0);
 		shrinkAnimation.play();
-		shrinkAnimation.setOnFinished(event -> {
-			this.disappeared = true;
-		});
-	}
-
-	public boolean isDisappeared() {
-		return disappeared;
-	}
-
-	public void setDisappeared(boolean disappeared) {
-		this.disappeared = disappeared;
 	}
 
 }

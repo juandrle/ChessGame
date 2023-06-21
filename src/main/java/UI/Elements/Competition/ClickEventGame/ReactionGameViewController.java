@@ -41,7 +41,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 
         initialize();
     }
-
+	@Override
     public void initialize() {
 
         reactionGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {

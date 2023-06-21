@@ -1,5 +1,7 @@
 package Business.Competition;
 
+import Business.GameLogic.Game;
+import Business.Gamepiece.Gamepiece;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class CompetitionImpl implements Competition{
@@ -8,6 +10,8 @@ public class CompetitionImpl implements Competition{
 	private SimpleIntegerProperty countCorrectAnswer;
 	private SimpleIntegerProperty actTime;
 	private int helpActTime;
+
+	private boolean gameEnds;
 	
 
 	public CompetitionImpl(int time) {
@@ -17,12 +21,24 @@ public class CompetitionImpl implements Competition{
 		this.helpCountCorrectAnswer = 0;
 		this.actTime = new SimpleIntegerProperty();
 		this.countCorrectAnswer = new SimpleIntegerProperty();
+		this.gameEnds = false;
+	}
+
+
+	@Override
+	public void setPoints(Gamepiece gamepiece) {
+		if (helpActTime == 0){
+			gamepiece.setPunkte(helpCountCorrectAnswer);
+		}
 	}
 
 	@Override
-	public boolean whoWin() {
-		// TODO Auto-generated method stub
-		return false;
+	public Gamepiece whoWin(Gamepiece gamepiece1,Gamepiece gamepiece2) {
+		if(gamepiece1.getPunkte() > gamepiece2.getPunkte()){
+			return gamepiece1;
+		}else{
+			return gamepiece2;
+		}
 	}
 	
 	@Override
@@ -33,6 +49,10 @@ public class CompetitionImpl implements Competition{
 					Thread.sleep(1000);
 					helpActTime-=1;
 					actTime.set(helpActTime);
+				}
+
+				if (helpActTime == 0){
+					gameEnds = true;
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
