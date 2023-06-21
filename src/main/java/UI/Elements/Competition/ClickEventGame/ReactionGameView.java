@@ -31,11 +31,11 @@ public class ReactionGameView {
 		VBox widthBetween = new VBox();
 		VBox timeVBox = new VBox();
 
-		widthBetween.setPrefWidth(370);
+		widthBetween.setPrefWidth(230);
 		widthFromRightToScore.setPrefWidth(45);
 		timeVBox.getChildren().add(time);
 		bottomHBox.getChildren().addAll(widthFromRightToScore, score, widthBetween, timeVBox);
-		bottomHBox.setPrefHeight(85);
+		bottomHBox.setPrefHeight(40);
 		bottomVBox.getChildren().add(bottomHBox);
 		borderPane.setBottom(bottomVBox);
 
@@ -47,7 +47,6 @@ public class ReactionGameView {
 
 		ShrinkingCircle circle = new ShrinkingCircle(40, Color.RED);
 		circles.add(circle);
-		System.out.println("Aktueller Kreisindex: " + circles.indexOf(circle));
 
 		// Zufällige Position für den Kreis innerhalb der Pane
 		double circleX = Math.random() * (pane.getWidth() - circle.getRadius() * 2) + circle.getRadius();

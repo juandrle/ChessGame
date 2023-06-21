@@ -8,6 +8,7 @@ import javafx.animation.ScaleTransition;
 public class ShrinkingCircle extends Circle implements Sprite {
 	private double radius;
 	private Color color;
+
 	private boolean disappeared;
 
 	public ShrinkingCircle(double radius, Color color) {
@@ -34,5 +35,9 @@ public class ShrinkingCircle extends Circle implements Sprite {
 	public boolean isDisappeared() {
 		return disappeared;
 	}
-	
+
+	public void setDisappeared(boolean disappeared) {
+		this.disappeared = disappeared;
+	}
+
 }

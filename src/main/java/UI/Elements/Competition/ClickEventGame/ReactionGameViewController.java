@@ -24,6 +24,8 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 	private Boolean endGame = false;
 	private ShrinkingCircle currentCircle;
 
+	private int countTimeForNextCircle = 0;
+
 	public ReactionGameViewController(ReactionGame reactionGame, MonsterApplication application, Game game) {
 		super(application);
 		this.reactionGame = reactionGame;
@@ -41,16 +43,19 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 
 	public void initialize() {
 
+		if (countTimeForNextCircle == 3){
+			clickCircle();
+			countTimeForNextCircle = 0;
+		}
+
 		reactionGame.getActTime().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				Platform.runLater(() -> {
+					System.out.println(countTimeForNextCircle);
+					countTimeForNextCircle +=1;
 					time.setText(newValue.toString());
 
-					if (circles.get(circles.indexOf(currentCircle)).isDisappeared() == true) {
-						endGame = true;
-						time.setText("Spiel ist Vorbei!");
-					}
 					if (newValue.intValue() == 0) {
 						endGame = true;
 						time.setText("Zeit ist abgelaufen!");
@@ -70,7 +75,11 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 			}
 		});
 
-		// Für jeden Kreis das Klick-Ereignis registrieren
+	}
+
+
+// Für jeden Kreis das Klick-Ereignis registrieren
+	public void clickCircle(){
 		if (endGame == false) {
 			for (ShrinkingCircle circle : circles) {
 				currentCircle = circle;
@@ -78,7 +87,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 					@Override
 					public void handle(MouseEvent event) {
 						reactionGame.setHelpCountCorrectAnswer(1);
-						mainView.removeCircle(circle);
+						mainView.removeCircle(currentCircle);
 						mainView.createCircle();
 
 						initialize();
@@ -87,7 +96,6 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 				});
 			}
 		}
-
 	}
 
 	public BorderPane getRootView() {
