@@ -21,4 +21,5 @@ public class Shield extends StatusChangeImpl {
         return image;
     }
 
+
 }

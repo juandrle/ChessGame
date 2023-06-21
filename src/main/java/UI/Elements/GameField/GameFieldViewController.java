@@ -6,7 +6,6 @@ import Business.Gamepiece.Gamepiece;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +15,6 @@ import javafx.scene.input.*;
 public class GameFieldViewController extends ViewController<MonsterApplication> {
     private final GameFieldView view;
     private final Game game;
-    private static final String GAMEPIECE = ";Gamepiece";
-    private static final String ITEM = ";Item";
-    private ObservableList<Field> possibleMoves;
 
     public GameFieldViewController(MonsterApplication application, Game game) {
         super(application);
@@ -40,7 +36,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
             int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
             Gamepiece selGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece();
-            if (selGamepiece == null) return;
+            if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece)) return;
             showPossibleMoves(imageView);
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
@@ -81,23 +77,11 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             ImageView targetImageView = (ImageView) event.getTarget();
             int targetRow = ((int) targetImageView.getLayoutY() / GameFieldView.CELL_SIZE);
             int targetCol = ((int) targetImageView.getLayoutX() / GameFieldView.CELL_SIZE);
-            if (dragboard.hasImage()
-                    && sourceGamepiece.isValidMove(game.getGamefield().getField(targetRow, targetCol), game)) { // hier fehlt noch check wer grade dran ist damit nur der ziehen kann, der dran ist
-
-                game.getGamefield().getField(targetRow, targetCol).setGamepiece(sourceGamepiece); // auslagern in business
-                game.getGamefield().getField(sourceRow, sourceCol).setGamepiece(null);
-                if (game.getGamefield().getPlayer1().chooseGamepiece(sourceGamepiece) != null)
-                    game.getGamefield().getPlayer1().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
-                else
-                    game.getGamefield().getPlayer2().moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol));
-                if (targetImageView.getId().contains(ITEM)) {
-                    sourceGamepiece.setInventory(game.getGamefield().getField(targetRow, targetCol).getItem());
-                    game.getGamefield().getField(targetRow, targetCol).setItem(null);
-
-                }
+            if (dragboard.hasImage() && game.getCurrentPlayer().
+                    moveGamepiece(sourceGamepiece, game.getGamefield().getField(targetRow, targetCol), game))
+            {
                 // Copy the image from the source ImageView
                 Image draggedImage = sourceImageView.getImage();
-
                 // Remove the image from the source ImageView
                 if (sourceImageView.getId().contains("white")) {
                     sourceImageView.setImage(new Image("files/pictures/white_placeholder.png"));
@@ -108,7 +92,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 }
                 // Set the dropped image to the current ImageView
 
-                targetImageView.setId(targetImageView.getId() + GAMEPIECE);
                 targetImageView.setImage(draggedImage);
                 success = true;
                 clearMoves();
@@ -131,7 +114,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             for (int col = 0; col < view.getColumnCount(); col++) {
                 Node currNode = view.getChildren().get(row * view.getRowCount() + col);
                 if (game.getGamefield().getField(row, col).getGamepiece() != null) {
-                    currNode.setId(currNode.getId() + GAMEPIECE);
                     if (game.getGamefield().getPlayer1().getOwnGamepieces().contains(game.getGamefield().getField(row, col).getGamepiece()))
                         switch (game.getGamefield().getField(row, col).getGamepiece().getRank()) {
                             case 0 ->
@@ -161,7 +143,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 }
                 if (game.getGamefield().getField(row, col).getItem() != null) {
                     ((ImageView) currNode).setImage(new Image("files/pictures/Item.png"));
-                    currNode.setId(currNode.getId() + ITEM);
+
                 }
 
                 setDragAndDrop((ImageView) currNode);
@@ -171,13 +153,13 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
     }
 
     private void showPossibleMoves(ImageView imageView) {
+        if (!game.getCurrentPlayer().getTurn()) return;
         int selRow = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutY() / GameFieldView.CELL_SIZE);
         int selCol = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / GameFieldView.CELL_SIZE);
         Field selField = game.getGamefield().getField(selRow, selCol);
         // Perform the logic for handling the selected field here
-        System.out.println("row: " + selRow + " column: " + selCol);
 
-        if (selField.getGamepiece() == null) {
+        if (selField.getGamepiece() == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selField.getGamepiece())) {
             for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
                 for (int col = 0; col < GameFieldView.BOARD_SIZE; col++)
                     view.getChildren().get(row * view.getRowCount() + col).setOpacity(1.0);

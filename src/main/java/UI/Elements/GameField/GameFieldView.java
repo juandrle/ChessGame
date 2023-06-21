@@ -1,8 +1,12 @@
 package UI.Elements.GameField;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 
 public class GameFieldView extends GridPane {
@@ -23,7 +27,6 @@ public class GameFieldView extends GridPane {
                 boolean isWhite = (row + col) % 2 == 0;
                 String filename = isWhite ? "files/pictures/white_placeholder.png" : "files/pictures/black_placeholder.jpg";
                 String id = isWhite ? "white" : "black";
-
 
                 ImageView imageView = new ImageView(new Image(filename));
                 imageView.setId(id);

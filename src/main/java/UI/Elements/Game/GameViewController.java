@@ -45,7 +45,9 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
+                setStyle("-fx-background-color: #c9c9c9");
                 if (!empty) {
+
                     switch (item.getRank()) {
                         case 0 -> {
                             item.setImage(new Image ("files/pictures/gamepieces/PawnPlayer1.png"));
@@ -74,7 +76,9 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
+                setStyle("-fx-background-color: #c9c9c9");
                 if (!empty) {
+
                     switch (item.getRank()) {
                         case 0 -> {
                             item.setImage(new Image("files/pictures/gamepieces/PawnPlayer2.png"));
@@ -97,13 +101,16 @@ public class GameViewController extends ViewController<MonsterApplication> {
             view.selPiece1.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece1Item.setImage(newValue.getInventory().getImage());
-                System.out.println(newValue.getInventory().getImage());
+                view.player1ItemDesc.setText(newValue.getInventory().getDescription());
             }
             else view.selPiece1Item.setImage(new Image("files/pictures/white_placeholder.png"));
         }));
         view.player2Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             view.selPiece2.setImage(newValue.getImage().get());
-            if (newValue.getInventory() != null) view.selPiece2Item.setImage(newValue.getInventory().getImage());
+            if (newValue.getInventory() != null) {
+                view.selPiece2Item.setImage(newValue.getInventory().getImage());
+                view.player2ItemDesc.setText(newValue.getInventory().getDescription());
+            }
             else view.selPiece2Item.setImage(new Image("files/pictures/white_placeholder.png"));
         }));
     }

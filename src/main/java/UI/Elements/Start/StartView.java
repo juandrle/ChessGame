@@ -1,25 +1,32 @@
 package UI.Elements.Start;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
-public class StartView extends AnchorPane {
-    public Button demoGameField;
+public class StartView extends StackPane {
+
     public Button demoCalcGame;
     public Button demoReacGame;
-    public Button demoGame;
     public Button demoCombined;
 
-    public StartView(){
-        demoGameField = new Button("Demo GamefieldView");
+    public StartView() {
+
+        Label header = new Label("Welcome to our Monsterappdemo!");
+        Label authors = new Label("Authors: Sadia, David and Julian");
+        header.setStyle("-fx-font-size: 30px");
+        authors.setStyle("-fx-font-size: 15px");
         demoCalcGame = new Button("Demo CalculationGameView");
         demoReacGame = new Button("Demo ReactionGameView");
-        demoGame = new Button(" Demo GameView");
+
         demoCombined = new Button("Demo CombinedView");
-        demoCalcGame.setTranslateY(40);
-        demoReacGame.setTranslateY(80);
-        demoGame.setTranslateY(120);
-        demoCombined.setTranslateY(160);
-        this.getChildren().addAll(demoGameField, demoCalcGame, demoReacGame, demoGame, demoCombined);
+        VBox menu = new VBox(header, authors, demoCalcGame, demoReacGame,demoCombined);
+        this.getChildren().add(menu);
+        menu.setAlignment(Pos.CENTER);
+        menu.setStyle("-fx-background-color: #c9c9c9");
+        menu.setSpacing(20);
     }
 }
