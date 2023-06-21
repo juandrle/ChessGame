@@ -1,5 +1,7 @@
 package Business.GameLogic;
 
+import java.io.IOException;
+
 public interface Game {
 
 
@@ -9,7 +11,7 @@ public interface Game {
 
     public Game loadGame();
 
-    public void saveGame();
+    public void saveGame() throws IOException;
 
     public void exitGame();
 
