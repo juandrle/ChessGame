@@ -34,7 +34,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.getBottom().setStyle("-fx-alignment: center;");
         view.nextTurn.setOnAction(e -> turnSwitch(true));
         //view.saveGame.setOnAction(e -> game.saveGame());
-        view.loadGame.setOnAction(e -> game.loadGame());
+        //view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             if (newValue) {

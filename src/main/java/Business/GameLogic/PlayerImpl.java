@@ -103,7 +103,10 @@ public class PlayerImpl implements Player {
 
     @Override
     public void initGamepieces() {
-
+        ownGamepieces.add(new Pawn());
+        ownGamepieces.add(new Pawn());
+        ownGamepieces.add(new Queen());
+        ownGamepieces.add(new Tower());
     }
 
     @Override

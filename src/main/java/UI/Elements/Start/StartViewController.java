@@ -20,5 +20,6 @@ public class StartViewController extends ViewController<MonsterApplication> {
     @Override
     public void initialize() {
         view.startNewGame.setOnAction(e -> application.switchScene(Scenes.COMBINED_VIEW));
+        //view.loadGame.setOnAction(e -> game.loadGame(""));
     }
 }
