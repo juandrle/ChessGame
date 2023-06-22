@@ -81,19 +81,17 @@ public class PlayerImpl implements Player {
 
     @Override
     public void removeGamepiece(Player player, Competition competition) {
-        if (!competition.whoWin(currGamepiece, enemyGamepiece).equals(currGamepiece)) {
+        System.out.println(currGamepiece.toString() + competition.whoWin(currGamepiece, enemyGamepiece).toString());
+        if (!currGamepiece.equals(competition.whoWin(currGamepiece, enemyGamepiece))) {
             this.ownGamepieces.remove(currGamepiece);
-            try {
-                enemyGamepiece.setPosition(competitionField);
-                enemyGamepiece.getPosition().setGamepiece(enemyGamepiece);
-                enemyGamepiece.setPoints(-1);
+            enemyGamepiece.setPosition(competitionField);
+            competitionField.setGamepiece(enemyGamepiece);
+            enemyGamepiece.setPoints(-1);
 
-            } catch (NullPointerException e) {
-                System.out.println("NullPointer");
-            }
         } else {
             player.setCurrGamepiece(enemyGamepiece);
             player.setEnemyGamepiece(currGamepiece);
+            player.setCompetitionField(competitionField);
             player.removeGamepiece(this, competition);
         }
         engaged.set(false);
@@ -133,11 +131,17 @@ public class PlayerImpl implements Player {
     public Gamepiece getEnemyGamepiece() {
         return enemyGamepiece;
     }
+
     public void setCurrGamepiece(Gamepiece gamepiece) {
         this.currGamepiece = gamepiece;
     }
 
     public void setEnemyGamepiece(Gamepiece gamepiece) {
-         this.enemyGamepiece = gamepiece;
+        this.enemyGamepiece = gamepiece;
+    }
+
+    @Override
+    public void setCompetitionField(Field field) {
+        this.competitionField = field;
     }
 }

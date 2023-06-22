@@ -26,6 +26,7 @@ public interface Player {
     public Gamepiece getEnemyGamepiece();
     public void setCurrGamepiece(Gamepiece gamepiece);
     public void setEnemyGamepiece(Gamepiece gamepiece);
+    public void setCompetitionField(Field field);
 
 
 }
