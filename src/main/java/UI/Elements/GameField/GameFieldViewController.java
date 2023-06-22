@@ -28,6 +28,16 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
     @Override
     public void initialize() {
         gamefieldInitializer();
+        game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                gamefieldInitializer();
+            }
+        });
+        game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                gamefieldInitializer();
+            }
+        });
 
     }
 

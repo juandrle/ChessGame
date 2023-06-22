@@ -6,13 +6,12 @@ import Business.Gamepiece.Pawn;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
 import javafx.beans.property.SimpleBooleanProperty;
-
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class PlayerImpl implements Player {
     private String name;
-    private List<Gamepiece> ownGamepieces;
+    private ObservableList<Gamepiece> ownGamepieces;
     private SimpleBooleanProperty engaged;
     private boolean turn;
     private Gamepiece currGamepiece;
@@ -22,7 +21,7 @@ public class PlayerImpl implements Player {
     public PlayerImpl(String name) {
         this.name = name;
         engaged = new SimpleBooleanProperty();
-        this.ownGamepieces = new ArrayList<>();
+        this.ownGamepieces = FXCollections.observableArrayList();
         this.ownGamepieces.add(new Pawn());
         this.ownGamepieces.add(new Pawn());
         this.ownGamepieces.add(new Queen());
@@ -107,8 +106,9 @@ public class PlayerImpl implements Player {
 
     }
 
-    public List<Gamepiece> getOwnGamepieces() {
-        return this.ownGamepieces;
+    @Override
+    public ObservableList<Gamepiece> getOwnGamepieces() {
+        return ownGamepieces;
     }
 
     public SimpleBooleanProperty isEngaged() {

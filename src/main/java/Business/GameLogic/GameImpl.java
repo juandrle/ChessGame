@@ -11,14 +11,6 @@ public class GameImpl implements Game{
         switchPlayersTurn();
     }
 
-    public void setTurnCount(int tc){
-        this.turnCount = tc;
-    }
-
-    public int getTurnCount(){
-        return this.turnCount;
-    }
-
     public void switchPlayersTurn(){
         if (this.currPlayer == null || this.currPlayer.equals(this.gamefield.getPlayer2())) {
             this.currPlayer = this.gamefield.getPlayer1();

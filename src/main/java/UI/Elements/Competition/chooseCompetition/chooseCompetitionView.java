@@ -1,12 +1,10 @@
 package UI.Elements.Competition.chooseCompetition;
 
-import UI.Elements.FullGame.CombinedView;
 import UI.Elements.GameField.GameFieldView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class chooseCompetitionView extends BorderPane {

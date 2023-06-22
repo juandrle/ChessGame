@@ -9,17 +9,12 @@ import Business.GameLogic.Game;
 import UI.ViewController;
 import UI.Presentation.MonsterApplication;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 public class ReactionGameViewController extends ViewController<MonsterApplication> {
-    private ReactionGame reactionGame;
-    private ReactionGameView mainView;
+    private final ReactionGame reactionGame;
+    private final ReactionGameView mainView;
     private List<ShrinkingCircle> circles;
     private Label time;
     private Label score;

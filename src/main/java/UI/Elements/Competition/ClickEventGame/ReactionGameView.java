@@ -1,12 +1,8 @@
 package UI.Elements.Competition.ClickEventGame;
 
-import java.util.List;
 
-import Business.Competition.Circle.ShrinkingCircle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import java.util.ArrayList;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.BorderPane;

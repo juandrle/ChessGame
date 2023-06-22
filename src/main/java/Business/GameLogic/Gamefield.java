@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface Gamefield {
 
-    public void createGamefield();
+    void createGamefield();
 
-    public Player getPlayer1();
+    Player getPlayer1();
 
-    public List<Field> getFields();
+    List<Field> getFields();
 
-    public Field getField(int row,int column);
+    Field getField(int row, int column);
 
-    public Player getPlayer2();
+    Player getPlayer2();
 }
 

@@ -3,7 +3,6 @@ package UI.Elements.FullGame;
 import Business.GameLogic.Game;
 import UI.Elements.Competition.chooseCompetition.chooseCompetitionViewController;
 import UI.Elements.Game.GameViewController;
-import UI.Elements.GameField.GameFieldView;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.Presentation.MonsterApplication;
 import UI.Scenes;
@@ -38,24 +37,20 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             if (newValue) {
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
             if (!newValue) {
-                gameFieldViewController.gamefieldInitializer();
                 view.nextTurn.setDisable(false);
             }
         });
         game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             if (newValue) {
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
             if (!newValue) {
-                gameFieldViewController.gamefieldInitializer();
                 view.nextTurn.setDisable(false);
             }
         });

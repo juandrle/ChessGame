@@ -4,15 +4,16 @@ import Business.Gamepiece.Gamepiece;
 import Business.Item.Item;
 
 public interface Field {
-    public Gamepiece getGamepiece();
+    Gamepiece getGamepiece();
 
-    public void setGamepiece(Gamepiece gamepiece);
+    void setGamepiece(Gamepiece gamepiece);
 
-    public Item getItem();
+    Item getItem();
 
-    public void setItem(Item item);
+    void setItem(Item item);
 
-    public int getRow();
-    public int getColumn();
+    int getRow();
+
+    int getColumn();
 
 }

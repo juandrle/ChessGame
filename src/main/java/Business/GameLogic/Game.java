@@ -5,19 +5,21 @@ import java.io.IOException;
 public interface Game {
 
 
-    public void switchPlayersTurn();
+    void switchPlayersTurn();
 
-    public Game startGame();
+    Game startGame();
 
-    public Game loadGame();
+    Game loadGame();
 
-    public void saveGame() throws IOException;
+    void saveGame() throws IOException;
 
-    public void exitGame();
+    void exitGame();
 
-    public void runGame();
-    public Gamefield getGamefield();
+    void runGame();
 
-    public Player getCurrentPlayer();
-    public Player getNextPlayer();
+    Gamefield getGamefield();
+
+    Player getCurrentPlayer();
+
+    Player getNextPlayer();
 }
