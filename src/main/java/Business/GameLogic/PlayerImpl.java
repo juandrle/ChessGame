@@ -19,15 +19,12 @@ public class PlayerImpl implements Player {
     private Gamepiece enemyGamepiece;
     private Field competitionField;
 
-    public PlayerImpl(String name) {
+    public PlayerImpl(String name, boolean newGame) {
         this.name = name;
         engaged = new SimpleBooleanProperty();
         this.ownGamepieces = FXCollections.observableArrayList();
         currGamepiece = new SimpleObjectProperty<>();
-        this.ownGamepieces.add(new Pawn());
-        this.ownGamepieces.add(new Pawn());
-        this.ownGamepieces.add(new Queen());
-        this.ownGamepieces.add(new Tower());
+        if(newGame) initGamepieces();
         this.turn = false;
     }
 
