@@ -20,8 +20,10 @@ public class chooseCompetitionView extends BorderPane {
         setCenter(menu);
         menu.setAlignment(Pos.CENTER);
         menu.setSpacing(15);
-        this.setPrefSize(GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE,GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE);
-        this.setMaxSize(GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE,GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE);
+        this.setPrefSize(GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE,
+                        GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE);
+        this.setMaxSize(GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE,
+                        GameFieldView.CELL_SIZE* GameFieldView.BOARD_SIZE);
 
     }
 }

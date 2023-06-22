@@ -25,6 +25,8 @@ public class GameViewController extends ViewController<MonsterApplication> {
 
     @Override
     public void initialize() {
+        view.useItemPlayer1.setOnAction(e -> game.getGamefield().getPlayer1().useItem(game.getGamefield().getPlayer1().getCurrGamepiece()));
+        view.useItemPlayer2.setOnAction(e -> game.getGamefield().getPlayer2().useItem(game.getGamefield().getPlayer2().getCurrGamepiece()));
         view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
         view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());
 
@@ -40,9 +42,11 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
-                setStyle("-fx-background-color: #c9c9c9");
+                setStyle("-fx-background-color: #ececec");
                 if (!empty) {
                     Platform.runLater(() -> setGraphic(gamepiece));
+                    if (item.equals(game.getGamefield().getPlayer1().getCurrGamepiece()))
+                        setStyle("-fx-background-color: #04a5a8");
                     switch (item.getRank()) {
                         case 0 -> {
                             item.setImage(new Image("files/pictures/gamepieces/PawnPlayer1.png"));
@@ -71,8 +75,10 @@ public class GameViewController extends ViewController<MonsterApplication> {
             @Override
             protected void updateItem(Gamepiece item, boolean empty) {
                 super.updateItem(item, empty);
-                setStyle("-fx-background-color: #c9c9c9");
+                setStyle("-fx-background-color: #ececec");
                 if (!empty) {
+                    if (item.equals(game.getGamefield().getPlayer2().getCurrGamepiece()))
+                        setStyle("-fx-background-color: #04a5a8");
                     Platform.runLater(() -> setGraphic(gamepiece));
                     switch (item.getRank()) {
                         case 0 -> {
@@ -93,6 +99,7 @@ public class GameViewController extends ViewController<MonsterApplication> {
         });
 
         view.player1Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
             view.selPiece1.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece1Item.setImage(newValue.getInventory().getImage());
@@ -100,6 +107,7 @@ public class GameViewController extends ViewController<MonsterApplication> {
             } else view.selPiece1Item.setImage(new Image("files/pictures/white_placeholder.png"));
         }));
         view.player2Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
             view.selPiece2.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece2Item.setImage(newValue.getInventory().getImage());
@@ -108,14 +116,26 @@ public class GameViewController extends ViewController<MonsterApplication> {
         }));
         game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
                 {
-                    view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
-                    // update when item picked up?
+                        view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
                 }
         );
         game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
                 {
-                    view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());
-                    // update when item picked up?
+                        view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());
+                }
+        );
+        game.getGamefield().getPlayer1().currGamepieceProperty().addListener((observable, oldValue, newValue) ->
+                {
+                    //if (newValue != null) {
+                    view.player1Gamepieces.getSelectionModel().select(newValue);
+                    //}
+                }
+        );
+        game.getGamefield().getPlayer2().currGamepieceProperty().addListener((observable, oldValue, newValue) ->
+                {
+                    //  if (newValue != null) {
+                    view.player2Gamepieces.getSelectionModel().select(newValue);
+                    //  }
                 }
         );
     }

@@ -115,6 +115,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             if (event.getButton() == MouseButton.PRIMARY) {
                 int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
                 int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
+                game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow,sourceCol).getGamepiece());
                 System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
                 showPossibleMoves(imageView);
             }

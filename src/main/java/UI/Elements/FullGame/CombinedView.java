@@ -33,6 +33,6 @@ public class CombinedView extends BorderPane {
         playerTurn.setTranslateY(10);
         playerTurn.setStyle("-fx-font-size: 20px");
         turns.setSpacing(120);
-        setStyle("-fx-background-color: #c9c9c9");
+        setStyle("-fx-background-color: #ececec");
     }
 }

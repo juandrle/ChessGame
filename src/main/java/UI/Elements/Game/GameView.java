@@ -40,16 +40,12 @@ public class GameView extends HBox {
         selPiece1Item.setFitWidth(30);
 
         player1ItemDesc = new TextArea();
-        player1ItemDesc.setMaxHeight(50);
-        player1ItemDesc.setMaxWidth(150);
+        player1ItemDesc.setId("textArea");
         player1ItemDesc.setEditable(false);
-        player1ItemDesc.setStyle("-fx-control-inner-background: #c9c9c9");
         useItemPlayer1 = new Button("Use Item");
 
         player1Gamepieces = new ListView<>();
-        player1Gamepieces.setOrientation(Orientation.HORIZONTAL);
-        player1Gamepieces.setPrefHeight(60);
-        player1Gamepieces.setPrefWidth(228);
+        player1Gamepieces.setId("listView");
 
         player1ItemHBox.getChildren().addAll(selPiece1, selPiece1Item, useItemPlayer1);
         VBox player1ItemVBox = new VBox(player1ItemHBox, player1ItemDesc);
@@ -71,16 +67,12 @@ public class GameView extends HBox {
         selPiece2Item.setFitWidth(30);
 
         player2ItemDesc = new TextArea();
-        player2ItemDesc.setMaxHeight(50);
-        player2ItemDesc.setMaxWidth(150);
+        player2ItemDesc.setId("textArea");
         player2ItemDesc.setEditable(false);
-        player2ItemDesc.setStyle("-fx-control-inner-background: #c9c9c9");
         useItemPlayer2 = new Button("Use Item");
 
         player2Gamepieces = new ListView<>();
-        player2Gamepieces.setOrientation(Orientation.HORIZONTAL);
-        player2Gamepieces.setPrefHeight(60);
-        player2Gamepieces.setPrefWidth(228);
+        player2Gamepieces.setId("listView");
 
         player2ItemHBox.getChildren().addAll(selPiece2, selPiece2Item, useItemPlayer2);
 

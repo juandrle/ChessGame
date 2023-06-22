@@ -3,6 +3,7 @@ package Business.GameLogic;
 import Business.Competition.Competition;
 import Business.Gamepiece.Gamepiece;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 
 
@@ -40,6 +41,7 @@ public interface Player {
     void setEnemyGamepiece(Gamepiece gamepiece);
 
     void setCompetitionField(Field field);
+    public SimpleObjectProperty<Gamepiece> currGamepieceProperty();
 
 
 }

@@ -11,3 +11,22 @@
 #header {
     -fx-font-size: 30px;
 }
+#listView {
+    -fx-orientation: horizontal;
+    -fx-pref-width: 228;
+    -fx-pref-height: 60;
+    -fx-background-radius: 10;
+    -fx-border-color: #ececec;
+
+}
+#textArea {
+    -fx-max-height: 50;
+    -fx-max-width: 150;
+    -fx-control-inner-background: #ececec;
+    -fx-border-color: #ececec;
+}
+#menu {
+    -fx-alignment: center;
+    -fx-background-color: #ececec;
+    -fx-spacing: 20;
+}

@@ -15,7 +15,7 @@ public class GameFieldView extends GridPane {
         setPrefSize(CELL_SIZE * BOARD_SIZE, CELL_SIZE * BOARD_SIZE);
 
         setMaxSize(CELL_SIZE*BOARD_SIZE, CELL_SIZE * BOARD_SIZE);
-        setStyle("-fx-background-color: #c9c9c9;");
+        setStyle("-fx-background-color: #ececec;");
 
         // Create the chessboard cells
         for (int row = 0; row < BOARD_SIZE; row++) {
