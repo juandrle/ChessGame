@@ -13,7 +13,7 @@ public class Shield extends StatusChangeImpl {
 
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-        Shield shield = new Shield("Das Schild schütz Sie bei einer Niederlage in einem Minispiel und gibt ihnen die Chance auf ein Rematch.");
+        Shield shield = new Shield("Shield");
         gamepiece.setInventory(shield);
     }
     @Override
