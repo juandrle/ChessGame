@@ -43,5 +43,7 @@ public interface Player {
     void setCompetitionField(Field field);
     public SimpleObjectProperty<Gamepiece> currGamepieceProperty();
 
+    boolean getExtraTime();
+    void setExtraTime(boolean extraTime);
 
 }

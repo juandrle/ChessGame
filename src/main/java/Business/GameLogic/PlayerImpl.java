@@ -5,6 +5,9 @@ import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
+import Business.Item.StatusChange.Manipulator.RankManipulator;
+import Business.Item.StatusChange.Manipulator.TimeManipulator;
+import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -18,6 +21,8 @@ public class PlayerImpl implements Player {
     private SimpleObjectProperty<Gamepiece> currGamepiece;
     private Gamepiece enemyGamepiece;
     private Field competitionField;
+    private boolean extraTime = false;
+
 
     public PlayerImpl(String name, boolean newGame) {
         this.name = name;
@@ -28,12 +33,21 @@ public class PlayerImpl implements Player {
         this.turn = false;
     }
 
+    public boolean getExtraTime(){
+        return this.extraTime;
+    }
+
+    public void setExtraTime(boolean extra){
+        this.extraTime = extra;
+    }
+
     @Override
     public boolean moveGamepiece(Gamepiece gamepiece, Field field, Game game) {
         chooseGamepiece(gamepiece);
         if (field.getGamepiece() != null) {
             enemyGamepiece = field.getGamepiece();
             engaged.set(true);
+            if(gamepiece.getInventory() instanceof TimeManipulator) this.setExtraTime(true);
             currGamepiece.get().getPosition().setGamepiece(null);
             this.turn = false;
             competitionField = field;
@@ -67,12 +81,18 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItem(Gamepiece gamepiece) {
+        if(gamepiece.getInventory() instanceof RankManipulator){
+            ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
+        }
+        else if( gamepiece.getInventory() instanceof TimeManipulator){
+           // gamepiece.getInventory();
+        }
         System.out.println(chooseGamepiece(gamepiece).getInventory());
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override

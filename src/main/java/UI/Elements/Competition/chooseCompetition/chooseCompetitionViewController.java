@@ -20,10 +20,14 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     ReactionGame currReactionGame;
     CalculatorGame currCalculatorGame;
     GameFieldViewController gameFieldViewController;
+    private boolean extraTime;
+    private int time;
 
-    public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController) {
+    public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController,boolean extraTime) {
         super(application);
         this.game = game;
+        this.extraTime = extraTime;
+        this.time = 10;
         this.gameFieldViewController = gameFieldViewController;
         rootView = new chooseCompetitionView();
         view = (chooseCompetitionView) rootView;
@@ -33,10 +37,11 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
 
     @Override
     public void initialize() {
+        if(extraTime) time = 15;
+        else time = 10;
         view.clickGame.setOnAction(e -> {
             CombinedView parent = (CombinedView) view.getParent();
-
-            reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(10), application, game);
+            reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(time), application, game);
             parent.setCenter(reactionGameViewController.getRootView());
 
             competitionStarter(currReactionGame, parent);
@@ -44,7 +49,7 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
 
         });
         view.calcGame.setOnAction(e -> {
-            calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(10), application, game);
+            calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(time), application, game);
             CombinedView parent = (CombinedView) view.getParent();
             parent.setCenter(calculationGameViewController.getRootView());
 

@@ -22,7 +22,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view = (CombinedView) rootView;
         gameFieldViewController = new GameFieldViewController(application, game);
         gameViewController = new GameViewController(application, game);
-        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
+        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,false);
         initialize();
     }
 
@@ -38,6 +38,9 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                if(game.getCurrentPlayer().getExtraTime()){
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,true);
+                }
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
@@ -47,6 +50,12 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         });
         game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                if(game.getCurrentPlayer().getExtraTime()){
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,false);
+                }
+                if(game.getNextPlayer().getExtraTime()){
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,true);
+                }
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
