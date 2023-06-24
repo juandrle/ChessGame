@@ -7,6 +7,8 @@ import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
 import Business.Item.StatusChange.Manipulator.RankManipulator;
 import Business.Item.StatusChange.Manipulator.TimeManipulator;
+import Business.Item.Trap.MotionTrap;
+import Business.Item.Trap.TeleportationTrap;
 import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,7 +24,8 @@ public class PlayerImpl implements Player {
     private Gamepiece enemyGamepiece;
     private Field competitionField;
     private boolean extraTime = false;
-
+    private int countTurn;
+    private boolean motionTrapActive;
 
     public PlayerImpl(String name, boolean newGame) {
         this.name = name;
@@ -31,6 +34,9 @@ public class PlayerImpl implements Player {
         currGamepiece = new SimpleObjectProperty<>();
         if(newGame) initGamepieces();
         this.turn = false;
+        this.countTurn = 0;
+        this.motionTrapActive = false;
+
     }
 
     public boolean getExtraTime(){
@@ -84,11 +90,48 @@ public class PlayerImpl implements Player {
         if(gamepiece.getInventory() instanceof RankManipulator){
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
         }
-        else if( gamepiece.getInventory() instanceof TimeManipulator){
-           // gamepiece.getInventory();
+        else if( gamepiece.getInventory() instanceof TimeManipulator) {
+            // gamepiece.getInventory();
+
+        }else if (gamepiece.getInventory() instanceof Trap) {
+
+            // Überprüfen, ob die Falle aktiv ist
+            if (((Trap) gamepiece.getInventory()).isActive()) {
+                if (gamepiece.getInventory() instanceof MotionTrap) {
+                    motionTrapActive = true;
+
+                } else if (gamepiece.getInventory() instanceof TeleportationTrap) {
+
+                    if(gamepiece instanceof Queen){
+                        if (enemyGamepiece instanceof Tower){
+                            enemyGamepiece = (Tower)getEnemyGamepiece();
+                            engaged.set(true);
+                        }else{
+                            enemyGamepiece = (Pawn)getEnemyGamepiece();
+                            engaged.set(true);
+                        }
+                    }
+                    if(gamepiece instanceof Tower){
+                        enemyGamepiece = (Pawn)getEnemyGamepiece();
+                        engaged.set(true);
+                    }
+                    if(gamepiece instanceof Pawn){
+                        enemyGamepiece = (Pawn)getEnemyGamepiece();
+                        engaged.set(true);
+                    }
+                }
+            }
+            //ablegen von Fallen...
+            else {
+                Trap trapItem = (Trap) gamepiece.getInventory();
+                Pawn trapPawn = trapItem.getPawnMovability();
+                trapPawn.setPosition(gamepiece.getPosition());
+            }
         }
+
         System.out.println(chooseGamepiece(gamepiece).getInventory());
-    }
+        }
+
 
     @Override
     public void setName(String name) {
@@ -139,6 +182,12 @@ public class PlayerImpl implements Player {
     }
 
     public void setTurn(boolean turn) {
+        if(turn == true && motionTrapActive == true){
+            countTurn +=1;
+        }else if(countTurn == 3){
+            countTurn = 0;
+            motionTrapActive = false;
+        }
         this.turn = turn;
     }
 
