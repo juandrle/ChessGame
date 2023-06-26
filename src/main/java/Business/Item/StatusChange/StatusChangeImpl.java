@@ -1,5 +1,6 @@
 package Business.Item.StatusChange;
 
+import Business.GameLogic.Field;
 import Business.Gamepiece.Gamepiece;
 import javafx.scene.image.Image;
 
@@ -14,6 +15,16 @@ public class StatusChangeImpl implements StatusChange {
     @Override
     public boolean isDropable() {
         return false;
+    }
+
+    @Override
+    public void setIsDropable(boolean dropable) {
+
+    }
+
+    @Override
+    public void setPosition(Field f) {
+
     }
 
     @Override

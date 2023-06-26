@@ -16,6 +16,4 @@ public interface Trap extends Item {
     public List<Field> possibleMoves(Game game);
 
     public boolean isValidMove(Field newPos, Game game);
-
-    public Pawn getPawnMovability();
 }

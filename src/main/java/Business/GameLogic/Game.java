@@ -1,7 +1,10 @@
 package Business.GameLogic;
 
+import Business.Gamepiece.Gamepiece;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public interface Game {
 
@@ -23,4 +26,6 @@ public interface Game {
     Player getCurrentPlayer();
 
     Player getNextPlayer();
+
+    Map<Gamepiece, Integer> getEffectedGamepieces();
 }

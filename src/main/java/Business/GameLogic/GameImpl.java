@@ -10,6 +10,8 @@ import Business.Item.StatusChange.Shield;
 
 import java.io.*;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 
 public class GameImpl implements Game{
@@ -18,9 +20,12 @@ public class GameImpl implements Game{
     private final Gamefield gamefield;
     private Player currPlayer = null;
     private Player nextPlayer = null;
+
+    private Map<Gamepiece,Integer> effectedGamepieces;
     public GameImpl(){
         this.gamefield = new GamefieldImpl();
         switchPlayersTurn();
+        effectedGamepieces = new HashMap<>();
     }
 
     public void switchPlayersTurn(){
@@ -28,11 +33,29 @@ public class GameImpl implements Game{
             this.currPlayer = this.gamefield.getPlayer1();
             this.nextPlayer = this.gamefield.getPlayer2();
             this.gamefield.getPlayer1().setTurn(true);
+            turnCount +=1;
         }
         else {
             this.currPlayer = this.gamefield.getPlayer2();
             this.nextPlayer = this.gamefield.getPlayer1();
             this.gamefield.getPlayer2().setTurn(true);
+            turnCount +=1;
+        }
+        checkEffectedGamepieces();
+    }
+
+    public Map<Gamepiece, Integer> getEffectedGamepieces() {
+        return effectedGamepieces;
+    }
+
+    public void checkEffectedGamepieces(){
+        if(!effectedGamepieces.isEmpty()){
+            for(Gamepiece key : effectedGamepieces.keySet()){
+               if(effectedGamepieces.get(key) == turnCount){
+                   key.setMoveable(true);
+                    effectedGamepieces.remove(key);
+               }
+            }
         }
     }
 

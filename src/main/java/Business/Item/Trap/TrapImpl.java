@@ -13,13 +13,11 @@ import java.util.List;
 public class TrapImpl implements Trap {
     String description;
     Image image;
-    private boolean isDropable = false;
+    private boolean isDropable = true;
 
-    private Pawn pawnMovability;
 
     public TrapImpl(String description) {
         this.description = description;
-        this.pawnMovability = new Pawn();
     }
 
     @Override
@@ -51,18 +49,35 @@ public class TrapImpl implements Trap {
     }
 
     @Override
-    public Pawn getPawnMovability() {
-        return pawnMovability;
-    }
-
-    @Override
-    public List<Field> possibleMoves(Game game) {
-        return pawnMovability.possibleMoves(game);
+    public List<Field> possibleMoves(Game game){
+        //um die gefundenen möglichen Züge zu speichern
+        List<Field> result = new ArrayList<Field>();
+        //if(!this.isMoveable())return null;
+        //else{
+        //überprüft, ob es ein gültiger Zug für das aktuelle Objekt ist.Wenn ja, wird das Feld der result-Liste hinzugefügt
+            for(Field f: game.getGamefield().getFields()){
+                if(isValidMove(f, game)) result.add(f);
+            }
+       // }
+        return result;
     }
 
     @Override
     public boolean isValidMove(Field newPos, Game game) {
-        return pawnMovability.isValidMove(newPos, game);
+        //Differenz zwischen der Zeile und Spalte der neuen Position
+        int checkRow = newPos.getRow() - game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow();
+        int checkColumn = newPos.getColumn() - game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn();
+
+        //überprüft, ob die Differenzen checkRow und checkColumn im Bereich von -1 bis 1 liegen
+        if(checkRow >= -1 && checkRow <= 1 && checkColumn >= -1 && checkColumn <= 1){
+            // überprüft, ob die neue Position (newPos) bereits von einem andere figur besetzt ist
+            for(Gamepiece g: game.getCurrentPlayer().getOwnGamepieces()) {
+                if (newPos == g.getPosition()) return false;
+            }
+            //um anzuzeigen, dass der Zug gültig ist
+            return true;
+        }
+        return false;
     }
 
     public String getDescription() {
