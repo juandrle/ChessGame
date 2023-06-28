@@ -45,7 +45,7 @@ public class GameImpl implements Game{
             this.nextPlayer = this.gamefield.getPlayer1();
             this.gamefield.getPlayer2().setTurn(true);
         }
-        //checkEffectedGamepieces();
+        checkEffectedGamepieces();
     }
 
     public Map<Gamepiece, Integer> getEffectedGamepieces() {
@@ -61,6 +61,10 @@ public class GameImpl implements Game{
                }
             }
         }
+    }
+
+    public int getTurnCount() {
+        return turnCount;
     }
 
     public Game startGame(){

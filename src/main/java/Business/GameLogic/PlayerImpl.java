@@ -82,7 +82,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(Gamepiece gamepiece) {
+    public void useItem(Gamepiece gamepiece,Game game) {
         if(gamepiece.getInventory() instanceof RankManipulator){
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
         }
@@ -92,18 +92,43 @@ public class PlayerImpl implements Player {
         }else if (gamepiece.getInventory() instanceof Trap) {
 
             // Überprüfen, ob die Falle aktiv ist
-            if (!((Trap) gamepiece.getInventory()).isDropable()) {
+            if (((Trap) gamepiece.getInventory()).isDropable()) {
+
                 if (gamepiece.getInventory() instanceof MotionTrap) {
                     gamepiece.setMoveable(false);
-                    //TODO game.getEffectedGamepieces().add(gamepice,game.getTurncount+6) soll hier sein
+                    game.getEffectedGamepieces().put(gamepiece,game.getTurnCount()+3);
+
+
                 } else if (gamepiece.getInventory() instanceof TeleportationTrap) {
-                    //TODO if frage welcher player und der player der man nicht ist ist der enemy und dann get.owngamepieces danach durch iterieren...
+
+                    Player enemyGamepieces = null;
+                    if(game.getGamefield().getPlayer1() != game.getCurrentPlayer()){
+                        enemyGamepieces = game.getGamefield().getPlayer1();
+                    }else if (game.getGamefield().getPlayer2() != game.getCurrentPlayer()){
+                        enemyGamepieces = game.getGamefield().getPlayer2();
+                    }
+
+                    for(Gamepiece enemygamepiece : enemyGamepieces.getOwnGamepieces()){
+                        if(enemygamepiece instanceof Pawn){
+                            if(gamepiece instanceof Pawn || gamepiece instanceof Tower){
+                                engaged.set(true);
+                                break;
+                            }
+                        }else if(enemygamepiece instanceof Tower){
+                            if(gamepiece instanceof Queen){
+                                engaged.set(true);
+                                break;
+                            }
+                        }else if(enemygamepiece instanceof Queen){
+                            if(gamepiece instanceof  Queen){
+                                engaged.set(true);
+                                break;
+                            }
+                        }
+                    }
                 }
-            }
-
-            else {
+            } else {
                 //TODO ablegen von fallen und setDrople(false)
-
             }
         }
 
