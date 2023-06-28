@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 
 public class PlayerImpl implements Player {
     private String name;
+    private SimpleBooleanProperty itemUsed;
     private ObservableList<Gamepiece> ownGamepieces;
     private SimpleBooleanProperty engaged;
     private SimpleBooleanProperty turn;
@@ -26,6 +27,7 @@ public class PlayerImpl implements Player {
     private boolean extraTime = false;
 
     public PlayerImpl(String name, boolean newGame) {
+        itemUsed = new SimpleBooleanProperty(false);
         this.name = name;
         turn = new SimpleBooleanProperty(false);
         engaged = new SimpleBooleanProperty();
@@ -33,6 +35,10 @@ public class PlayerImpl implements Player {
         currGamepiece = new SimpleObjectProperty<>();
         if(newGame) initGamepieces();
 
+    }
+
+    public SimpleBooleanProperty itemUsedProperty() {
+        return itemUsed;
     }
 
     public boolean getExtraTime(){
@@ -62,7 +68,8 @@ public class PlayerImpl implements Player {
         currGamepiece.get().setPosition(field);
         currGamepiece.get().getPosition().setGamepiece(currGamepiece.get());
         if (field.getItem() != null) {
-            currGamepiece.get().setInventory(field.getItem());
+            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) ((Trap) field.getItem()).applyTrap();
+            else currGamepiece.get().setInventory(field.getItem());
             currGamepiece.set(null);
             chooseGamepiece(gamepiece);
             currGamepiece.get().getPosition().setItem(null);
@@ -81,8 +88,10 @@ public class PlayerImpl implements Player {
         return null;
     }
 
+
     @Override
-    public void useItem(Gamepiece gamepiece,Game game) {
+    public boolean useItem(Gamepiece gamepiece,Game game) {
+        // hier noch true falls gedroppt werden soll und false falls nicht
         if(gamepiece.getInventory() instanceof RankManipulator){
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
         }
@@ -90,9 +99,10 @@ public class PlayerImpl implements Player {
             // gamepiece.getInventory();
 
         }else if (gamepiece.getInventory() instanceof Trap) {
+            itemUsed.set(true);
 
             // Überprüfen, ob die Falle aktiv ist
-            if (((Trap) gamepiece.getInventory()).isDropable()) {
+            if (!((Trap) gamepiece.getInventory()).isDropable()) {
 
                 if (gamepiece.getInventory() instanceof MotionTrap) {
                     gamepiece.setMoveable(false);
@@ -133,6 +143,11 @@ public class PlayerImpl implements Player {
         }
 
         System.out.println(chooseGamepiece(gamepiece).getInventory());
+        return false;
+        }
+
+        public void setPosItemUsed(Field field, Gamepiece gamepiece){
+            // hier wird Trap an neue Position gesetzt
         }
 
 

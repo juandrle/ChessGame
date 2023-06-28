@@ -13,7 +13,7 @@ public interface Trap extends Item {
 
     boolean isActive();
 
-    public List<Field> possibleMoves(Game game);
+    public List<Field> possiblePlacements(Game game);
 
-    public boolean isValidMove(Field newPos, Game game);
+    public boolean isValidPlacement(Field newPos, Game game);
 }

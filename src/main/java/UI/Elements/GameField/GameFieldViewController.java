@@ -3,6 +3,7 @@ package UI.Elements.GameField;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
+import Business.Item.Trap.Trap;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
@@ -47,7 +48,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
             Gamepiece selGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece();
             if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece)) return;
-            showPossibleMoves(imageView);
+            showPossibleMoves(imageView, true);
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putImage(imageView.getImage());
@@ -117,7 +118,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
                 game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow,sourceCol).getGamepiece());
                 System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
-                showPossibleMoves(imageView);
+                showPossibleMoves(imageView, true);
             }
         });
     }
@@ -163,10 +164,17 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 setDragAndDrop((ImageView) currNode);
             }
         }
+        game.getCurrentPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) ->
+        {
+            Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
+                    * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
+            if (newValue)
+                showPossibleMoves((ImageView) currNode, false);
+        });
 
     }
 
-    private void showPossibleMoves(ImageView imageView) {
+    private void showPossibleMoves(ImageView imageView, boolean gamepiece) {
         if (!game.getCurrentPlayer().getTurn()) return;
         int selRow = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutY() / GameFieldView.CELL_SIZE);
         int selCol = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / GameFieldView.CELL_SIZE);
@@ -179,16 +187,27 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     view.getChildren().get(row * view.getRowCount() + col).setOpacity(1.0);
             return;
         }
-
-        for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
-            for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
-                Node currNode = view.getChildren().get(row * view.getRowCount() + col);
-                if (selField.getGamepiece().possibleMoves(game).contains(game.getGamefield().getField(row, col))) {
-                    if (game.getGamefield().getField(row, col).getGamepiece() == null
-                            && game.getGamefield().getField(row, col).getItem() == null)
-                        currNode.setOpacity(0.2);
-                } else currNode.setOpacity(1.0);
-            }
+        if (gamepiece) {
+            for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
+                for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
+                    Node currNode = view.getChildren().get(row * view.getRowCount() + col);
+                    if (selField.getGamepiece().possibleMoves(game).contains(game.getGamefield().getField(row, col))) {
+                        if (game.getGamefield().getField(row, col).getGamepiece() == null
+                                && game.getGamefield().getField(row, col).getItem() == null)
+                            currNode.setOpacity(0.2);
+                    } else currNode.setOpacity(1.0);
+                }
+        } else {
+            for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
+                for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
+                    Node currNode = view.getChildren().get(row * view.getRowCount() + col);
+                    if (((Trap) selField.getGamepiece().getInventory()).possiblePlacements(game).contains(game.getGamefield().getField(row,col))) {
+                        if (game.getGamefield().getField(row, col).getGamepiece() == null
+                                && game.getGamefield().getField(row, col).getItem() == null)
+                            currNode.setOpacity(0.2);
+                    } else currNode.setOpacity(1.0);
+                }
+        }
     }
 
     public void clearMoves() {

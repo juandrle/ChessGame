@@ -48,6 +48,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
                 throw new RuntimeException(ex);
             }
         });
+
         //view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
