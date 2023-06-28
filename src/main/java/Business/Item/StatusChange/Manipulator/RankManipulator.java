@@ -1,5 +1,6 @@
 package Business.Item.StatusChange.Manipulator;
 
+import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
@@ -8,34 +9,33 @@ import javafx.scene.image.Image;
 
 public class RankManipulator extends StatusChangeImpl {
     Image image;
+    Game game;
 
-    public RankManipulator(String description) {
+    public RankManipulator(String description, Game game) {
         super(description);
         image = new Image("files/pictures/Items/Rankmanipulator.png");
+        this.game = game;
     }
     
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-        //TODO delete the old gamepiece everywhere <<<<<<<<<<<<<<<<<<<<<<<<<<
-        
+        Gamepiece newPiece = null;
         if(gamepiece.getRank() == 0){//Bauer nimmt auf
-            Gamepiece pawnToTower = new Tower();
-            pawnToTower.setPosition(gamepiece.getPosition());
-            if(gamepiece.getInventory() != null)
-                pawnToTower.setInventory(gamepiece.getInventory());
+            newPiece = new Tower();
         }
         else if(gamepiece.getRank() == 1){//Tower nimmt auf
-            Gamepiece TowertoQueen = new Queen();
-            TowertoQueen.setPosition(gamepiece.getPosition());
-            if(gamepiece.getInventory() != null)
-                TowertoQueen.setInventory(gamepiece.getInventory());
+            newPiece = new Queen();
         }
-        else if(gamepiece.getRank() == 2){//Queen nimmt auf
-            Gamepiece queenToTower = new Tower();
-            queenToTower.setPosition(gamepiece.getPosition());
-            if(gamepiece.getInventory() != null)
-                queenToTower.setInventory(gamepiece.getInventory());
+        else {//Queen nimmt auf
+            newPiece = new Tower();
         }
+
+        newPiece.setPosition(gamepiece.getPosition());
+        if(gamepiece.getInventory() != null)
+            newPiece.setInventory(gamepiece.getInventory());
+
+        game.getCurrentPlayer().getOwnGamepieces().remove(gamepiece);
+        game.getCurrentPlayer().getOwnGamepieces().add(newPiece);
     }
     @Override
     public Image getImage() {

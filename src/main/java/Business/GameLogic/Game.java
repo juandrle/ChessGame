@@ -13,7 +13,7 @@ public interface Game {
 
     Game startGame();
 
-    Game loadGame(File file) throws IOException;
+    Game loadGame(String filepath) throws IOException;
 
     void saveGame() throws IOException;
 
