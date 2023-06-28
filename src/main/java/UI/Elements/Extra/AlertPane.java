@@ -7,8 +7,8 @@ import javafx.scene.layout.HBox;
 public class AlertPane extends HBox {
     public Label alertLabel;
     public AlertPane() {
-        alertLabel = new Label("Invalid Password");
-        alertLabel.setStyle("-fx-text-fill:rgb(255,255,255);");
+        alertLabel = new Label();
+        alertLabel.setStyle("-fx-text-fill:rgb(0,0,0);");
 
         this.getChildren().addAll(alertLabel);
         this.setStyle("-fx-background-color:rgb(255,0,0, 0.5);");
@@ -17,5 +17,7 @@ public class AlertPane extends HBox {
         this.setAlignment(Pos.CENTER);
     }
 
-
+    public void setAlertLabelText(String text) {
+        this.alertLabel.setText(text);
+    }
 }

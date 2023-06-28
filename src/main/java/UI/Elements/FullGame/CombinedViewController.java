@@ -7,6 +7,10 @@ import UI.Elements.GameField.GameFieldViewController;
 import UI.Presentation.MonsterApplication;
 import UI.Scenes;
 import UI.ViewController;
+import javafx.animation.Interpolator;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -24,7 +28,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view = (CombinedView) rootView;
         gameFieldViewController = new GameFieldViewController(application, game);
         gameViewController = new GameViewController(application, game);
-        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,false);
+        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, false);
         initialize();
     }
 
@@ -34,7 +38,9 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.setBottom(gameViewController.getRootView());
         view.setCenter(gameFieldViewController.getRootView());
         view.getBottom().setStyle("-fx-alignment: center;");
-        view.nextTurn.setOnAction(e -> turnSwitch(true));
+        view.nextTurn.setOnAction(e ->
+                turnSwitch(true)
+        );
         view.saveGame.setOnAction(e -> {
             try {
                 game.saveGame();
@@ -45,9 +51,11 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         //view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
+            view.alertPane.setAlertLabelText("Pieces are engaged!");
+            animation();
             if (newValue) {
-                if(game.getCurrentPlayer().getExtraTime()){
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,true);
+                if (game.getCurrentPlayer().getExtraTime()) {
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, true);
                 }
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
@@ -57,12 +65,14 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             }
         });
         game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
+            view.alertPane.setAlertLabelText("Pieces are engaged!");
+            animation();
             if (newValue) {
-                if(game.getCurrentPlayer().getExtraTime()){
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,false);
+                if (game.getCurrentPlayer().getExtraTime()) {
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, false);
                 }
-                if(game.getNextPlayer().getExtraTime()){
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController,true);
+                if (game.getNextPlayer().getExtraTime()) {
+                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, true);
                 }
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
@@ -71,12 +81,45 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
                 view.nextTurn.setDisable(false);
             }
         });
+        game.getCurrentPlayer().turnProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                view.playerTurn.setText(game.getCurrentPlayer().getName() + " can't move anymore");
+                view.alertPane.setAlertLabelText(game.getCurrentPlayer().getName() + " can't move anymore use item or end turn");
+                animation();
+            }
+        });
+        game.getNextPlayer().turnProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                view.playerTurn.setText(game.getCurrentPlayer().getName() + " can't move anymore");
+                view.alertPane.setAlertLabelText(game.getCurrentPlayer().getName() + " can't move anymore use item or end turn");
+                animation();
+            }
+        });
     }
 
     void turnSwitch(boolean swap) {
         if (swap) game.switchPlayersTurn();
         String color = game.getCurrentPlayer().equals(game.getGamefield().getPlayer1()) ? "(White)" : "(Black)";
         view.playerTurn.setText("Currently it's " + game.getCurrentPlayer().getName() + "'s turn " + color);
+    }
+
+    private void animation() {
+        SequentialTransition anim = new SequentialTransition();
+        TranslateTransition transitionAnim = new TranslateTransition();
+        transitionAnim.setNode(view.topMenu);
+        transitionAnim.setToY(0);
+        transitionAnim.setDuration(Duration.millis(250));
+        transitionAnim.setInterpolator(Interpolator.EASE_OUT);
+
+        TranslateTransition transitionAnimBack = new TranslateTransition();
+        transitionAnimBack.setNode(view.topMenu);
+        transitionAnimBack.setToY(-view.alertPane.getPrefHeight() - 1);
+        transitionAnimBack.setDelay(Duration.seconds(10));
+        transitionAnimBack.setDuration(Duration.millis(200));
+        transitionAnimBack.setInterpolator(Interpolator.EASE_IN);
+        anim.getChildren().addAll(transitionAnim, transitionAnimBack);
+
+        anim.playFromStart();
     }
 
 }

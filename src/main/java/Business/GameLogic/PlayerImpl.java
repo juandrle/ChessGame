@@ -19,7 +19,7 @@ public class PlayerImpl implements Player {
     private String name;
     private ObservableList<Gamepiece> ownGamepieces;
     private SimpleBooleanProperty engaged;
-    private boolean turn;
+    private SimpleBooleanProperty turn;
     private SimpleObjectProperty<Gamepiece> currGamepiece;
     private Gamepiece enemyGamepiece;
     private Field competitionField;
@@ -27,11 +27,11 @@ public class PlayerImpl implements Player {
 
     public PlayerImpl(String name, boolean newGame) {
         this.name = name;
+        turn = new SimpleBooleanProperty(false);
         engaged = new SimpleBooleanProperty();
         this.ownGamepieces = FXCollections.observableArrayList();
         currGamepiece = new SimpleObjectProperty<>();
         if(newGame) initGamepieces();
-        this.turn = false;
 
     }
 
@@ -51,11 +51,11 @@ public class PlayerImpl implements Player {
             engaged.set(true);
             if(gamepiece.getInventory() instanceof TimeManipulator) this.setExtraTime(true);
             currGamepiece.get().getPosition().setGamepiece(null);
-            this.turn = false;
+            this.turn.set(false);
             competitionField = field;
             return true;
         }
-        if (!this.turn) return false;
+        if (!this.turn.get()) return false;
         if (currGamepiece == null) return false;
         if (!currGamepiece.get().isValidMove(field, game)) return false;
         currGamepiece.get().getPosition().setGamepiece(null);
@@ -67,7 +67,7 @@ public class PlayerImpl implements Player {
             chooseGamepiece(gamepiece);
             currGamepiece.get().getPosition().setItem(null);
         }
-        this.turn = false;
+        this.turn.set(false);
         return true;
     }
 
@@ -160,12 +160,16 @@ public class PlayerImpl implements Player {
     }
 
     public void setTurn(boolean turn) {
-        this.turn = turn;
+        this.turn.set(turn);
     }
 
     @Override
     public boolean getTurn() {
-        return this.turn;
+        return this.turn.get();
+    }
+
+    public SimpleBooleanProperty turnProperty() {
+        return turn;
     }
 
     public Gamepiece getCurrGamepiece() {

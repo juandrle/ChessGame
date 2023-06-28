@@ -1,5 +1,7 @@
 package UI.Elements.FullGame;
 
+import UI.Elements.Extra.AlertPane;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -12,10 +14,13 @@ public class CombinedView extends BorderPane {
     public MenuItem saveGame;
     public MenuItem loadGame;
     public MenuItem exitGame;
+    public AlertPane alertPane;
+    VBox topMenu;
 
 
     CombinedView() {
-        VBox topMenu = new VBox();
+        alertPane = new AlertPane();
+        topMenu = new VBox();
         MenuBar options = new MenuBar();
         playerTurn = new Label();
         nextTurn = new Button("End Turn");
@@ -26,11 +31,13 @@ public class CombinedView extends BorderPane {
         gameMenu.getItems().addAll(saveGame, loadGame, exitGame);
         options.getMenus().add(gameMenu);
         HBox turns = new HBox(nextTurn,playerTurn);
-        topMenu.getChildren().addAll(options, turns);
+        topMenu.getChildren().addAll(alertPane, options, turns);
+        turns.setPadding(new Insets(50,0,0,0));
+        nextTurn.setTranslateY(10);
+        playerTurn.setTranslateY(20);
+        topMenu.setTranslateY(-alertPane.getPrefHeight() - 1);
         setTop(topMenu);
         turns.setStyle("-fx-alignment: center");
-        turns.setTranslateY(30);
-        playerTurn.setTranslateY(10);
         playerTurn.setStyle("-fx-font-size: 20px");
         turns.setSpacing(120);
         setStyle("-fx-background-color: #ececec");
