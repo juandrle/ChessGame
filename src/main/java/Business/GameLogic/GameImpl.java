@@ -63,6 +63,10 @@ public class GameImpl implements Game{
         }
     }
 
+    public int getTurnCount() {
+        return turnCount;
+    }
+
     public Game startGame(){
         return new GameImpl();
     }

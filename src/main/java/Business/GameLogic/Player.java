@@ -12,7 +12,7 @@ public interface Player {
 
     Gamepiece chooseGamepiece(Gamepiece gamepiece);
 
-    void useItem(Gamepiece gamepiece);
+    void useItem(Gamepiece gamepiece, Game game);
 
     void setName(String name);
 
