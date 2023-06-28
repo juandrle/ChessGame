@@ -5,6 +5,7 @@ import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Gamepiece.Queen;
 import Business.Gamepiece.Tower;
+import Business.Item.Item;
 import Business.Item.StatusChange.Manipulator.RankManipulator;
 import Business.Item.StatusChange.Manipulator.TimeManipulator;
 import Business.Item.Trap.MotionTrap;
@@ -14,6 +15,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class PlayerImpl implements Player {
     private String name;
@@ -68,7 +71,7 @@ public class PlayerImpl implements Player {
         currGamepiece.get().setPosition(field);
         currGamepiece.get().getPosition().setGamepiece(currGamepiece.get());
         if (field.getItem() != null) {
-            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) ((Trap) field.getItem()).applyTrap();
+            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) ((Trap) field.getItem()).applyTrap(gamepiece,engaged,game);
             else currGamepiece.get().setInventory(field.getItem());
             currGamepiece.set(null);
             chooseGamepiece(gamepiece);
@@ -90,7 +93,7 @@ public class PlayerImpl implements Player {
 
 
     @Override
-    public boolean useItem(Gamepiece gamepiece,Game game) {
+    public boolean useItem(Gamepiece gamepiece) {
         // hier noch true falls gedroppt werden soll und false falls nicht
         if(gamepiece.getInventory() instanceof RankManipulator){
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
@@ -100,55 +103,47 @@ public class PlayerImpl implements Player {
 
         }else if (gamepiece.getInventory() instanceof Trap) {
             itemUsed.set(true);
-
-            // Überprüfen, ob die Falle aktiv ist
-            if (!((Trap) gamepiece.getInventory()).isDropable()) {
-
-                if (gamepiece.getInventory() instanceof MotionTrap) {
-                    gamepiece.setMoveable(false);
-                    game.getEffectedGamepieces().put(gamepiece,game.getTurnCount()+3);
-
-
-                } else if (gamepiece.getInventory() instanceof TeleportationTrap) {
-
-                    Player enemyGamepieces = null;
-                    if(game.getGamefield().getPlayer1() != game.getCurrentPlayer()){
-                        enemyGamepieces = game.getGamefield().getPlayer1();
-                    }else if (game.getGamefield().getPlayer2() != game.getCurrentPlayer()){
-                        enemyGamepieces = game.getGamefield().getPlayer2();
-                    }
-
-                    for(Gamepiece enemygamepiece : enemyGamepieces.getOwnGamepieces()){
-                        if(enemygamepiece instanceof Pawn){
-                            if(gamepiece instanceof Pawn || gamepiece instanceof Tower){
-                                engaged.set(true);
-                                break;
-                            }
-                        }else if(enemygamepiece instanceof Tower){
-                            if(gamepiece instanceof Queen){
-                                engaged.set(true);
-                                break;
-                            }
-                        }else if(enemygamepiece instanceof Queen){
-                            if(gamepiece instanceof  Queen){
-                                engaged.set(true);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                //TODO ablegen von fallen und setDrople(false)
-            }
+            System.out.println(chooseGamepiece(gamepiece).getInventory());
+            return true;
         }
 
-        System.out.println(chooseGamepiece(gamepiece).getInventory());
         return false;
         }
 
-        public void setPosItemUsed(Field field, Gamepiece gamepiece){
-            // hier wird Trap an neue Position gesetzt
+
+    public void setPosItemUsed(Field field, Gamepiece gamepiece,Game game) {
+
+        if (game.getCurrentPlayer().useItem(gamepiece)) {
+            // ob das Item an der neuen Position abgelegt werden kann
+            Field gamepiecePosition = gamepiece.getPosition();
+            List<Gamepiece> ownGamepieces = game.getCurrentPlayer().getOwnGamepieces();
+
+            // bereits von einem Gamepiece besetzt ist?
+            for (Gamepiece g : ownGamepieces) {
+                if (field == g.getPosition()) {
+                    return;
+                }
+            }
+
+            // ob das Item an der neuen Position abgelegt werden kann
+            Item item = gamepiece.getInventory();
+            Item tmpItem = field.getItem();
+            Gamepiece tmpGamepiece = field.getGamepiece();
+
+            if (field == gamepiecePosition || (tmpItem == null && tmpGamepiece == null)) {
+                // kann abgelegt werden
+                if (item instanceof Trap) {
+                    ((Trap) item).setActive(true);
+                    item.setIsDropable(false);
+
+                    // neue Position setzten
+                    field.setItem((Trap) item);
+                    gamepiece.setInventory(null);
+                }
+            }
         }
+    }
+
 
 
     @Override

@@ -12,7 +12,7 @@ public interface Player {
 
     Gamepiece chooseGamepiece(Gamepiece gamepiece);
 
-    boolean useItem(Gamepiece gamepiece, Game game);
+    boolean useItem(Gamepiece gamepiece);
 
     void setName(String name);
 
@@ -47,6 +47,6 @@ public interface Player {
 
     boolean getExtraTime();
     void setExtraTime(boolean extraTime);
-    void setPosItemUsed(Field field, Gamepiece gamepiece);
+    void setPosItemUsed(Field field, Gamepiece gamepiece,Game game);
 
 }

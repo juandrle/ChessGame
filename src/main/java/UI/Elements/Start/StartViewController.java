@@ -32,7 +32,7 @@ public class StartViewController extends ViewController<MonsterApplication> {
         });
         view.loadGame.setOnAction(e -> {
             try {
-                game.loadGame(new File("filename.txt"));
+                game.loadGame(String.valueOf(new File("filename.txt")));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

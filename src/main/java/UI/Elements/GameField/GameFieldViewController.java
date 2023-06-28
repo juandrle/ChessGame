@@ -166,9 +166,11 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         }
         game.getCurrentPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) ->
         {
+            System.out.println("vorher itemUsedProperty: "+newValue);
             Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
                     * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
             if (newValue)
+                System.out.println(" nachher itemUsedProperty: "+newValue);
                 showPossibleMoves((ImageView) currNode, false);
         });
 
@@ -198,15 +200,24 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     } else currNode.setOpacity(1.0);
                 }
         } else {
-            for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
-                for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
-                    Node currNode = view.getChildren().get(row * view.getRowCount() + col);
-                    if (((Trap) selField.getGamepiece().getInventory()).possiblePlacements(game).contains(game.getGamefield().getField(row,col))) {
-                        if (game.getGamefield().getField(row, col).getGamepiece() == null
-                                && game.getGamefield().getField(row, col).getItem() == null)
-                            currNode.setOpacity(0.2);
-                    } else currNode.setOpacity(1.0);
+            // Anzeige der möglichen Platzierungen für eine Falle
+            Field sel2Field = game.getGamefield().getField(selRow, selCol);
+            if (sel2Field.getGamepiece() != null && sel2Field.getGamepiece().getInventory() instanceof Trap) {
+                Trap trap = (Trap) sel2Field.getGamepiece().getInventory();
+                for (int row = 0; row < GameFieldView.BOARD_SIZE; row++) {
+                    for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
+                        Node currNode = view.getChildren().get(row * view.getRowCount() + col);
+                        Field field = game.getGamefield().getField(row, col);
+                        if (trap.possiblePlacements(game).contains(field)) {
+                            if (field.getGamepiece() == null && field.getItem() == null) {
+                                currNode.setOpacity(0.2);
+                            }
+                        } else {
+                            currNode.setOpacity(1.0);
+                        }
+                    }
                 }
+            }
         }
     }
 

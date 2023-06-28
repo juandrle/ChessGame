@@ -5,6 +5,7 @@ import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Item.StatusChange.Manipulator.TimeManipulator;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 import Business.GameLogic.Field;
 
@@ -15,6 +16,7 @@ public class TrapImpl implements Trap {
     String description;
     Image image;
     private boolean isDropable = true;
+    private boolean isActive = false;
 
 
     public TrapImpl(String description) {
@@ -42,11 +44,16 @@ public class TrapImpl implements Trap {
 
     @Override
     public boolean isActive() {
-        return false;
+        return isActive;
     }
 
     @Override
-    public void applyTrap() {
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Override
+    public void applyTrap(Gamepiece gamepiece,SimpleBooleanProperty engaged, Game game) {
     }
 
     @Override
