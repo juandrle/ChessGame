@@ -45,7 +45,7 @@ public class GameImpl implements Game{
             this.nextPlayer = this.gamefield.getPlayer1();
             this.gamefield.getPlayer2().setTurn(true);
         }
-        //checkEffectedGamepieces();
+        if (effectedGamepieces != null)checkEffectedGamepieces();
     }
 
     public Map<Gamepiece, Integer> getEffectedGamepieces() {

@@ -6,6 +6,9 @@ import UI.Presentation.MonsterApplication;
 import UI.Scenes;
 import UI.ViewController;
 
+import java.io.File;
+import java.io.IOException;
+
 public class StartViewController extends ViewController<MonsterApplication> {
     private final Game game;
     private final StartView view;
@@ -27,6 +30,15 @@ public class StartViewController extends ViewController<MonsterApplication> {
             application.getScenes().put(Scenes.COMBINED_VIEW, combinedViewController.getRootView());
             application.switchScene(Scenes.COMBINED_VIEW);
         });
-        //view.loadGame.setOnAction(e -> game.loadGame(""));
+        view.loadGame.setOnAction(e -> {
+            try {
+                game.loadGame(new File("filename.txt"));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            combinedViewController = new CombinedViewController(application, game);
+            application.getScenes().put(Scenes.COMBINED_VIEW, combinedViewController.getRootView());
+            application.switchScene(Scenes.COMBINED_VIEW);
+        });
     }
 }

@@ -1,4 +1,4 @@
-match between:susi:busi:Wed Jun 28 14:03:38 CEST 2023
+match between:susi:busi:Wed Jun 28 14:16:57 CEST 2023
 Player1:susi
 Pawn:
 row:3
@@ -13,8 +13,8 @@ inventory:null
 isMoveable:true
 endGamepiece
 Queen:
-row:0
-column:1
+row:1
+column:0
 inventory:Manipulator
 isMoveable:true
 endGamepiece
@@ -44,15 +44,35 @@ inventory:null
 isMoveable:true
 endGamepiece
 Tower
-row:1
+row:3
 column:7
-inventory:Shield@55841306
+inventory:null
 isMoveable:true
 endGamepiece
 Items
+RankManipulator
+row:2
+column:3
+isDropable:false 
+endItem 
+RankManipulator
+row:5
+column:0
+isDropable:false 
+endItem 
+TeleportationTrap
+row:7
+column:0
+isDropable:true 
+endItem 
 Shield
-row:0
-column:6
+row:7
+column:2
+isDropable:false 
+endItem 
+Shield
+row:7
+column:7
 isDropable:false 
 endItem 
 EverythingOk
