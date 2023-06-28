@@ -30,7 +30,7 @@ public class GameImpl implements Game{
         effectedGamepieces = new HashMap<>();
     }
     public void newGame(){
-        this.gamefield = new GamefieldImpl(true);
+        this.gamefield = new GamefieldImpl(true,this);
         switchPlayersTurn();
     }
     public void switchPlayersTurn(){
@@ -71,7 +71,9 @@ public class GameImpl implements Game{
         return new GameImpl();
     }
     @Override
-    public Game loadGame(File file) throws IOException {
+    public Game loadGame(String filepath) throws IOException {
+        //load a file from path
+        File file = new File(filepath);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
 
@@ -83,7 +85,7 @@ public class GameImpl implements Game{
         boolean pl1 = false;
         boolean pl2 = false;
         boolean itemlist = false;
-        Gamefield loadedGamefield = new GamefieldImpl(false);
+        Gamefield loadedGamefield = new GamefieldImpl(false,this);
 
 
 
@@ -186,13 +188,12 @@ public class GameImpl implements Game{
                     else if(line.split(":")[0].equals("iDropable") && line.split(":")[1].trim().equals("true"))isDropable = true;
                     else if(line.split(":")[0].equals("iDropable") && line.split(":")[1].trim().equals("false")) isDropable = false;
                     else if(line.equals("endItem")){
-                        Item it;
-                        if(typ.equals("TimeManipultor"))it = new TimeManipulator("TimeManipulator");
-                        if(typ.equals("RankManipultor"))it = new TimeManipulator("RankManipultor");
-                        if(typ.equals("Shield"))it = new TimeManipulator("Shield");
-                        if(typ.equals("MotionTrap"))it = new TimeManipulator("MotionTrap");
-                        if(typ.equals("TeleportationTrap"))it = new TimeManipulator("TeleportationTrap");
-                        else it = new TimeManipulator("StatusChange");
+                        Item it = null;
+                        if(typ.equals("TimeManipulator"))it = new TimeManipulator("TimeManipulator");
+                        if(typ.equals("RankManipulator"))it = new RankManipulator("RankManipultor",this);
+                        if(typ.equals("Shield"))it = new Shield("Shield");
+                        if(typ.equals("MotionTrap"))it = new MotionTrap("MotionTrap");
+                        if(typ.equals("TeleportationTrap"))it = new TeleportationTrap("TeleportationTrap");
 
                         it.setIsDropable(isDropable);
                         it.setPosition(loadedGamefield.getField(row,column));
@@ -204,9 +205,7 @@ public class GameImpl implements Game{
                     }
                     if(line.equals("EverythingOk")) return this;
                 }
-
         }
-
         return null;
     }
 
@@ -233,7 +232,14 @@ public class GameImpl implements Game{
                 myWriter.append("row:" + p.getPosition().getRow()+"\n");
                 myWriter.append("column:" + p.getPosition().getColumn()+"\n");
                 // switch case für alle items
-                if (p.getInventory() != null) myWriter.append("inventory:" + p.getInventory().toString().split("\\.")[3] + "\n");
+                if (p.getInventory() != null){
+                    if(p.getInventory() instanceof TimeManipulator) myWriter.append("inventory:TimeManipulator\n");
+                    else if(p.getInventory() instanceof RankManipulator) myWriter.append("inventory:RankManipulator\n");
+                    else if(p.getInventory() instanceof Shield) myWriter.append("inventory:Shield\n");
+                    else if(p.getInventory() instanceof MotionTrap) myWriter.append("inventory:MotionTrap\n");
+                    else if(p.getInventory() instanceof TeleportationTrap) myWriter.append("inventory:TeleportationTrap\n");
+                    else if(p.getInventory() instanceof StatusChangeImpl) myWriter.append("inventory:StatusChangeImpl\n");
+                }
                 else myWriter.append("inventory:null\n");
                 if(p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");

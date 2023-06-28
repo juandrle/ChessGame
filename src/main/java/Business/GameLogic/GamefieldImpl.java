@@ -17,10 +17,12 @@ public class GamefieldImpl implements Gamefield {
     Player player1;
     Player player2;
     boolean newGame = true;
+    Game game;
 
-    public GamefieldImpl(boolean newGame) {
+    public GamefieldImpl(boolean newGame, Game game) {
         this.fields = new ArrayList<>();
         this.newGame = newGame;
+        this.game = game;
         this.player1 = new PlayerImpl("susi",true);
         this.player2 = new PlayerImpl("busi",true);
         if(newGame)createGamefield();
@@ -66,7 +68,7 @@ public class GamefieldImpl implements Gamefield {
                             randNum = (int) (Math.random() * 5);
                             switch (randNum) {
                                 case 0 -> item = new Shield("shield");
-                                case 1 -> item = new RankManipulator("rankmanipulator");
+                                case 1 -> item = new RankManipulator("rankmanipulator",game);
                                 case 2 -> item = new TimeManipulator("timemanipulator");
                                 case 3 -> item = new TeleportationTrap("teleportationtrap");
                                 case 4 -> item = new MotionTrap("motiontrap");
