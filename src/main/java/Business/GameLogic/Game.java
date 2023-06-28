@@ -28,4 +28,6 @@ public interface Game {
     Player getNextPlayer();
     public void newGame();
     Map<Gamepiece, Integer> getEffectedGamepieces();
+
+    int getTurnCount();
 }
