@@ -8,6 +8,8 @@ import UI.Presentation.MonsterApplication;
 import UI.Scenes;
 import UI.ViewController;
 
+import java.io.IOException;
+
 public class CombinedViewController extends ViewController<MonsterApplication> {
     Game game;
     CombinedView view;
@@ -33,7 +35,13 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view.setCenter(gameFieldViewController.getRootView());
         view.getBottom().setStyle("-fx-alignment: center;");
         view.nextTurn.setOnAction(e -> turnSwitch(true));
-        //view.saveGame.setOnAction(e -> game.saveGame());
+        view.saveGame.setOnAction(e -> {
+            try {
+                game.saveGame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         //view.loadGame.setOnAction(e -> game.loadGame());
         view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {

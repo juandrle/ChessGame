@@ -16,12 +16,14 @@ public class GamefieldImpl implements Gamefield {
     List<Field> fields;
     Player player1;
     Player player2;
+    boolean newGame = true;
 
-    public GamefieldImpl() {
+    public GamefieldImpl(boolean newGame) {
         this.fields = new ArrayList<>();
+        this.newGame = newGame;
         this.player1 = new PlayerImpl("susi",true);
         this.player2 = new PlayerImpl("busi",true);
-        createGamefield();
+        if(newGame)createGamefield();
 
     }
 

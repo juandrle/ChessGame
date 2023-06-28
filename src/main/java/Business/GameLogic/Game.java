@@ -26,6 +26,6 @@ public interface Game {
     Player getCurrentPlayer();
 
     Player getNextPlayer();
-
+    public void newGame();
     Map<Gamepiece, Integer> getEffectedGamepieces();
 }

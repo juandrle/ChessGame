@@ -27,6 +27,8 @@ public class StatusChangeImpl implements StatusChange {
 
     }
 
+
+
     @Override
     public Image getImage() {
         return image;

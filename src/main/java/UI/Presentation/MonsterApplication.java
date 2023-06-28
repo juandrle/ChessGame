@@ -41,8 +41,8 @@ public class MonsterApplication extends Application {
 //            controller = new ReactionGameViewController (new ReactionGame(30),this, game);
 //            scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
 
-            controller = new CombinedViewController(this, game);
-            scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
+//            controller = new CombinedViewController(this, game);
+//            scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 640, 800);
@@ -61,6 +61,10 @@ public class MonsterApplication extends Application {
             nextScene = scenes.get(sceneName);
             scene.setRoot(nextScene);
         }
+    }
+
+    public HashMap<Scenes, Pane> getScenes() {
+        return scenes;
     }
 
     public static void main(String[] args) {
