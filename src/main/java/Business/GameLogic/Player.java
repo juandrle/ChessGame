@@ -48,5 +48,6 @@ public interface Player {
     boolean getExtraTime();
     void setExtraTime(boolean extraTime);
     void setPosItemUsed(Field field, Gamepiece gamepiece,Game game);
+    boolean isItemUsed();
 
 }

@@ -18,29 +18,40 @@ public class TeleportationTrap extends TrapImpl {
 
     @Override
     public void applyTrap(Gamepiece gamepiece, SimpleBooleanProperty engaged, Game game) {
-        Player enemyGamepieces = null;
-        if(game.getGamefield().getPlayer1() != game.getCurrentPlayer()){
-            enemyGamepieces = game.getGamefield().getPlayer1();
-        }else if (game.getGamefield().getPlayer2() != game.getCurrentPlayer()){
-            enemyGamepieces = game.getGamefield().getPlayer2();
+
+        Player enemyPlayer = null;
+        if (game.getCurrentPlayer() == game.getGamefield().getPlayer1()) {
+            enemyPlayer = game.getGamefield().getPlayer2();
+        } else if (game.getCurrentPlayer() == game.getGamefield().getPlayer2()) {
+            enemyPlayer =game.getGamefield().getPlayer1();
         }
 
-        for(Gamepiece enemygamepiece : enemyGamepieces.getOwnGamepieces()){
+        for(Gamepiece enemygamepiece :  enemyPlayer.getOwnGamepieces()){
+            System.out.println("enemy: "+enemygamepiece);
+            System.out.println("own: "+gamepiece);
             if(enemygamepiece instanceof Pawn){
-                if(gamepiece instanceof Pawn || gamepiece instanceof Tower){
-                    engaged.set(true);
-                    break;
-                }
+                System.out.println(gamepiece);
+                System.out.println(enemygamepiece);
+                game.getCurrentPlayer().setCurrGamepiece(gamepiece);
+                game.getCurrentPlayer().setEnemyGamepiece(enemygamepiece);
+                engaged.set(true);
+                break;
+
             }else if(enemygamepiece instanceof Tower){
-                if(gamepiece instanceof Queen){
-                    engaged.set(true);
-                    break;
-                }
+                System.out.println(gamepiece);
+                System.out.println(enemygamepiece);
+                game.getCurrentPlayer().setCurrGamepiece(gamepiece);
+                game.getCurrentPlayer().setEnemyGamepiece(enemygamepiece);
+                engaged.set(true);
+                break;
+
             }else if(enemygamepiece instanceof Queen){
-                if(gamepiece instanceof  Queen){
-                    engaged.set(true);
-                    break;
-                }
+                System.out.println(gamepiece);
+                System.out.println(enemygamepiece);
+                game.getCurrentPlayer().setCurrGamepiece(gamepiece);
+                game.getCurrentPlayer().setEnemyGamepiece(enemygamepiece);
+                engaged.set(true);
+                break;
             }
         }
     }

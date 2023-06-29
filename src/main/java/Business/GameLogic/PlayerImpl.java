@@ -8,9 +8,9 @@ import Business.Gamepiece.Tower;
 import Business.Item.Item;
 import Business.Item.StatusChange.Manipulator.RankManipulator;
 import Business.Item.StatusChange.Manipulator.TimeManipulator;
-import Business.Item.Trap.MotionTrap;
 import Business.Item.Trap.TeleportationTrap;
 import Business.Item.Trap.Trap;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -29,6 +29,8 @@ public class PlayerImpl implements Player {
     private Field competitionField;
     private boolean extraTime = false;
 
+    private boolean teleportActive = false;
+
     public PlayerImpl(String name, boolean newGame) {
         itemUsed = new SimpleBooleanProperty(false);
         this.name = name;
@@ -38,10 +40,6 @@ public class PlayerImpl implements Player {
         currGamepiece = new SimpleObjectProperty<>();
         if(newGame) initGamepieces();
 
-    }
-
-    public SimpleBooleanProperty itemUsedProperty() {
-        return itemUsed;
     }
 
     public boolean getExtraTime(){
@@ -71,8 +69,15 @@ public class PlayerImpl implements Player {
         currGamepiece.get().setPosition(field);
         currGamepiece.get().getPosition().setGamepiece(currGamepiece.get());
         if (field.getItem() != null) {
-            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) ((Trap) field.getItem()).applyTrap(gamepiece,engaged,game);
-            else currGamepiece.get().setInventory(field.getItem());
+            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) {
+                if(field.getItem() instanceof TeleportationTrap){
+                    teleportActive = true;
+                }
+                ((Trap) field.getItem()).applyTrap(gamepiece, engaged, game);
+
+            }else{
+                currGamepiece.get().setInventory(field.getItem());
+            }
             currGamepiece.set(null);
             chooseGamepiece(gamepiece);
             currGamepiece.get().getPosition().setItem(null);
@@ -103,10 +108,10 @@ public class PlayerImpl implements Player {
 
         }else if (gamepiece.getInventory() instanceof Trap) {
             itemUsed.set(true);
+            System.out.println(itemUsed);
             System.out.println(chooseGamepiece(gamepiece).getInventory());
             return true;
         }
-
         return false;
         }
 
@@ -135,9 +140,11 @@ public class PlayerImpl implements Player {
                 if (item instanceof Trap) {
                     ((Trap) item).setActive(true);
                     item.setIsDropable(false);
+                    itemUsed.set(false);
 
                     // neue Position setzten
                     field.setItem((Trap) item);
+                    System.out.println("jetzt soll item vom inventar enternt werden");
                     gamepiece.setInventory(null);
                 }
             }
@@ -158,16 +165,28 @@ public class PlayerImpl implements Player {
 
     @Override
     public void removeGamepiece(Player player, Competition competition) {
+        Field winnerField = null;
         if (!currGamepiece.get().equals(competition.whoWin(currGamepiece.get(), enemyGamepiece))) {
+            winnerField = currGamepiece.get().getPosition();
             this.ownGamepieces.remove(currGamepiece.get());
-            enemyGamepiece.setPosition(competitionField);
-            competitionField.setGamepiece(enemyGamepiece);
-            enemyGamepiece.setPoints(-1);
+            if(teleportActive){
+                winnerField.setGamepiece(enemyGamepiece);
+                enemyGamepiece.setPosition(winnerField);
+            }else {
+                enemyGamepiece.setPosition(competitionField);
+                competitionField.setGamepiece(enemyGamepiece);
+            }
+                enemyGamepiece.setPoints(-1);
+
         } else {
+            //TODO feherzustand...
             player.setCurrGamepiece(enemyGamepiece);
             player.setEnemyGamepiece(currGamepiece.get());
             player.setCompetitionField(competitionField);
-            player.removeGamepiece(this, competition);
+            player.removeGamepiece(this, null);
+            Platform.runLater(() -> {
+                player.removeGamepiece(this, competition);
+            });
         }
         engaged.set(false);
     }
@@ -185,6 +204,18 @@ public class PlayerImpl implements Player {
         ownGamepieces.add(new Tower());
     }
 
+    public SimpleBooleanProperty itemUsedProperty() {
+        return itemUsed;
+    }
+
+
+    public boolean isItemUsed() {
+        return itemUsed.get();
+    }
+
+    public void setItemUsed(boolean used) {
+        itemUsed.set(used);
+    }
     @Override
     public ObservableList<Gamepiece> getOwnGamepieces() {
         return ownGamepieces;
