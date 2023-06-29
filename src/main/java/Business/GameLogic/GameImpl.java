@@ -80,131 +80,115 @@ public class GameImpl implements Game{
         String typ = "";
         int row = 0, column = 0;
         Item inventory = null;
-        boolean isMoveable = false;
         boolean isDropable = false;
         boolean pl1 = false;
         boolean pl2 = false;
-        boolean itemlist = false;
         Gamefield loadedGamefield = new GamefieldImpl(false,this);
 
 
 
-        while ((line = br.readLine()) != null) {
-            if(line.split(":")[0].equals("match between")) continue;
-            else if(line.split(":")[0].trim().equals("Player1")){
-                pl1 = true;
-                loadedGamefield.getPlayer1().setName(line.split(":")[1].trim());
-            }
-            else if(pl1) {
-                if (line.split(":")[0].trim().equals("Pawn")) typ = "Pawn";
-                else if (line.split(":")[0].trim().equals("Tower")) typ = "Tower";
-                else if (line.split(":")[0].trim().equals("Queen")) typ = "Queen";
+        while (!(line = br.readLine()).equals("Items")) {
+            String tag = line.split(":")[0];
+            String value = line.split(":")[1].trim();
+            Gamepiece fig = null;
+            inventory = null;
+            row = 0;
+            column = 0;
 
-                else if (line.split(":")[0].trim().equals("row")) row = Integer.parseInt(line.split(":")[1].trim());
-                else if (line.split(":")[0].trim().equals("column"))
-                    column = Integer.parseInt(line.split(":")[1].trim());
-                else if (line.split(":")[0].trim().equals("inventory") && !line.split(":")[1].trim().equals("null")) {
-                    if (line.split(":")[0].trim().equals("Shield")) {
-                        inventory = new Shield("Shield");
-                    } else if (line.split(":")[0].trim().equals("TimeManipulator")) {
-                        inventory = new TimeManipulator("TimeManipulator");
-                    }
-                } else if (line.split(":")[0].equals("isMoveable") && line.split(":")[1].trim().equals("true"))
-                    isMoveable = true;
-                else if (line.split(":")[0].equals("isMoveable") && line.split(":")[1].trim().equals("false"))
-                    isMoveable = false;
-                else if (line.equals("endGamepiece")) {
-                    Gamepiece fig;
-                    if (typ.equals("Pawn")) fig = new Pawn();
-                    if (typ.equals("Tower")) fig = new Tower();
-                    else fig = new Queen();
-
-                    fig.setMoveable(isMoveable);
-                    fig.setPosition(loadedGamefield.getField(row, column));
-                    fig.setInventory(inventory);
-
-                    loadedGamefield.getPlayer1().addNewGamepiece(fig);
-                    typ = "";
-                    isMoveable = false;
-                    inventory = null;
-                    row = 0;
-                    column = 0;
-                }
-            }
-                else if(line.split(":")[0].trim().equals("Player2")){
+            switch(tag){
+                case "match between":
+                    continue;
+                case "Turn":
+                    turnCount = Integer.parseInt(value);
+                    break;
+                case "Player1":
+                    pl1 = true;
+                    loadedGamefield.getPlayer1().setName(value);
+                    break;
+                case "Player2":
                     pl1 = false;
                     pl2 = true;
-                    loadedGamefield.getPlayer2().setName(line.split(":")[1].trim());
-                }
-                else if(pl2){
-                    if(line.split(":")[0].trim().equals("Pawn"))typ = "Pawn";
-                    else if(line.split(":")[0].trim().equals("Tower"))typ = "Tower";
-                    else if(line.split(":")[0].trim().equals("Queen")) typ = "Queen";
-
-                    else if(line.split(":")[0].trim().equals("row"))row = Integer.parseInt(line.split(":")[1].trim());
-                    else if(line.split(":")[0].trim().equals("column"))column = Integer.parseInt(line.split(":")[1].trim());
-                    else if(line.split(":")[0].trim().equals("inventory") && !line.split(":")[1].trim().equals("null") ){
-                        if(line.split(":")[0].trim().equals("Shield")){
-                            inventory = new Shield("Shield");
-                        }
-                        else if(line.split(":")[0].trim().equals("TimeManipulator")){
-                            inventory = new TimeManipulator("TimeManipulator");
-                        }
+                    loadedGamefield.getPlayer2().setName(value);
+                    break;
+                case "Pawn":
+                    fig = new Pawn();
+                    break;
+                case "Tower":
+                    fig = new Tower();
+                    break;
+                case "Queen":
+                    fig = new Queen();
+                    break;
+                case "row":
+                    row = Integer.parseInt(value);
+                    break;
+                case "column":
+                    column = Integer.parseInt(value);
+                    break;
+                case "inventory":
+                    if(!value.equals("null")) {
+                        if (value.equals("Shield")) inventory = new Shield("Shield");
+                        if (value.equals("TimeManipulator")) inventory = new TimeManipulator("TimeManipulator");
                     }
-                    else if(line.split(":")[0].equals("isMoveable") && line.split(":")[1].trim().equals("true"))isMoveable = true;
-                    else if(line.split(":")[0].equals("isMoveable") && line.split(":")[1].trim().equals("false")) isMoveable = false;
-                    else if(line.equals("endGamepiece")){
-                        Gamepiece fig;
-                        if(typ.equals("Pawn"))fig = new Pawn();
-                        if(typ.equals("Tower")) fig = new Tower();
-                        else fig = new Queen();
-
-                        fig.setMoveable(isMoveable);
-                        fig.setPosition(loadedGamefield.getField(row,column));
-                        fig.setInventory(inventory);
-
+                    else inventory = null;
+                    fig.setInventory(inventory);
+                    break;
+                case "isMoveable":
+                    if(value.equals("false")) fig.setMoveable(false);
+                        else fig.setMoveable(true);
+                        break;
+                case "endGamepiece":
+                    if(pl1) {
+                        loadedGamefield.getPlayer1().addNewGamepiece(fig);
+                        fig.setPosition(loadedGamefield.getField(row, column));
+                    }
+                    if(pl2) {
                         loadedGamefield.getPlayer2().addNewGamepiece(fig);
-                        typ = "";
-                        isMoveable = false;
-                        inventory = null;
-                        row = 0;
-                        column = 0;
+                        fig.setPosition(loadedGamefield.getField(row, column));
                     }
-                    else if(line.split(":")[0].trim().equals("Items")){
-                        pl2 = false;
-                        itemlist = true;
-                    }
-                // dann items genau wie bei player erzeugen und plazieren
+                    break;
             }
-                else if(itemlist){
-                    if(line.trim().equals("TimeManipulator"))typ = "TimeManipulator";
-                    else if(line.trim().equals("RankManipulator"))typ = "RankManipulator";
-                    else if(line.trim().equals("Shield"))typ = "Shield";
-                    else if(line.trim().equals("MotionTrap"))typ = "MotionTrap";
-                    else if(line.trim().equals("TeleportationTrap"))typ = "TeleportationTrap";
-                    else if(line.trim().equals("StatusChangeImpl"))typ = "StatusChangeImpl";
-                    else if(line.split(":")[0].trim().equals("row"))row = Integer.parseInt(line.split(":")[1].trim());
-                    else if(line.split(":")[0].trim().equals("column"))column = Integer.parseInt(line.split(":")[1].trim());
-                    else if(line.split(":")[0].equals("iDropable") && line.split(":")[1].trim().equals("true"))isDropable = true;
-                    else if(line.split(":")[0].equals("iDropable") && line.split(":")[1].trim().equals("false")) isDropable = false;
-                    else if(line.equals("endItem")){
-                        Item it = null;
-                        if(typ.equals("TimeManipulator"))it = new TimeManipulator("TimeManipulator");
-                        if(typ.equals("RankManipulator"))it = new RankManipulator("RankManipultor",this);
-                        if(typ.equals("Shield"))it = new Shield("Shield");
-                        if(typ.equals("MotionTrap"))it = new MotionTrap("MotionTrap");
-                        if(typ.equals("TeleportationTrap"))it = new TeleportationTrap("TeleportationTrap");
+        }
+        while(!(line = br.readLine()).equals("EverythingOk")){
 
-                        it.setIsDropable(isDropable);
-                        it.setPosition(loadedGamefield.getField(row,column));
+            String tag = line.split(":")[0];
+            String value = line.split(":")[1].trim();
+            Item it = null;
+            isDropable = false;
 
-                        typ = "";
-                        isDropable = false;
-                        row = 0;
-                        column = 0;
-                    }
-                    if(line.equals("EverythingOk")) return this;
-                }
+            switch(tag){
+                case "TimeManipulator":
+                    it = new TimeManipulator("TimeManipulator");
+                    break;
+                case "RankManipulator":
+                    it = new RankManipulator("RankManipulator",this);
+                    break;
+                case "Shield":
+                    it = new Shield("Shield");
+                    break;
+                case "MotionTrap":
+                    it = new MotionTrap("MotionTrap");
+                    break;
+                case "row":
+                    row = Integer.parseInt(value);
+                    break;
+                case "column":
+                    column = Integer.parseInt(value);
+                    break;
+                case "iDropable":
+                    if(value.equals("true")) it.setIsDropable(true);
+                    else it.setIsDropable(false);
+                    break;
+                case "endItem":
+                    it.setPosition(loadedGamefield.getField(row,column));
+                    row = 0;
+                    column = 0;
+                    break;
+        }
+
+        while(br.readLine() != null)
+            if(line.equals("EverythingOk")) return this;
+
         }
         return null;
     }
@@ -224,6 +208,7 @@ public class GameImpl implements Game{
             FileWriter myWriter = new FileWriter(savedGame);
 
             myWriter.write("match between:" +p1.getName() + ":" + p2.getName() + ":" + date.toString() + "\n");
+            myWriter.write("Turn:" + turnCount);
             myWriter.append("Player1:"+p1.getName() + "\n");
             for(Gamepiece p: p1.getOwnGamepieces()){
                 if(p instanceof Pawn)myWriter.append("Pawn:\n");
