@@ -10,15 +10,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
 public class Queen extends GamepieceImpl {
-
-    private Item inventory;
-    private int rank;
-    private boolean moveable;
-    private Field position;
-    SimpleObjectProperty<Image> image;
-    private int points = -1;
-
-
     public Queen() {
         super();
         this.inventory = null;
