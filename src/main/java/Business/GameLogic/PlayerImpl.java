@@ -174,7 +174,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void addNewGamepiece(Gamepiece g) {
-
+        this.ownGamepieces.add(g);
     }
 
     @Override

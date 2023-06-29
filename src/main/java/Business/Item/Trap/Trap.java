@@ -5,6 +5,7 @@ import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
 import Business.Gamepiece.Pawn;
 import Business.Item.Item;
+import Business.Item.ItemImpl;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.List;

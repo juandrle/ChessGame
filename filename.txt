@@ -1,10 +1,10 @@
-match between:susi:Wolle:Thu Jun 29 19:02:55 CEST 2023
+match between:susi:Wolle:Thu Jun 29 20:00:32 CEST 2023
 Turn:4
 Player1:susi
 Pawn:_
-row:3
+row:2
 column:1
-inventory:null
+inventory:TimeManipulator
 isMoveable:true
 endGamepiece:_
 Pawn:_
@@ -52,14 +52,9 @@ isMoveable:true
 endGamepiece:_
 Items
 TimeManipulator:_
-row:2
-column:1
-isDropable:false 
-endItem:_ 
-TeleportationTrap:_
 row:5
 column:3
-isDropable:true 
+isDropable:false 
 endItem:_ 
 MotionTrap:_
 row:6

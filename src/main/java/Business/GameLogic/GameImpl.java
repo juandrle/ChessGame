@@ -111,15 +111,15 @@ public class GameImpl implements Game{
                     break;
                 case "Pawn":
                     fig = new Pawn();
-                    fig.setRank(1);
+                    fig.setRank(0);
                     break;
                 case "Tower":
                     fig = new Tower();
-                    fig.setRank(2);
+                    fig.setRank(1);
                     break;
                 case "Queen":
                     fig = new Queen();
-                    fig.setRank(3);
+                    fig.setRank(2);
                     break;
                 case "row":
                     row = Integer.parseInt(value);

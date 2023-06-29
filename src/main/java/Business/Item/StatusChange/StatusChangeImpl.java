@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 public class StatusChangeImpl implements StatusChange {
     private String description;
     Image image;
+    Field position;
 
     public StatusChangeImpl(String description) {
         this.description = description;
@@ -24,7 +25,8 @@ public class StatusChangeImpl implements StatusChange {
 
     @Override
     public void setPosition(Field f) {
-
+        this.position = f;
+        f.setItem(this);
     }
 
 

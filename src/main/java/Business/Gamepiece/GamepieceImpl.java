@@ -52,6 +52,7 @@ public abstract class GamepieceImpl implements Gamepiece {
 
     public void setPosition(Field field) {
         this.position = field;
+        field.setGamepiece(this);
     }
 
     public Field getPosition() {

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 public class Shield extends StatusChangeImpl {
     Image image;
 
+
     public Shield(String description) {
         super(description);
         image = new Image("files/pictures/Items/Shield.png");

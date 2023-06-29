@@ -17,6 +17,7 @@ public class TrapImpl implements Trap {
     Image image;
     private boolean isDropable = true;
     private boolean isActive = false;
+    Field position;
 
 
     public TrapImpl(String description) {
@@ -35,6 +36,8 @@ public class TrapImpl implements Trap {
 
     @Override
     public void setPosition(Field f) {
+        this.position = f;
+        f.setItem(this);
     }
 
     @Override
