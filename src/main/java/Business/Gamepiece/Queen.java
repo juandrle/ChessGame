@@ -36,28 +36,28 @@ public class Queen extends GamepieceImpl {
             if (Math.abs(tmpColumn) - Math.abs(tmpRow) == 0) {
                 if (tmpRow > 0 && tmpColumn > 0) {// nach links unten
                     for (int i = 1; i <= Math.abs(tmpRow); i++) {
-                        Item tmpItem = game.getGamefield().getField(curRow - i, curRow -i).getItem();
+                        Item tmpItem = game.getGamefield().getField(curRow - i, curColumn -i).getItem();
                         Field tmpField = game.getGamefield().getField(curRow - i, curColumn - i);
                         if (!checkField(this.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
                     }
                     return true;
                 } else if (tmpRow < 0 && tmpColumn > 0) {// nach links oben <<<<<< Check
                     for (int i = 1; i <= Math.abs(tmpRow); i++) {
-                        Item tmpItem = game.getGamefield().getField(curRow + i, curRow -i).getItem();
+                        Item tmpItem = game.getGamefield().getField(curRow + i, curColumn -i).getItem();
                         Field tmpField = game.getGamefield().getField(curRow + i, curColumn - i);
                         if (!checkField(this.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
                     }
                     return true;
                 } else if (tmpRow > 0 && tmpColumn < 0) {// nach rechts unten <<<<<<<<<<<<<check
                     for (int i = 1; i <= Math.abs(tmpRow); i++) {
-                        Item tmpItem = game.getGamefield().getField(curRow -i, curRow +i).getItem();
+                        Item tmpItem = game.getGamefield().getField(curRow -i, curColumn +i).getItem();
                         Field tmpField = game.getGamefield().getField(curRow - i, curColumn + i);
                         if (!checkField(this.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
                     }
                     return true;
                 } else if (tmpRow < 0 && tmpColumn < 0) {// nach rechts oben
                     for (int i = 1; i <= Math.abs(tmpRow); i++) {
-                        Item tmpItem = game.getGamefield().getField(curRow + i, curRow +i).getItem();
+                        Item tmpItem = game.getGamefield().getField(curRow + i, curColumn +i).getItem();
                         Field tmpField = game.getGamefield().getField(curRow + i, curColumn + i);
                         if (!checkField(this.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
                     }

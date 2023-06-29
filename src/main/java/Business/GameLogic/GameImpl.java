@@ -18,48 +18,50 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 
-public class GameImpl implements Game{
+public class GameImpl implements Game {
 
     private int turnCount = 0;
     private Gamefield gamefield;
     private Player currPlayer = null;
     private Player nextPlayer = null;
 
-    private Map<Gamepiece,Integer> effectedGamepieces;
+    private Map<Gamepiece, Integer> effectedGamepieces;
 
-    public GameImpl(){
+    public GameImpl() {
         effectedGamepieces = new HashMap<>();
     }
-    public void newGame(){
-        this.gamefield = new GamefieldImpl(true,this);
+
+    public void newGame() {
+        this.gamefield = new GamefieldImpl(true, this);
         switchPlayersTurn();
     }
-    public void switchPlayersTurn(){
-        turnCount++;
-        if (this.currPlayer == null || this.currPlayer.equals(this.gamefield.getPlayer2())) {
+
+    public void switchPlayersTurn() {
+        if (turnCount % 2 == 0) {
             this.currPlayer = this.gamefield.getPlayer1();
             this.nextPlayer = this.gamefield.getPlayer2();
             this.gamefield.getPlayer1().setTurn(true);
-        }
-        else {
+
+        } else {
             this.currPlayer = this.gamefield.getPlayer2();
             this.nextPlayer = this.gamefield.getPlayer1();
             this.gamefield.getPlayer2().setTurn(true);
         }
-        if (effectedGamepieces != null)checkEffectedGamepieces();
+        if (effectedGamepieces != null) checkEffectedGamepieces();
+        turnCount++;
     }
 
     public Map<Gamepiece, Integer> getEffectedGamepieces() {
         return effectedGamepieces;
     }
 
-    public void checkEffectedGamepieces(){
-        if(!effectedGamepieces.isEmpty()){
-            for(Gamepiece key : effectedGamepieces.keySet()){
-               if(effectedGamepieces.get(key) == turnCount){
-                   key.setMoveable(true);
+    public void checkEffectedGamepieces() {
+        if (!effectedGamepieces.isEmpty()) {
+            for (Gamepiece key : effectedGamepieces.keySet()) {
+                if (effectedGamepieces.get(key) == turnCount) {
+                    key.setMoveable(true);
                     effectedGamepieces.remove(key);
-               }
+                }
             }
         }
     }
@@ -68,9 +70,10 @@ public class GameImpl implements Game{
         return turnCount;
     }
 
-    public Game startGame(){
+    public Game startGame() {
         return new GameImpl();
     }
+
     @Override
     public Game loadGame(String filepath) throws IOException {
         //load a file from path
@@ -84,7 +87,7 @@ public class GameImpl implements Game{
         boolean pl2 = false;
         Gamepiece fig = null;
         Item it = null;
-        Gamefield loadedGamefield = new GamefieldImpl(false,this);
+        Gamefield loadedGamefield = new GamefieldImpl(false, this);
         this.gamefield = loadedGamefield;
         switchPlayersTurn();
 
@@ -94,7 +97,7 @@ public class GameImpl implements Game{
             String value = line.split(":")[1].trim();
 
 
-            switch(tag){
+            switch (tag) {
                 case "match between":
                     continue;
                 case "Turn":
@@ -128,23 +131,22 @@ public class GameImpl implements Game{
                     column = Integer.parseInt(value);
                     break;
                 case "inventory":
-                    if(!value.equals("null")) {
+                    if (!value.equals("null")) {
                         if (value.equals("Shield")) inventory = new Shield("Shield");
                         if (value.equals("TimeManipulator")) inventory = new TimeManipulator("TimeManipulator");
-                    }
-                    else inventory = null;
+                    } else inventory = null;
                     fig.setInventory(inventory);
                     break;
                 case "isMoveable":
-                    if(value.equals("false")) fig.setMoveable(false);
-                        else fig.setMoveable(true);
-                        break;
+                    if (value.equals("false")) fig.setMoveable(false);
+                    else fig.setMoveable(true);
+                    break;
                 case "endGamepiece":
-                    if(pl1) {
+                    if (pl1) {
                         loadedGamefield.getPlayer1().addNewGamepiece(fig);
                         fig.setPosition(loadedGamefield.getField(row, column));
                     }
-                    if(pl2) {
+                    if (pl2) {
                         loadedGamefield.getPlayer2().addNewGamepiece(fig);
                         fig.setPosition(loadedGamefield.getField(row, column));
                     }
@@ -155,18 +157,18 @@ public class GameImpl implements Game{
                     break;
             }
         }
-        while(!(line = br.readLine()).equals("EverythingOk") && line != null){
+        while (!(line = br.readLine()).equals("EverythingOk") && line != null) {
 
             String tag = line.split(":")[0];
             String value = line.split(":")[1].trim();
 
 
-            switch(tag){
+            switch (tag) {
                 case "TimeManipulator":
                     it = new TimeManipulator("TimeManipulator");
                     break;
                 case "RankManipulator":
-                    it = new RankManipulator("RankManipulator",this);
+                    it = new RankManipulator("RankManipulator", this);
                     break;
                 case "Shield":
                     it = new Shield("Shield");
@@ -181,17 +183,17 @@ public class GameImpl implements Game{
                     column = Integer.parseInt(value);
                     break;
                 case "iDropable":
-                    if(value.equals("true")) it.setIsDropable(true);
+                    if (value.equals("true")) it.setIsDropable(true);
                     else it.setIsDropable(false);
                     break;
                 case "endItem":
-                    it.setPosition(loadedGamefield.getField(row,column));
+                    it.setPosition(loadedGamefield.getField(row, column));
                     row = 0;
                     column = 0;
                     break;
                 case "EverythingOk":
                     return this;
-        }
+            }
         }
         return null;
     }
@@ -210,77 +212,80 @@ public class GameImpl implements Game{
 
             FileWriter myWriter = new FileWriter(savedGame);
 
-            myWriter.write("match between:" +p1.getName() + ":" + p2.getName() + ":" + date.toString() + "\n");
+            myWriter.write("match between:" + p1.getName() + ":" + p2.getName() + ":" + date.toString() + "\n");
             myWriter.write("Turn:" + turnCount + "\n");
-            myWriter.append("Player1:"+p1.getName() + "\n");
-            for(Gamepiece p: p1.getOwnGamepieces()){
-                if(p instanceof Pawn)myWriter.append("Pawn:_\n");
-                else if(p instanceof Tower)myWriter.append("Tower:_\n");
+            myWriter.append("Player1:" + p1.getName() + "\n");
+            for (Gamepiece p : p1.getOwnGamepieces()) {
+                if (p instanceof Pawn) myWriter.append("Pawn:_\n");
+                else if (p instanceof Tower) myWriter.append("Tower:_\n");
                 else myWriter.append("Queen:_\n");
-                myWriter.append("row:" + p.getPosition().getRow()+"\n");
-                myWriter.append("column:" + p.getPosition().getColumn()+"\n");
+                myWriter.append("row:" + p.getPosition().getRow() + "\n");
+                myWriter.append("column:" + p.getPosition().getColumn() + "\n");
                 // switch case für alle items
-                if (p.getInventory() != null){
-                    if(p.getInventory() instanceof TimeManipulator) myWriter.append("inventory:TimeManipulator\n");
-                    else if(p.getInventory() instanceof RankManipulator) myWriter.append("inventory:RankManipulator\n");
-                    else if(p.getInventory() instanceof Shield) myWriter.append("inventory:Shield\n");
-                    else if(p.getInventory() instanceof MotionTrap) myWriter.append("inventory:MotionTrap\n");
-                    else if(p.getInventory() instanceof TeleportationTrap) myWriter.append("inventory:TeleportationTrap\n");
-                    else if(p.getInventory() instanceof StatusChangeImpl) myWriter.append("inventory:StatusChangeImpl\n");
-                }
-                else myWriter.append("inventory:null\n");
-                if(p.isMoveable()) myWriter.append("isMoveable:true\n");
+                if (p.getInventory() != null) {
+                    if (p.getInventory() instanceof TimeManipulator) myWriter.append("inventory:TimeManipulator\n");
+                    else if (p.getInventory() instanceof RankManipulator)
+                        myWriter.append("inventory:RankManipulator\n");
+                    else if (p.getInventory() instanceof Shield) myWriter.append("inventory:Shield\n");
+                    else if (p.getInventory() instanceof MotionTrap) myWriter.append("inventory:MotionTrap\n");
+                    else if (p.getInventory() instanceof TeleportationTrap)
+                        myWriter.append("inventory:TeleportationTrap\n");
+                    else if (p.getInventory() instanceof StatusChangeImpl)
+                        myWriter.append("inventory:StatusChangeImpl\n");
+                } else myWriter.append("inventory:null\n");
+                if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
                 myWriter.append("endGamepiece:_\n");
             }
 
-            myWriter.append("Player2:"+p2.getName() + "\n");
-            for(Gamepiece p: p2.getOwnGamepieces()){
-                if(p instanceof Pawn)myWriter.append("Pawn:_\n");
-                else if(p instanceof Tower)myWriter.append("Tower:_\n");
+            myWriter.append("Player2:" + p2.getName() + "\n");
+            for (Gamepiece p : p2.getOwnGamepieces()) {
+                if (p instanceof Pawn) myWriter.append("Pawn:_\n");
+                else if (p instanceof Tower) myWriter.append("Tower:_\n");
                 else myWriter.append("Queen:_\n");
                 myWriter.append("row:" + p.getPosition().getRow() + "\n");
                 myWriter.append("column:" + p.getPosition().getColumn() + "\n");
-                if (p.getInventory() != null) myWriter.append("inventory:" + p.getInventory().toString().split("\\.")[3] + "\n");
+                if (p.getInventory() != null)
+                    myWriter.append("inventory:" + p.getInventory().toString().split("\\.")[3] + "\n");
                 else myWriter.append("inventory:null\n");
-                if(p.isMoveable()) myWriter.append("isMoveable:true\n");
+                if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
                 myWriter.append("endGamepiece:_\n");
             }
 
             myWriter.append("Items\n");
-            for(Field f: getGamefield().getFields()){
-                if(f.getItem() != null){
-                    if(f.getItem() instanceof TimeManipulator) myWriter.append("TimeManipulator:_\n");
-                    else if(f.getItem() instanceof RankManipulator) myWriter.append("RankManipulator:_\n");
-                    else if(f.getItem() instanceof Shield) myWriter.append("Shield:_\n");
-                    else if(f.getItem() instanceof MotionTrap) myWriter.append("MotionTrap:_\n");
-                    else if(f.getItem() instanceof TeleportationTrap) myWriter.append("TeleportationTrap:_\n");
-                    else if(f.getItem() instanceof StatusChangeImpl) myWriter.append("StatusChangeImpl:_\n");
-                    myWriter.append("row:" + f.getRow()+ "\n");
+            for (Field f : getGamefield().getFields()) {
+                if (f.getItem() != null) {
+                    if (f.getItem() instanceof TimeManipulator) myWriter.append("TimeManipulator:_\n");
+                    else if (f.getItem() instanceof RankManipulator) myWriter.append("RankManipulator:_\n");
+                    else if (f.getItem() instanceof Shield) myWriter.append("Shield:_\n");
+                    else if (f.getItem() instanceof MotionTrap) myWriter.append("MotionTrap:_\n");
+                    else if (f.getItem() instanceof TeleportationTrap) myWriter.append("TeleportationTrap:_\n");
+                    else if (f.getItem() instanceof StatusChangeImpl) myWriter.append("StatusChangeImpl:_\n");
+                    myWriter.append("row:" + f.getRow() + "\n");
                     myWriter.append("column:" + f.getColumn() + "\n");
-                    if(f.getItem().isDropable()) myWriter.append("isDropable:true \n");
+                    if (f.getItem().isDropable()) myWriter.append("isDropable:true \n");
                     else myWriter.append("isDropable:false \n");
                     myWriter.append("endItem:_ \n");
                 }
             }
             myWriter.append("EverythingOk:_");
             myWriter.close();
-        }
-        catch (IOException ioe){
+        } catch (IOException ioe) {
             System.out.println("hey leider ist was schief gelaufen");
         }
 
 
     }
 
-    public void exitGame(){
+    public void exitGame() {
 
     }
 
-    public void runGame(){
+    public void runGame() {
 
     }
+
     public Gamefield getGamefield() {
         return this.gamefield;
     }
