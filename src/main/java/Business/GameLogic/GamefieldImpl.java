@@ -23,10 +23,21 @@ public class GamefieldImpl implements Gamefield {
         this.fields = new ArrayList<>();
         this.newGame = newGame;
         this.game = game;
-        this.player1 = new PlayerImpl("susi",true);
-        this.player2 = new PlayerImpl("busi",true);
+        if (newGame)this.player1 = new PlayerImpl("susi",true);
+        else this.player1 = new PlayerImpl("susi", false);
+        if (newGame)this.player2 = new PlayerImpl("Wolle",true);
+        else this.player2 = new PlayerImpl("busi", false);
         if(newGame)createGamefield();
+        else createDefaultGamefield();
 
+    }
+
+    public void createDefaultGamefield(){
+        for (int row = 0; row < 8; row++) {
+            for (int column = 0; column < 8; column++) {
+                this.fields.add(new FieldImpl(row, column, null, null));
+            }
+        }
     }
 
     public void createGamefield() {

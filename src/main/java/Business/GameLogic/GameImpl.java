@@ -26,6 +26,7 @@ public class GameImpl implements Game{
     private Player nextPlayer = null;
 
     private Map<Gamepiece,Integer> effectedGamepieces;
+
     public GameImpl(){
         effectedGamepieces = new HashMap<>();
     }
@@ -77,23 +78,21 @@ public class GameImpl implements Game{
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
 
-        String typ = "";
         int row = 0, column = 0;
         Item inventory = null;
-        boolean isDropable = false;
         boolean pl1 = false;
         boolean pl2 = false;
+        Gamepiece fig = null;
+        Item it = null;
         Gamefield loadedGamefield = new GamefieldImpl(false,this);
-
+        this.gamefield = loadedGamefield;
+        switchPlayersTurn();
 
 
         while (!(line = br.readLine()).equals("Items")) {
             String tag = line.split(":")[0];
             String value = line.split(":")[1].trim();
-            Gamepiece fig = null;
-            inventory = null;
-            row = 0;
-            column = 0;
+
 
             switch(tag){
                 case "match between":
@@ -112,12 +111,15 @@ public class GameImpl implements Game{
                     break;
                 case "Pawn":
                     fig = new Pawn();
+                    fig.setRank(1);
                     break;
                 case "Tower":
                     fig = new Tower();
+                    fig.setRank(2);
                     break;
                 case "Queen":
                     fig = new Queen();
+                    fig.setRank(3);
                     break;
                 case "row":
                     row = Integer.parseInt(value);
@@ -146,15 +148,18 @@ public class GameImpl implements Game{
                         loadedGamefield.getPlayer2().addNewGamepiece(fig);
                         fig.setPosition(loadedGamefield.getField(row, column));
                     }
+                    fig = null;
+                    inventory = null;
+                    row = 0;
+                    column = 0;
                     break;
             }
         }
-        while(!(line = br.readLine()).equals("EverythingOk")){
+        while(!(line = br.readLine()).equals("EverythingOk") && line != null){
 
             String tag = line.split(":")[0];
             String value = line.split(":")[1].trim();
-            Item it = null;
-            isDropable = false;
+
 
             switch(tag){
                 case "TimeManipulator":
@@ -184,11 +189,9 @@ public class GameImpl implements Game{
                     row = 0;
                     column = 0;
                     break;
+                case "EverythingOk":
+                    return this;
         }
-
-        while(br.readLine() != null)
-            if(line.equals("EverythingOk")) return this;
-
         }
         return null;
     }
@@ -208,12 +211,12 @@ public class GameImpl implements Game{
             FileWriter myWriter = new FileWriter(savedGame);
 
             myWriter.write("match between:" +p1.getName() + ":" + p2.getName() + ":" + date.toString() + "\n");
-            myWriter.write("Turn:" + turnCount);
+            myWriter.write("Turn:" + turnCount + "\n");
             myWriter.append("Player1:"+p1.getName() + "\n");
             for(Gamepiece p: p1.getOwnGamepieces()){
-                if(p instanceof Pawn)myWriter.append("Pawn:\n");
-                else if(p instanceof Tower)myWriter.append("Tower:\n");
-                else myWriter.append("Queen:\n");
+                if(p instanceof Pawn)myWriter.append("Pawn:_\n");
+                else if(p instanceof Tower)myWriter.append("Tower:_\n");
+                else myWriter.append("Queen:_\n");
                 myWriter.append("row:" + p.getPosition().getRow()+"\n");
                 myWriter.append("column:" + p.getPosition().getColumn()+"\n");
                 // switch case für alle items
@@ -228,40 +231,40 @@ public class GameImpl implements Game{
                 else myWriter.append("inventory:null\n");
                 if(p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
-                myWriter.append("endGamepiece\n");
+                myWriter.append("endGamepiece:_\n");
             }
 
             myWriter.append("Player2:"+p2.getName() + "\n");
             for(Gamepiece p: p2.getOwnGamepieces()){
-                if(p instanceof Pawn)myWriter.append("Pawn\n");
-                else if(p instanceof Tower)myWriter.append("Tower\n");
-                else myWriter.append("Queen\n");
+                if(p instanceof Pawn)myWriter.append("Pawn:_\n");
+                else if(p instanceof Tower)myWriter.append("Tower:_\n");
+                else myWriter.append("Queen:_\n");
                 myWriter.append("row:" + p.getPosition().getRow() + "\n");
                 myWriter.append("column:" + p.getPosition().getColumn() + "\n");
                 if (p.getInventory() != null) myWriter.append("inventory:" + p.getInventory().toString().split("\\.")[3] + "\n");
                 else myWriter.append("inventory:null\n");
                 if(p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
-                myWriter.append("endGamepiece\n");
+                myWriter.append("endGamepiece:_\n");
             }
 
             myWriter.append("Items\n");
             for(Field f: getGamefield().getFields()){
                 if(f.getItem() != null){
-                    if(f.getItem() instanceof TimeManipulator) myWriter.append("TimeManipulator\n");
-                    else if(f.getItem() instanceof RankManipulator) myWriter.append("RankManipulator\n");
-                    else if(f.getItem() instanceof Shield) myWriter.append("Shield\n");
-                    else if(f.getItem() instanceof MotionTrap) myWriter.append("MotionTrap\n");
-                    else if(f.getItem() instanceof TeleportationTrap) myWriter.append("TeleportationTrap\n");
-                    else if(f.getItem() instanceof StatusChangeImpl) myWriter.append("StatusChangeImpl\n");
+                    if(f.getItem() instanceof TimeManipulator) myWriter.append("TimeManipulator:_\n");
+                    else if(f.getItem() instanceof RankManipulator) myWriter.append("RankManipulator:_\n");
+                    else if(f.getItem() instanceof Shield) myWriter.append("Shield:_\n");
+                    else if(f.getItem() instanceof MotionTrap) myWriter.append("MotionTrap:_\n");
+                    else if(f.getItem() instanceof TeleportationTrap) myWriter.append("TeleportationTrap:_\n");
+                    else if(f.getItem() instanceof StatusChangeImpl) myWriter.append("StatusChangeImpl:_\n");
                     myWriter.append("row:" + f.getRow()+ "\n");
                     myWriter.append("column:" + f.getColumn() + "\n");
                     if(f.getItem().isDropable()) myWriter.append("isDropable:true \n");
                     else myWriter.append("isDropable:false \n");
-                    myWriter.append("endItem \n");
+                    myWriter.append("endItem:_ \n");
                 }
             }
-            myWriter.append("EverythingOk");
+            myWriter.append("EverythingOk:_");
             myWriter.close();
         }
         catch (IOException ioe){

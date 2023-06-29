@@ -49,8 +49,17 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             }
         });
 
-        //view.loadGame.setOnAction(e -> game.loadGame());
-        view.exitGame.setOnAction(e -> application.switchScene(Scenes.START_VIEW));
+        view.loadGame.setOnAction(e -> {
+            try {
+                game.loadGame("..\\..\\..\\filename.txt");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        view.exitGame.setOnAction(e -> {
+            application.switchScene(Scenes.START_VIEW);
+            application.getScenes().remove(Scenes.COMBINED_VIEW);
+        });
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
             view.alertPane.setAlertLabelText("Pieces are engaged!");
             animation();
