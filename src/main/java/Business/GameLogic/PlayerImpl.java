@@ -29,8 +29,6 @@ public class PlayerImpl implements Player {
     private Field competitionField;
     private boolean extraTime = false;
 
-    private boolean teleportActive = false;
-
     public PlayerImpl(String name, boolean newGame) {
         itemUsed = new SimpleBooleanProperty(false);
         this.name = name;
@@ -70,9 +68,6 @@ public class PlayerImpl implements Player {
         currGamepiece.get().getPosition().setGamepiece(currGamepiece.get());
         if (field.getItem() != null) {
             if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) {
-                if(field.getItem() instanceof TeleportationTrap){
-                    teleportActive = true;
-                }
                 ((Trap) field.getItem()).applyTrap(gamepiece, engaged, game);
 
             }else{
@@ -108,35 +103,36 @@ public class PlayerImpl implements Player {
 
         }else if (gamepiece.getInventory() instanceof Trap) {
             itemUsed.set(true);
-            System.out.println(itemUsed);
-            System.out.println(chooseGamepiece(gamepiece).getInventory());
             return true;
         }
         return false;
         }
 
 
-    public void setPosItemUsed(Field field, Gamepiece gamepiece,Game game) {
+    public boolean setPosItemUsed(Field field, Gamepiece gamepiece,Game game) {
 
         if (game.getCurrentPlayer().useItem(gamepiece)) {
-            // ob das Item an der neuen Position abgelegt werden kann
-            Field gamepiecePosition = gamepiece.getPosition();
-            List<Gamepiece> ownGamepieces = game.getCurrentPlayer().getOwnGamepieces();
 
-            // bereits von einem Gamepiece besetzt ist?
+            List<Gamepiece> ownGamepieces = game.getCurrentPlayer().getOwnGamepieces();
+            List<Gamepiece> enmyGamepieces = game.getNextPlayer().getOwnGamepieces();
+
             for (Gamepiece g : ownGamepieces) {
                 if (field == g.getPosition()) {
-                    return;
+                    return false;
                 }
             }
 
-            // ob das Item an der neuen Position abgelegt werden kann
+            for (Gamepiece g : enmyGamepieces) {
+                if (field == g.getPosition()) {
+                    return false;
+                }
+            }
+
             Item item = gamepiece.getInventory();
             Item tmpItem = field.getItem();
-            Gamepiece tmpGamepiece = field.getGamepiece();
 
-            if (field == gamepiecePosition || (tmpItem == null && tmpGamepiece == null)) {
-                // kann abgelegt werden
+            if (tmpItem == null ) {
+
                 if (item instanceof Trap) {
                     ((Trap) item).setActive(true);
                     item.setIsDropable(false);
@@ -144,11 +140,11 @@ public class PlayerImpl implements Player {
 
                     // neue Position setzten
                     field.setItem((Trap) item);
-                    System.out.println("jetzt soll item vom inventar enternt werden");
                     gamepiece.setInventory(null);
                 }
             }
         }
+        return true;
     }
 
 
@@ -165,28 +161,22 @@ public class PlayerImpl implements Player {
 
     @Override
     public void removeGamepiece(Player player, Competition competition) {
-        Field winnerField = null;
+
         if (!currGamepiece.get().equals(competition.whoWin(currGamepiece.get(), enemyGamepiece))) {
-            winnerField = currGamepiece.get().getPosition();
+            if(competitionField == null){
+                enemyGamepiece.getPosition().setGamepiece(null);
+                competitionField = currGamepiece.get().getPosition();
+            }
             this.ownGamepieces.remove(currGamepiece.get());
-            if(teleportActive){
-                winnerField.setGamepiece(enemyGamepiece);
-                enemyGamepiece.setPosition(winnerField);
-            }else {
                 enemyGamepiece.setPosition(competitionField);
                 competitionField.setGamepiece(enemyGamepiece);
-            }
                 enemyGamepiece.setPoints(-1);
 
         } else {
-            //TODO feherzustand...
             player.setCurrGamepiece(enemyGamepiece);
             player.setEnemyGamepiece(currGamepiece.get());
             player.setCompetitionField(competitionField);
-            player.removeGamepiece(this, null);
-            Platform.runLater(() -> {
-                player.removeGamepiece(this, competition);
-            });
+            player.removeGamepiece(this, competition);
         }
         engaged.set(false);
     }

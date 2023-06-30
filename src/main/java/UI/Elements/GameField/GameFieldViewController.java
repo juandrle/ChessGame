@@ -120,15 +120,14 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     int targetRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
                     int targetCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
                     Field targetField = game.getGamefield().getField(targetRow, targetCol);
-                    game.getCurrentPlayer().setPosItemUsed(targetField, game.getCurrentPlayer().getCurrGamepiece(), game);
-                    imageView.setImage(new Image("files/pictures/Item.png"));
-
+                    if(game.getCurrentPlayer().setPosItemUsed(targetField, game.getCurrentPlayer().getCurrGamepiece(), game)== true) {
+                        imageView.setImage(new Image("files/pictures/Item.png"));
+                    }
 
                 }else {
                     int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
                     int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
                     game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
-                    System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
                     if(!game.getEffectedGamepieces().containsKey(game.getCurrentPlayer().getCurrGamepiece())) {
                         showPossibleMoves(imageView, true);
                     }
@@ -179,40 +178,31 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 setDragAndDrop((ImageView) currNode);
             }
         }
-        System.out.println("currentplayer: "+game.getCurrentPlayer());
         game.getCurrentPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("vorher itemUsedProperty: " + newValue);
             Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
                     * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
             if (newValue) {
-                System.out.println("nachher itemUsedProperty: " + newValue);
                 showPossibleMoves((ImageView) currNode, false);
             }
         });
 
         //zweiter player reagiert nur hier drauf
         game.getNextPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("vorher itemUsedPropertyNext: " + newValue);
             Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
                     * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
             if (newValue) {
-                System.out.println("nachher itemUsedPropertyNext: " + newValue);
                 showPossibleMoves((ImageView) currNode, false);
             }
         });
     }
 
     private void showPossibleMoves(ImageView imageView, boolean gamepiece) {
-        System.out.println("1");
         if (!game.getCurrentPlayer().getTurn() && gamepiece == true) return;
-        System.out.println("1.1");
         int selRow = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutY() / GameFieldView.CELL_SIZE);
         int selCol = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / GameFieldView.CELL_SIZE);
         Field selField = game.getGamefield().getField(selRow, selCol);
         // Perform the logic for handling the selected field here
-        System.out.println("2");
         if (selField.getGamepiece() == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selField.getGamepiece())) {
-            System.out.println("3");
             for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
                 for (int col = 0; col < GameFieldView.BOARD_SIZE; col++)
                     view.getChildren().get(row * view.getRowCount() + col).setOpacity(1.0);
@@ -229,7 +219,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     } else currNode.setOpacity(1.0);
                 }
         } else {
-            System.out.println("bin hier in showPossibleMoves für item trap");
             // Anzeige der möglichen Platzierungen für eine Falle
             Field sel2Field = game.getGamefield().getField(selRow, selCol);
             if (sel2Field.getGamepiece() != null && sel2Field.getGamepiece().getInventory() instanceof Trap) {
