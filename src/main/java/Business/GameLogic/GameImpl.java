@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class GameImpl implements Game {
 
-    private int turnCount = 0;
+    private int turnCount;
     private Gamefield gamefield;
     private Player currPlayer = null;
     private Player nextPlayer = null;
@@ -27,12 +27,18 @@ public class GameImpl implements Game {
     private Map<Gamepiece, Integer> effectedGamepieces;
 
     public GameImpl() {
+        this.turnCount = 0;
         effectedGamepieces = new HashMap<>();
     }
 
     public void newGame() {
         this.gamefield = new GamefieldImpl(true, this);
         switchPlayersTurn();
+    }
+
+    @Override
+    public void setTurnCount(int count) {
+        this.turnCount = count;
     }
 
     public void switchPlayersTurn() {

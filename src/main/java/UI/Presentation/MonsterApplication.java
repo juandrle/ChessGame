@@ -35,15 +35,6 @@ public class MonsterApplication extends Application {
             controller = new StartViewController(this, game);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
-//            controller = new CalculationGameViewController(new CalculatorGame(60), this, game);
-//            scenes.put(Scenes.CALCULATIONGAME_VIEW, controller.getRootView());
-//
-//            controller = new ReactionGameViewController (new ReactionGame(30),this, game);
-//            scenes.put(Scenes.CLICKEVENTGAME_VIEW, controller.getRootView());
-
-//            controller = new CombinedViewController(this, game);
-//            scenes.put(Scenes.COMBINED_VIEW, controller.getRootView());
-
             Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 640, 800);
             scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());

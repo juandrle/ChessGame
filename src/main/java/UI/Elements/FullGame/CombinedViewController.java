@@ -2,6 +2,7 @@ package UI.Elements.FullGame;
 
 import Business.GameLogic.Game;
 import UI.Elements.Competition.chooseCompetition.chooseCompetitionViewController;
+import UI.Elements.Game.GameView;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.Presentation.MonsterApplication;
@@ -34,9 +35,10 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
 
     @Override
     public void initialize() {
-        turnSwitch(false);
         view.setBottom(gameViewController.getRootView());
         view.setCenter(gameFieldViewController.getRootView());
+        turnSwitch(false);
+        view.getCenter().setTranslateX(-65);
         view.getBottom().setStyle("-fx-alignment: center;");
         view.nextTurn.setOnAction(e ->
                 turnSwitch(true)
@@ -49,6 +51,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             }
         });
         view.exitGame.setOnAction(e -> {
+            game.setTurnCount(0);
             application.switchScene(Scenes.START_VIEW);
             application.getScenes().remove(Scenes.COMBINED_VIEW);
         });
@@ -86,14 +89,14 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         });
         game.getCurrentPlayer().turnProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                view.playerTurn.setText(game.getCurrentPlayer().getName() + " can't move anymore");
+                view.playerTurn.setText("Please End Turn");
                 view.alertPane.setAlertLabelText(game.getCurrentPlayer().getName() + " can't move anymore use item or end turn");
                 animation();
             }
         });
         game.getNextPlayer().turnProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                view.playerTurn.setText(game.getCurrentPlayer().getName() + " can't move anymore");
+                view.playerTurn.setText("Please End Turn");
                 view.alertPane.setAlertLabelText(game.getCurrentPlayer().getName() + " can't move anymore use item or end turn");
                 animation();
             }
@@ -102,8 +105,16 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
 
     void turnSwitch(boolean swap) {
         if (swap) game.switchPlayersTurn();
+
         String color = game.getCurrentPlayer().equals(game.getGamefield().getPlayer1()) ? "(White)" : "(Black)";
-        view.playerTurn.setText("Currently it's " + game.getCurrentPlayer().getName() + "'s turn " + color);
+        if (color.equals("(White)")) {
+            ((GameView)view.getBottom()).useItemPlayer1.setDisable(false);
+            ((GameView)view.getBottom()).useItemPlayer2.setDisable(true);
+        } else {
+            ((GameView)view.getBottom()).useItemPlayer1.setDisable(true);
+            ((GameView)view.getBottom()).useItemPlayer2.setDisable(false);
+        }
+        view.playerTurn.setText(game.getCurrentPlayer().getName() + "'s turn " + color);
     }
 
     private void animation() {

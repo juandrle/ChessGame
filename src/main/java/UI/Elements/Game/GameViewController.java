@@ -26,9 +26,17 @@ public class GameViewController extends ViewController<MonsterApplication> {
     @Override
     public void initialize() {
         view.useItemPlayer1.setOnAction(e -> {
-            game.getGamefield().getPlayer1().useItem(game.getGamefield().getPlayer1().getCurrGamepiece());
+            {
+                game.getGamefield().getPlayer1().useItem(game.getGamefield().getPlayer1().getCurrGamepiece());
+                view.player1ItemDesc.clear();
+                view.selPiece1Item.setImage(null);
+            }
         });
-        view.useItemPlayer2.setOnAction(e -> game.getGamefield().getPlayer2().useItem(game.getGamefield().getPlayer2().getCurrGamepiece()));
+        view.useItemPlayer2.setOnAction(e -> {
+            game.getGamefield().getPlayer2().useItem(game.getGamefield().getPlayer2().getCurrGamepiece());
+            view.player2ItemDesc.clear();
+            view.selPiece2Item.setImage(null);
+        });
         view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
         view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());
 

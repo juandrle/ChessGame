@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface Game {
 
-
+    void setTurnCount(int count);
     void switchPlayersTurn();
 
     Game startGame();
