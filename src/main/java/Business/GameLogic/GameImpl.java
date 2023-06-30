@@ -175,6 +175,9 @@ public class GameImpl implements Game {
                 case "MotionTrap":
                     it = new MotionTrap("MotionTrap");
                     break;
+                case "TeleportationTrap":
+                    it = new TeleportationTrap("TeleportationTrap");
+                    break;
                 case "row":
                     row = Integer.parseInt(value);
                     break;
@@ -231,8 +234,6 @@ public class GameImpl implements Game {
                     else if (p.getInventory() instanceof MotionTrap) myWriter.append("inventory:MotionTrap\n");
                     else if (p.getInventory() instanceof TeleportationTrap)
                         myWriter.append("inventory:TeleportationTrap\n");
-                    else if (p.getInventory() instanceof StatusChangeImpl)
-                        myWriter.append("inventory:StatusChangeImpl\n");
                 } else myWriter.append("inventory:null\n");
                 if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
@@ -246,9 +247,13 @@ public class GameImpl implements Game {
                 else myWriter.append("Queen:_\n");
                 myWriter.append("row:" + p.getPosition().getRow() + "\n");
                 myWriter.append("column:" + p.getPosition().getColumn() + "\n");
-                if (p.getInventory() != null)
-                    myWriter.append("inventory:" + p.getInventory().toString().split("\\.")[3] + "\n");
-                else myWriter.append("inventory:null\n");
+                if (p.getInventory() != null){
+                    if (p.getInventory() instanceof TimeManipulator) myWriter.append("inventory:TimeManipulator\n");
+                    else if (p.getInventory() instanceof RankManipulator)myWriter.append("inventory:RankManipulator\n");
+                    else if (p.getInventory() instanceof Shield) myWriter.append("inventory:Shield\n");
+                    else if (p.getInventory() instanceof MotionTrap) myWriter.append("inventory:MotionTrap\n");
+                    else if (p.getInventory() instanceof TeleportationTrap)myWriter.append("inventory:TeleportationTrap\n");
+                } else myWriter.append("inventory:null\n");
                 if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
                 myWriter.append("endGamepiece:_\n");
@@ -262,7 +267,6 @@ public class GameImpl implements Game {
                     else if (f.getItem() instanceof Shield) myWriter.append("Shield:_\n");
                     else if (f.getItem() instanceof MotionTrap) myWriter.append("MotionTrap:_\n");
                     else if (f.getItem() instanceof TeleportationTrap) myWriter.append("TeleportationTrap:_\n");
-                    else if (f.getItem() instanceof StatusChangeImpl) myWriter.append("StatusChangeImpl:_\n");
                     myWriter.append("row:" + f.getRow() + "\n");
                     myWriter.append("column:" + f.getColumn() + "\n");
                     if (f.getItem().isDropable()) myWriter.append("isDropable:true \n");

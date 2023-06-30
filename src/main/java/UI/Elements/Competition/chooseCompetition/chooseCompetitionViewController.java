@@ -22,7 +22,8 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     ReactionGame currReactionGame;
     CalculatorGame currCalculatorGame;
     GameFieldViewController gameFieldViewController;
-    private int time = 30;
+    private int time;
+    private final int defaultTime = 30;
 
     public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController) {
         super(application);
@@ -39,22 +40,19 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     public void initialize() {
         view.clickGame.setOnAction(e -> {
             CombinedView parent = (CombinedView) view.getParent();
+            time = defaultTime;
+            game.getCurrentPlayer().getCurrGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getCurrGamepiece().getTimeMultiplier());
             reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(time), application, game);
             parent.setCenter(reactionGameViewController.getRootView());
-            game.getCurrentPlayer().getCurrGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getCurrGamepiece().getTimeMultiplier());
-            game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getEnemyGamepiece().getTimeMultiplier());
-
             competitionStarter(currReactionGame, parent);
-
 
         });
         view.calcGame.setOnAction(e -> {
+            time = defaultTime;
+            game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getEnemyGamepiece().getTimeMultiplier());
             calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(time), application, game);
             CombinedView parent = (CombinedView) view.getParent();
             parent.setCenter(calculationGameViewController.getRootView());
-            game.getCurrentPlayer().getCurrGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getCurrGamepiece().getTimeMultiplier());
-            game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getEnemyGamepiece().getTimeMultiplier());
-
            competitionStarter(currCalculatorGame, parent);
 
         });
