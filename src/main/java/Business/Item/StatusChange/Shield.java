@@ -14,8 +14,6 @@ public class Shield extends StatusChangeImpl {
 
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-        Shield shield = new Shield("Shield");
-        gamepiece.setInventory(shield);
     }
     @Override
     public Image getImage() {
