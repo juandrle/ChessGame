@@ -102,6 +102,7 @@ public class GameViewController extends ViewController<MonsterApplication> {
 
         view.player1Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue == null) return;
+            view.player1ItemDesc.clear();
             view.selPiece1.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece1Item.setImage(newValue.getInventory().getImage());
@@ -110,6 +111,7 @@ public class GameViewController extends ViewController<MonsterApplication> {
         }));
         view.player2Gamepieces.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue == null) return;
+            view.player2ItemDesc.clear();
             view.selPiece2.setImage(newValue.getImage().get());
             if (newValue.getInventory() != null) {
                 view.selPiece2Item.setImage(newValue.getInventory().getImage());

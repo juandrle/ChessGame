@@ -44,6 +44,7 @@ public interface Player {
     void setCompetitionField(Field field);
     public SimpleObjectProperty<Gamepiece> currGamepieceProperty();
     public SimpleBooleanProperty turnProperty();
-    void setPosItemUsed(Field field, Gamepiece gamepiece,Game game);
+    boolean setPosItemUsed(Field field, Gamepiece gamepiece,Game game);
+    boolean isItemUsed();
 
 }

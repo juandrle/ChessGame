@@ -171,6 +171,8 @@ public class PlayerImpl implements Player {
             player.setCompetitionField(competitionField);
             player.removeGamepiece(this, competition);
         }
+        getCurrGamepiece().setTimeMultiplier(1.0);
+        getEnemyGamepiece().setTimeMultiplier(1.0);
         engaged.set(false);
     }
 

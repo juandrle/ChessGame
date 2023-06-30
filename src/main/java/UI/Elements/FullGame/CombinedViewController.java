@@ -10,6 +10,7 @@ import UI.ViewController;
 import javafx.animation.Interpolator;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -52,8 +53,10 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             application.getScenes().remove(Scenes.COMBINED_VIEW);
         });
         game.getCurrentPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
-            view.alertPane.setAlertLabelText("Pieces are engaged!");
-            animation();
+            Platform.runLater(() -> {
+                view.alertPane.setAlertLabelText("Pieces are engaged!");
+                animation();
+            });
             if (newValue) {
 
                 chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
@@ -66,8 +69,10 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             }
         });
         game.getNextPlayer().isEngaged().addListener((observable, oldValue, newValue) -> {
-            view.alertPane.setAlertLabelText("Pieces are engaged!");
-            animation();
+            Platform.runLater(() -> {
+                view.alertPane.setAlertLabelText("Pieces are engaged!");
+                animation();
+            });
             if (newValue) {
 
                 chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);

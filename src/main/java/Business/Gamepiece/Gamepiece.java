@@ -3,6 +3,7 @@ package Business.Gamepiece;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Item.Item;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -35,5 +36,6 @@ public interface Gamepiece {
     public int getPoints();
     public double getTimeMultiplier();
     public void setTimeMultiplier(double multiplier);
+    public SimpleDoubleProperty propertyTimeMultiplier();
 
 }
