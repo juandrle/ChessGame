@@ -20,14 +20,12 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     ReactionGame currReactionGame;
     CalculatorGame currCalculatorGame;
     GameFieldViewController gameFieldViewController;
-    private boolean extraTime;
     private int time;
 
-    public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController,boolean extraTime) {
+    public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController) {
         super(application);
         this.game = game;
-        this.extraTime = extraTime;
-        this.time = 10;
+
         this.gameFieldViewController = gameFieldViewController;
         rootView = new chooseCompetitionView();
         view = (chooseCompetitionView) rootView;
@@ -37,8 +35,6 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
 
     @Override
     public void initialize() {
-        if(extraTime) time = 15;
-        else time = 10;
         view.clickGame.setOnAction(e -> {
             CombinedView parent = (CombinedView) view.getParent();
             reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(time), application, game);
@@ -60,11 +56,15 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     public void competitionStarter(Competition competition, CombinedView parent) {
         competition.gameEndsProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                time = 30;
                 Platform.runLater(() -> parent.setCenter(this.getRootView()));
-                if (game.getCurrentPlayer().getCurrGamepiece().getPoints() == -1)
+                if (game.getCurrentPlayer().getCurrGamepiece().getPoints() == -1) {
                     competition.setPoints(game.getCurrentPlayer().getCurrGamepiece());
+                    time *= game.getCurrentPlayer().getCurrGamepiece().getTimeMultiplier();
+                }
                 else
                     competition.setPoints(game.getCurrentPlayer().getEnemyGamepiece());
+                    time *= game.getCurrentPlayer().getEnemyGamepiece().getTimeMultiplier();
                 if (game.getCurrentPlayer().getCurrGamepiece().getPoints() != -1
                         && game.getCurrentPlayer().getEnemyGamepiece().getPoints() != -1) {
                     Platform.runLater(() -> parent.setCenter(gameFieldViewController.getRootView()));

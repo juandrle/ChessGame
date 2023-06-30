@@ -121,7 +121,7 @@ public class GameViewController extends ViewController<MonsterApplication> {
                         view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
                 }
         );
-        game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
+        game.getGamefield().getPlayer2().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
                 {
                         view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());
                 }

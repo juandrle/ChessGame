@@ -31,8 +31,7 @@ public class RankManipulator extends StatusChangeImpl {
         }
 
         newPiece.setPosition(gamepiece.getPosition());
-        if(gamepiece.getInventory() != null)
-            newPiece.setInventory(gamepiece.getInventory());
+        gamepiece.getPosition().setGamepiece(newPiece);
 
         game.getCurrentPlayer().getOwnGamepieces().remove(gamepiece);
         game.getCurrentPlayer().getOwnGamepieces().add(newPiece);

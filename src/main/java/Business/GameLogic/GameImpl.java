@@ -16,7 +16,6 @@ import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 public class GameImpl implements Game {
 
@@ -89,7 +88,7 @@ public class GameImpl implements Game {
         Item it = null;
         Gamefield loadedGamefield = new GamefieldImpl(false, this);
         this.gamefield = loadedGamefield;
-        switchPlayersTurn();
+
 
 
         while (!(line = br.readLine()).equals("Items")) {
@@ -192,9 +191,11 @@ public class GameImpl implements Game {
                     column = 0;
                     break;
                 case "EverythingOk":
+                    switchPlayersTurn();
                     return this;
             }
         }
+
         return null;
     }
 

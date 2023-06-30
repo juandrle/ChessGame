@@ -33,5 +33,7 @@ public interface Gamepiece {
     public List<Field> possibleMoves(Game game);
     public void setPoints(int points);
     public int getPoints();
+    public double getTimeMultiplier();
+    public void setTimeMultiplier(double multiplier);
 
 }

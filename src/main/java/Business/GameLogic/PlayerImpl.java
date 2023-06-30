@@ -27,7 +27,6 @@ public class PlayerImpl implements Player {
     private SimpleObjectProperty<Gamepiece> currGamepiece;
     private Gamepiece enemyGamepiece;
     private Field competitionField;
-    private boolean extraTime = false;
 
     public PlayerImpl(String name, boolean newGame) {
         itemUsed = new SimpleBooleanProperty(false);
@@ -44,21 +43,12 @@ public class PlayerImpl implements Player {
         return itemUsed;
     }
 
-    public boolean getExtraTime(){
-        return this.extraTime;
-    }
-
-    public void setExtraTime(boolean extra){
-        this.extraTime = extra;
-    }
-
     @Override
     public boolean moveGamepiece(Gamepiece gamepiece, Field field, Game game) {
         chooseGamepiece(gamepiece);
         if (field.getGamepiece() != null) {
             enemyGamepiece = field.getGamepiece();
             engaged.set(true);
-            if(gamepiece.getInventory() instanceof TimeManipulator) this.setExtraTime(true);
             currGamepiece.get().getPosition().setGamepiece(null);
             this.turn.set(false);
             competitionField = field;
@@ -97,8 +87,11 @@ public class PlayerImpl implements Player {
         // hier noch true falls gedroppt werden soll und false falls nicht
         if(gamepiece.getInventory() instanceof RankManipulator){
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
+            gamepiece.setInventory(null);
         }
         else if( gamepiece.getInventory() instanceof TimeManipulator) {
+            gamepiece.setTimeMultiplier(1.5);
+            gamepiece.setInventory(null);
             // gamepiece.getInventory();
 
         }else if (gamepiece.getInventory() instanceof Trap) {

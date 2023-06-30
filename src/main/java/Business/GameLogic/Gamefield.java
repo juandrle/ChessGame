@@ -1,5 +1,7 @@
 package Business.GameLogic;
 
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public interface Gamefield {

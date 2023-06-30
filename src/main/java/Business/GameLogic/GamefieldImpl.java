@@ -7,6 +7,8 @@ import Business.Item.StatusChange.Manipulator.TimeManipulator;
 import Business.Item.StatusChange.Shield;
 import Business.Item.Trap.MotionTrap;
 import Business.Item.Trap.TeleportationTrap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;

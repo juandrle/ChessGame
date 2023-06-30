@@ -7,6 +7,7 @@ import Business.Item.Trap.Trap;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,7 +40,16 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 gamefieldInitializer();
             }
         });
-
+        game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
+                {
+                    gamefieldInitializer();
+                }
+        );
+        game.getGamefield().getPlayer2().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
+                {
+                    gamefieldInitializer();
+                }
+        );
     }
 
     private void setDragAndDrop(ImageView imageView) {
@@ -228,6 +238,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 currNode.setOpacity(1.0);
             }
     }
+
 
 
 }

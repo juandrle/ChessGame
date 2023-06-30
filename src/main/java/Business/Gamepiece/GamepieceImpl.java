@@ -16,6 +16,7 @@ public abstract class GamepieceImpl implements Gamepiece {
     protected int rank;
     protected boolean moveable;
     protected Field position;
+    double timeMultiplier = 1;
     SimpleObjectProperty<Image> image;
     protected int points = -1;
 
@@ -158,5 +159,13 @@ public abstract class GamepieceImpl implements Gamepiece {
         }
         if (tmpField.getGamepiece() != null) return false;
         return true;
+    }
+
+    public void setTimeMultiplier(double timeMultiplier) {
+        this.timeMultiplier = timeMultiplier;
+    }
+
+    public double getTimeMultiplier() {
+        return timeMultiplier;
     }
 }

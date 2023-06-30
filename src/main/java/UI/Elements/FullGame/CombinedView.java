@@ -12,7 +12,6 @@ public class CombinedView extends BorderPane {
     public Button nextTurn;
     public Label playerTurn;
     public MenuItem saveGame;
-    public MenuItem loadGame;
     public MenuItem exitGame;
     public AlertPane alertPane;
     VBox topMenu;
@@ -26,9 +25,8 @@ public class CombinedView extends BorderPane {
         nextTurn = new Button("End Turn");
         Menu gameMenu = new Menu("Game");
         saveGame = new MenuItem("Save Game");
-        loadGame = new MenuItem("Load Game");
         exitGame = new MenuItem("Main Menu");
-        gameMenu.getItems().addAll(saveGame, loadGame, exitGame);
+        gameMenu.getItems().addAll(saveGame, exitGame);
         options.getMenus().add(gameMenu);
         HBox turns = new HBox(nextTurn,playerTurn);
         topMenu.getChildren().addAll(alertPane, options, turns);

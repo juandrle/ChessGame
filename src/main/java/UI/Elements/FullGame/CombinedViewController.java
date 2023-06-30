@@ -28,7 +28,6 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         view = (CombinedView) rootView;
         gameFieldViewController = new GameFieldViewController(application, game);
         gameViewController = new GameViewController(application, game);
-        chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, false);
         initialize();
     }
 
@@ -48,14 +47,6 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
                 throw new RuntimeException(ex);
             }
         });
-
-        view.loadGame.setOnAction(e -> {
-            try {
-                game.loadGame("..\\..\\..\\filename.txt");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
         view.exitGame.setOnAction(e -> {
             application.switchScene(Scenes.START_VIEW);
             application.getScenes().remove(Scenes.COMBINED_VIEW);
@@ -64,9 +55,9 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             view.alertPane.setAlertLabelText("Pieces are engaged!");
             animation();
             if (newValue) {
-                if (game.getCurrentPlayer().getExtraTime()) {
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, true);
-                }
+
+                chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
+
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
@@ -78,12 +69,9 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             view.alertPane.setAlertLabelText("Pieces are engaged!");
             animation();
             if (newValue) {
-                if (game.getCurrentPlayer().getExtraTime()) {
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, false);
-                }
-                if (game.getNextPlayer().getExtraTime()) {
-                    chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController, true);
-                }
+
+                chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
+
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
             }
