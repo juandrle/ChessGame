@@ -3,6 +3,7 @@ package UI.Elements.GameField;
 import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
+import Business.Item.Item;
 import Business.Item.Trap.Trap;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
@@ -122,13 +123,26 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         });
 
         imageView.setOnDragDone(DragEvent::consume);
+
         imageView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
-                int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
-                game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow,sourceCol).getGamepiece());
-                System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
-                showPossibleMoves(imageView, true);
+                if(game.getCurrentPlayer().isItemUsed()==true){
+                    int targetRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
+                    int targetCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
+                    Field targetField = game.getGamefield().getField(targetRow, targetCol);
+                    if(game.getCurrentPlayer().setPosItemUsed(targetField, game.getCurrentPlayer().getCurrGamepiece(), game)== true) {
+                        imageView.setImage(new Image("files/pictures/Item.png"));
+                    }
+
+                }else {
+                    int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
+                    int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
+                    game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
+                    if(!game.getEffectedGamepieces().containsKey(game.getCurrentPlayer().getCurrGamepiece())) {
+                        showPossibleMoves(imageView, true);
+                    }
+                }
+
             }
         });
     }
@@ -174,25 +188,30 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 setDragAndDrop((ImageView) currNode);
             }
         }
-        game.getCurrentPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) ->
-        {
-            System.out.println("vorher itemUsedProperty: "+newValue);
+        game.getCurrentPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) -> {
             Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
                     * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
-            if (newValue)
-                System.out.println(" nachher itemUsedProperty: "+newValue);
+            if (newValue) {
                 showPossibleMoves((ImageView) currNode, false);
+            }
         });
 
+        //zweiter player reagiert nur hier drauf
+        game.getNextPlayer().itemUsedProperty().addListener((observable, oldValue, newValue) -> {
+            Node currNode = view.getChildren().get(game.getCurrentPlayer().getCurrGamepiece().getPosition().getRow()
+                    * view.getRowCount() + game.getCurrentPlayer().getCurrGamepiece().getPosition().getColumn());
+            if (newValue) {
+                showPossibleMoves((ImageView) currNode, false);
+            }
+        });
     }
 
     private void showPossibleMoves(ImageView imageView, boolean gamepiece) {
-        if (!game.getCurrentPlayer().getTurn()) return;
+        if (!game.getCurrentPlayer().getTurn() && gamepiece == true) return;
         int selRow = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutY() / GameFieldView.CELL_SIZE);
         int selCol = ((int) view.getChildren().get(view.getChildren().indexOf(imageView)).getLayoutX() / GameFieldView.CELL_SIZE);
         Field selField = game.getGamefield().getField(selRow, selCol);
         // Perform the logic for handling the selected field here
-
         if (selField.getGamepiece() == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selField.getGamepiece())) {
             for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
                 for (int col = 0; col < GameFieldView.BOARD_SIZE; col++)

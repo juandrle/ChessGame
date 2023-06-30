@@ -38,11 +38,6 @@ public class PlayerImpl implements Player {
         if(newGame) initGamepieces();
 
     }
-
-    public SimpleBooleanProperty itemUsedProperty() {
-        return itemUsed;
-    }
-
     @Override
     public boolean moveGamepiece(Gamepiece gamepiece, Field field, Game game) {
         chooseGamepiece(gamepiece);
@@ -61,8 +56,12 @@ public class PlayerImpl implements Player {
         currGamepiece.get().setPosition(field);
         currGamepiece.get().getPosition().setGamepiece(currGamepiece.get());
         if (field.getItem() != null) {
-            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) ((Trap) field.getItem()).applyTrap(gamepiece,engaged,game);
-            else currGamepiece.get().setInventory(field.getItem());
+            if (field.getItem() instanceof Trap && (((Trap) field.getItem()).isActive())) {
+                ((Trap) field.getItem()).applyTrap(gamepiece, engaged, game);
+
+            }else{
+                currGamepiece.get().setInventory(field.getItem());
+            }
             currGamepiece.set(null);
             chooseGamepiece(gamepiece);
             currGamepiece.get().getPosition().setItem(null);
@@ -96,38 +95,41 @@ public class PlayerImpl implements Player {
 
         }else if (gamepiece.getInventory() instanceof Trap) {
             itemUsed.set(true);
-            System.out.println(chooseGamepiece(gamepiece).getInventory());
             return true;
         }
-
         return false;
         }
 
 
-    public void setPosItemUsed(Field field, Gamepiece gamepiece,Game game) {
+    public boolean setPosItemUsed(Field field, Gamepiece gamepiece,Game game) {
 
         if (game.getCurrentPlayer().useItem(gamepiece)) {
-            // ob das Item an der neuen Position abgelegt werden kann
-            Field gamepiecePosition = gamepiece.getPosition();
+
             List<Gamepiece> ownGamepieces = game.getCurrentPlayer().getOwnGamepieces();
+            List<Gamepiece> enmyGamepieces = game.getNextPlayer().getOwnGamepieces();
 
             // bereits von einem Gamepiece besetzt ist?
             for (Gamepiece g : ownGamepieces) {
                 if (field == g.getPosition()) {
-                    return;
+                    return false;
                 }
             }
 
-            // ob das Item an der neuen Position abgelegt werden kann
+            for (Gamepiece g : enmyGamepieces) {
+                if (field == g.getPosition()) {
+                    return false;
+                }
+            }
+
             Item item = gamepiece.getInventory();
             Item tmpItem = field.getItem();
-            Gamepiece tmpGamepiece = field.getGamepiece();
 
-            if (field == gamepiecePosition || (tmpItem == null && tmpGamepiece == null)) {
-                // kann abgelegt werden
+            if (tmpItem == null ) {
+
                 if (item instanceof Trap) {
                     ((Trap) item).setActive(true);
                     item.setIsDropable(false);
+                    itemUsed.set(false);
 
                     // neue Position setzten
                     field.setItem((Trap) item);
@@ -135,6 +137,7 @@ public class PlayerImpl implements Player {
                 }
             }
         }
+        return true;
     }
 
 
@@ -151,11 +154,17 @@ public class PlayerImpl implements Player {
 
     @Override
     public void removeGamepiece(Player player, Competition competition) {
+
         if (!currGamepiece.get().equals(competition.whoWin(currGamepiece.get(), enemyGamepiece))) {
+            if(competitionField == null){
+                enemyGamepiece.getPosition().setGamepiece(null);
+                competitionField = currGamepiece.get().getPosition();
+            }
             this.ownGamepieces.remove(currGamepiece.get());
-            enemyGamepiece.setPosition(competitionField);
-            competitionField.setGamepiece(enemyGamepiece);
-            enemyGamepiece.setPoints(-1);
+                enemyGamepiece.setPosition(competitionField);
+                competitionField.setGamepiece(enemyGamepiece);
+                enemyGamepiece.setPoints(-1);
+
         } else {
             player.setCurrGamepiece(enemyGamepiece);
             player.setEnemyGamepiece(currGamepiece.get());
@@ -178,6 +187,18 @@ public class PlayerImpl implements Player {
         ownGamepieces.add(new Tower());
     }
 
+    public SimpleBooleanProperty itemUsedProperty() {
+        return itemUsed;
+    }
+
+
+    public boolean isItemUsed() {
+        return itemUsed.get();
+    }
+
+    public void setItemUsed(boolean used) {
+        itemUsed.set(used);
+    }
     @Override
     public ObservableList<Gamepiece> getOwnGamepieces() {
         return ownGamepieces;
