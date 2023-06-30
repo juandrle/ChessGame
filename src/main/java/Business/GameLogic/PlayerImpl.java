@@ -89,9 +89,8 @@ public class PlayerImpl implements Player {
             gamepiece.setInventory(null);
         }
         else if( gamepiece.getInventory() instanceof TimeManipulator) {
-            gamepiece.setTimeMultiplier(1.5);
+            gamepiece.setTimeMultiplier(15);
             gamepiece.setInventory(null);
-            // gamepiece.getInventory();
 
         }else if (gamepiece.getInventory() instanceof Trap) {
             itemUsed.set(true);
@@ -171,8 +170,8 @@ public class PlayerImpl implements Player {
             player.setCompetitionField(competitionField);
             player.removeGamepiece(this, competition);
         }
-        getCurrGamepiece().setTimeMultiplier(1.0);
-        getEnemyGamepiece().setTimeMultiplier(1.0);
+        getCurrGamepiece().setTimeMultiplier(10);
+        getEnemyGamepiece().setTimeMultiplier(10);
         engaged.set(false);
     }
 

@@ -4,6 +4,7 @@ import Business.GameLogic.Field;
 import Business.GameLogic.Game;
 import Business.Item.Item;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -34,8 +35,8 @@ public interface Gamepiece {
     public List<Field> possibleMoves(Game game);
     public void setPoints(int points);
     public int getPoints();
-    public double getTimeMultiplier();
-    public void setTimeMultiplier(double multiplier);
-    public SimpleDoubleProperty propertyTimeMultiplier();
+    public int getTimeMultiplier();
+    public void setTimeMultiplier(int multiplier);
+    public SimpleIntegerProperty propertyTimeMultiplier();
 
 }

@@ -6,6 +6,7 @@ import Business.Item.Item;
 import Business.Item.Trap.Trap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -18,13 +19,13 @@ public abstract class GamepieceImpl implements Gamepiece {
     protected int rank;
     protected boolean moveable;
     protected Field position;
-    protected SimpleDoubleProperty timeMultiplier;
+    protected SimpleIntegerProperty timeMultiplier;
     SimpleObjectProperty<Image> image;
     protected int points = -1;
 
     protected GamepieceImpl(){
         this.inventory = null;
-        timeMultiplier = new SimpleDoubleProperty(1.0);
+        timeMultiplier = new SimpleIntegerProperty(10);
         this.rank = 0;
         this.moveable = true;
         image = new SimpleObjectProperty<>();
@@ -164,14 +165,14 @@ public abstract class GamepieceImpl implements Gamepiece {
         return true;
     }
 
-    public void setTimeMultiplier(double timeMultiplier) {
+    public void setTimeMultiplier(int timeMultiplier) {
         this.timeMultiplier.set(timeMultiplier);
     }
 
-    public double getTimeMultiplier() {
+    public int getTimeMultiplier() {
         return timeMultiplier.get();
     }
-    public SimpleDoubleProperty propertyTimeMultiplier(){
+    public SimpleIntegerProperty propertyTimeMultiplier(){
         return timeMultiplier;
     }
 }

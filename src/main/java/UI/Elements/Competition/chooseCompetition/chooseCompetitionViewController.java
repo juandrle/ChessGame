@@ -38,9 +38,9 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
 
     @Override
     public void initialize() {
+        time = defaultTime;
         view.clickGame.setOnAction(e -> {
             CombinedView parent = (CombinedView) view.getParent();
-            time = defaultTime;
             parent.playerTurn.setText(game.getCurrentPlayer().getName() + "'s Competition");
             reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(time), application, game);
             parent.setCenter(reactionGameViewController.getRootView());
@@ -48,7 +48,8 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
 
         });
         view.calcGame.setOnAction(e -> {
-            time = defaultTime;
+            game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= game.getCurrentPlayer().getEnemyGamepiece().getTimeMultiplier());
+            calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(time), application, game);
             CombinedView parent = (CombinedView) view.getParent();
             parent.playerTurn.setText(game.getCurrentPlayer().getName() + "'s Competition");
             calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(time), application, game);
@@ -56,8 +57,11 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
            competitionStarter(currCalculatorGame, parent);
 
         });
-        game.getCurrentPlayer().getCurrGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= (int) newValue);
-        game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time*= (int) newValue);
+        game.getCurrentPlayer().getCurrGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> {
+            time= time * newValue.intValue() / 10;
+            System.out.println("die zeit ist" + time );
+        });
+        game.getCurrentPlayer().getEnemyGamepiece().propertyTimeMultiplier().addListener((observable, oldValue, newValue) -> time= time * newValue.intValue() / 10);
 
     }
 
@@ -65,13 +69,16 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
         Gamepiece pl1Gp = game.getCurrentPlayer().getCurrGamepiece();
         Gamepiece pl2Gp = game.getCurrentPlayer().getEnemyGamepiece();
         competition.gameEndsProperty().addListener((observable, oldValue, newValue) -> {
+            time = defaultTime;
             if (newValue) {
                 Platform.runLater(() -> parent.setCenter(this.getRootView()));
                 if (game.getCurrentPlayer().getCurrGamepiece().getPoints() == -1) {
                     competition.setPoints(game.getCurrentPlayer().getCurrGamepiece());
+                    System.out.println(time);
                 }
                 else {
                     competition.setPoints(game.getCurrentPlayer().getEnemyGamepiece());
+                    System.out.println(time);
                 }
                 if(competition.whoWin(pl1Gp,pl2Gp) == pl2Gp//player 2 won and player1 has shield
                  && pl1Gp.getInventory() instanceof Shield){
