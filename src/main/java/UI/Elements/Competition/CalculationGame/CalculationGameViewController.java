@@ -6,6 +6,9 @@ import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javafx.event.ActionEvent;
@@ -122,15 +125,23 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 
 	private String showNextTask() {
 		Map<String, String> task = calculationGame.getTask();
+		List<String> taskKeys = new ArrayList<>(task.keySet());
+		Collections.shuffle(taskKeys);
+
 		String nextTask = null;
-		if (!task.isEmpty()) {
-			nextTask = task.keySet().iterator().next();
+		for (String key : taskKeys) {
+			if (!key.isEmpty()) {
+				nextTask = key;
+				break;
+			}
+		}
+
+		if (nextTask != null) {
 			mathProblems.setText(nextTask);
-			return nextTask;
 		} else {
 			message.setText("Keine Aufgaben mehr!");
-			return null;
 		}
+		return nextTask;
 	}
 
 	private String getResultOfMathProblem(String key) {
