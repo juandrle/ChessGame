@@ -9,6 +9,7 @@ import Business.Item.StatusChange.Shield;
 import UI.Elements.Competition.CalculationGame.CalculationGameViewController;
 import UI.Elements.Competition.ClickEventGame.ReactionGameViewController;
 import UI.Elements.FullGame.CombinedView;
+import UI.Elements.Game.GameView;
 import UI.Elements.GameField.GameFieldViewController;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
@@ -86,6 +87,7 @@ public class ChooseCompetitionViewController extends ViewController<MonsterAppli
                 if(competition.whoWin(pl1Gp,pl2Gp) == pl2Gp//player 2 won and player1 has shield
                  && pl1Gp.getInventory() instanceof Shield){
                     pl1Gp.setInventory(null);
+                    ((GameView) parent.getBottom()).selPiece1Item.setImage(null);
                     pl1Gp.setPoints(-1);
                     pl2Gp.setPoints(-1);
                     initialize();
@@ -93,6 +95,7 @@ public class ChooseCompetitionViewController extends ViewController<MonsterAppli
                 else if(competition.whoWin(pl1Gp,pl2Gp) == pl1Gp//player 1 won and player2 has shield
                         && pl2Gp.getInventory() instanceof Shield){
                     pl2Gp.setInventory(null);
+                    ((GameView) parent.getBottom()).selPiece2Item.setImage(null);
                     pl1Gp.setPoints(-1);
                     pl2Gp.setPoints(-1);
                     initialize();
