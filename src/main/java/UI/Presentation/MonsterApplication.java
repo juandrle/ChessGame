@@ -1,12 +1,7 @@
 package UI.Presentation;
 
-import Business.Competition.CalculatorGame;
-import Business.Competition.ReactionGame;
 import Business.GameLogic.Game;
 import Business.GameLogic.GameImpl;
-import UI.Elements.Competition.CalculationGame.CalculationGameViewController;
-import UI.Elements.Competition.ClickEventGame.ReactionGameViewController;
-import UI.Elements.FullGame.CombinedViewController;
 import UI.Scenes;
 import UI.Elements.Start.StartViewController;
 import UI.ViewController;

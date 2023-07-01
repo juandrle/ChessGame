@@ -88,7 +88,7 @@ public class PlayerImpl implements Player {
             ((RankManipulator) gamepiece.getInventory()).applyStatusChange(gamepiece);
             gamepiece.setInventory(null);
         }
-        else if( gamepiece.getInventory() instanceof TimeManipulator) {
+        else if(gamepiece.getInventory() instanceof TimeManipulator) {
             gamepiece.setTimeMultiplier(15);
             gamepiece.setInventory(null);
 
