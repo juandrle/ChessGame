@@ -1,7 +1,7 @@
 package UI.Elements.FullGame;
 
 import Business.GameLogic.Game;
-import UI.Elements.Competition.chooseCompetition.chooseCompetitionViewController;
+import UI.Elements.Competition.chooseCompetition.ChooseCompetitionViewController;
 import UI.Elements.Game.GameView;
 import UI.Elements.Game.GameViewController;
 import UI.Elements.GameField.GameFieldViewController;
@@ -21,7 +21,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
     CombinedView view;
     private GameFieldViewController gameFieldViewController;
     private GameViewController gameViewController;
-    private chooseCompetitionViewController chooseCompetitionViewController;
+    private ChooseCompetitionViewController chooseCompetitionViewController;
 
     public CombinedViewController(MonsterApplication application, Game game) {
         super(application);
@@ -62,7 +62,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             });
             if (newValue) {
 
-                chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
+                chooseCompetitionViewController = new ChooseCompetitionViewController(application, game, gameFieldViewController);
 
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);
@@ -78,7 +78,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
             });
             if (newValue) {
 
-                chooseCompetitionViewController = new chooseCompetitionViewController(application, game, gameFieldViewController);
+                chooseCompetitionViewController = new ChooseCompetitionViewController(application, game, gameFieldViewController);
 
                 view.setCenter(chooseCompetitionViewController.getRootView());
                 view.nextTurn.setDisable(true);

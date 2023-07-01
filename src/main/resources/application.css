@@ -30,3 +30,6 @@
     -fx-background-color: #ececec;
     -fx-spacing: 20;
 }
+#id {
+    -fx-font-size: 40;
+}

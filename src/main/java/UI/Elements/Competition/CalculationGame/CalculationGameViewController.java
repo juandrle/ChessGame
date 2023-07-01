@@ -91,7 +91,7 @@ public class CalculationGameViewController extends ViewController<MonsterApplica
 		}));
 
 		calculationGame.getCountCorrectAnswer().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
-			score.setText("Punktestand: " + newValue.toString());
+			score.setText("Score: " + newValue.toString());
 		}));
 
 		// Eigenscahften die am Anfang bestimmt werden:

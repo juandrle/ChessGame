@@ -15,7 +15,9 @@ public class ReactionGameView extends BorderPane{
 	public ReactionGameView() {
 		pane = new Pane();
 		time = new Label("Time");
-		score = new Label("Score");
+		time.setStyle("-fx-font-size: 25");
+		score = new Label("Score: ");
+		score.setStyle("-fx-font-size: 25");
 
 		VBox bottomVBox = new VBox();
 		HBox widthFromRightToScore = new HBox();

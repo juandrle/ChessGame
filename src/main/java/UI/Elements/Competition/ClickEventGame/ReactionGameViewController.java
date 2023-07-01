@@ -32,7 +32,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 
         // steht hier weil sich initialize() immer neu aufruft
         reactionGame.startTimer();
-        score.setText("Punktestand: " + reactionGame.getHelpCountCorrectAnswer());
+        score.setText("Score: " + reactionGame.getHelpCountCorrectAnswer());
 
         initialize();
     }
@@ -41,7 +41,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 
         reactionGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
 			time.setText(newValue.toString());
-			if (newValue.intValue() % 1 == 0) {
+			if (newValue.intValue() % 2 == 0) {
 				createCircle();
 				clickCircle();
 			}
@@ -52,7 +52,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 		}));
 
         reactionGame.getCountCorrectAnswer().addListener((observable, oldValue, newValue) ->
-				Platform.runLater(() -> score.setText("Punktestand: " + newValue.toString())
+				Platform.runLater(() -> score.setText("Score: " + newValue.toString())
 		));
 
     }
@@ -73,7 +73,8 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
     }
 	public void createCircle() {
 
-		ShrinkingCircle circle = new ShrinkingCircle(40, Color.RED);
+
+		ShrinkingCircle circle = new ShrinkingCircle(60, Color.color(0.50f,1f,0.16f));
 		circles.add(circle);
 
 		// Zufällige Position für den Kreis innerhalb der Pane

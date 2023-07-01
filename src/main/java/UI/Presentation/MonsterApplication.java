@@ -36,7 +36,7 @@ public class MonsterApplication extends Application {
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.START_VIEW);
-            scene = new Scene(root, 640, 800);
+            scene = new Scene(root, 700, 800);
             scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();

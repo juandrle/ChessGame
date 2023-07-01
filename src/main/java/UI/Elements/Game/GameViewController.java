@@ -2,6 +2,10 @@ package UI.Elements.Game;
 
 import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
+import Business.Item.StatusChange.Manipulator.TimeManipulator;
+import Business.Item.StatusChange.Shield;
+import UI.Elements.Competition.chooseCompetition.ChooseCompetitionView;
+import UI.Elements.FullGame.CombinedView;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 import javafx.application.Platform;
@@ -28,14 +32,26 @@ public class GameViewController extends ViewController<MonsterApplication> {
         view.useItemPlayer1.setOnAction(e -> {
             {
                 game.getGamefield().getPlayer1().useItem(game.getGamefield().getPlayer1().getCurrGamepiece());
-                view.player1ItemDesc.clear();
-                view.selPiece1Item.setImage(null);
+                CombinedView combinedView = (CombinedView) view.getParent();
+                if (!(game.getGamefield().getPlayer1().getCurrGamepiece().getInventory() instanceof Shield)){
+                    return;
+                }
+                if (!game.getGamefield().getPlayer1().isItemUsed()) {
+                    view.player1ItemDesc.clear();
+                    view.selPiece1Item.setImage(null);
+                }
+
             }
         });
         view.useItemPlayer2.setOnAction(e -> {
             game.getGamefield().getPlayer2().useItem(game.getGamefield().getPlayer2().getCurrGamepiece());
-            view.player2ItemDesc.clear();
-            view.selPiece2Item.setImage(null);
+            CombinedView combinedView = (CombinedView) view.getParent();
+            if (!(game.getGamefield().getPlayer2().getCurrGamepiece().getInventory() instanceof Shield))
+                return;
+            if (!game.getGamefield().getPlayer2().isItemUsed()) {
+                view.player2ItemDesc.clear();
+                view.selPiece2Item.setImage(null);
+            }
         });
         view.player1Gamepieces.setItems(game.getGamefield().getPlayer1().getOwnGamepieces());
         view.player2Gamepieces.setItems(game.getGamefield().getPlayer2().getOwnGamepieces());

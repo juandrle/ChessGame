@@ -14,8 +14,8 @@ import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 import javafx.application.Platform;
 
-public class chooseCompetitionViewController extends ViewController<MonsterApplication> {
-    chooseCompetitionView view;
+public class ChooseCompetitionViewController extends ViewController<MonsterApplication> {
+    ChooseCompetitionView view;
     CalculationGameViewController calculationGameViewController;
     ReactionGameViewController reactionGameViewController;
     Game game;
@@ -25,25 +25,27 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
     private int time;
     private final int defaultTime = 30;
 
-    public chooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController) {
+    public ChooseCompetitionViewController(MonsterApplication application, Game game, GameFieldViewController gameFieldViewController) {
         super(application);
         this.game = game;
 
         this.gameFieldViewController = gameFieldViewController;
-        rootView = new chooseCompetitionView();
-        view = (chooseCompetitionView) rootView;
+        rootView = new ChooseCompetitionView();
+        view = (ChooseCompetitionView) rootView;
         initialize();
 
     }
 
     @Override
     public void initialize() {
+        view.getCenter().setTranslateX(-60);
         time = defaultTime;
         view.clickGame.setOnAction(e -> {
             CombinedView parent = (CombinedView) view.getParent();
             parent.playerTurn.setText(game.getCurrentPlayer().getName() + "'s Competition");
             reactionGameViewController = new ReactionGameViewController(currReactionGame = new ReactionGame(time), application, game);
             parent.setCenter(reactionGameViewController.getRootView());
+            view.getCenter().setTranslateX(-60);
             competitionStarter(currReactionGame, parent);
 
         });
@@ -54,6 +56,7 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
             parent.playerTurn.setText(game.getCurrentPlayer().getName() + "'s Competition");
             calculationGameViewController = new CalculationGameViewController(currCalculatorGame = new CalculatorGame(time), application, game);
             parent.setCenter(calculationGameViewController.getRootView());
+            view.getCenter().setTranslateX(-60);
            competitionStarter(currCalculatorGame, parent);
 
         });

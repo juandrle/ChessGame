@@ -7,23 +7,20 @@ import Business.Item.StatusChange.Manipulator.TimeManipulator;
 import Business.Item.StatusChange.Shield;
 import Business.Item.Trap.MotionTrap;
 import Business.Item.Trap.TeleportationTrap;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GamefieldImpl implements Gamefield {
-    int maxItemAmount = 10;
-    List<Field> fields;
-    Player player1;
-    Player player2;
-    boolean newGame = true;
-    Game game;
+    private int maxItemAmount;
+    private List<Field> fields;
+    private Player player1;
+    private Player player2;
+    private Game game;
 
     public GamefieldImpl(boolean newGame, Game game) {
+        this.maxItemAmount = 10;
         this.fields = new ArrayList<>();
-        this.newGame = newGame;
         this.game = game;
         if (newGame)this.player1 = new PlayerImpl("susi",true);
         else this.player1 = new PlayerImpl("susi", false);
@@ -48,6 +45,8 @@ public class GamefieldImpl implements Gamefield {
         Item item = null;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
+                gamepiece = null;
+                item = null;
                 switch (row) {
                     case 3 -> {
                         switch (column) {
@@ -58,8 +57,6 @@ public class GamefieldImpl implements Gamefield {
                             case 6 -> gamepiece = this.player2.getOwnGamepieces().get(0);
 
                             case 7 -> gamepiece = this.player2.getOwnGamepieces().get(3);
-
-                            default -> gamepiece = null;
                         }
                     }
                     case 4 -> {
@@ -71,24 +68,19 @@ public class GamefieldImpl implements Gamefield {
                             case 6 -> gamepiece = this.player2.getOwnGamepieces().get(1);
 
                             case 7 -> gamepiece = this.player2.getOwnGamepieces().get(2);
-
-                            default -> gamepiece = null;
                         }
                     }
-                    default -> {
-                        gamepiece = null;
-                        if ((int) (Math.random() * 6) == 1 && this.maxItemAmount > 0) {
-                            randNum = (int) (Math.random() * 5);
-                            switch (randNum) {
-                                case 0 -> item = new Shield("shield");
-                                case 1 -> item = new RankManipulator("rankmanipulator",game);
-                                case 2 -> item = new TimeManipulator("timemanipulator");
-                                case 3 -> item = new TeleportationTrap("teleportationtrap");
-                                case 4 -> item = new MotionTrap("motiontrap");
-                            }
-                            this.maxItemAmount--;
-                        } else item = null;
+                }
+                if ((int) (Math.random() * 6) == 1 && this.maxItemAmount > 0 && gamepiece == null) {
+                    randNum = (int) (Math.random() * 5);
+                    switch (randNum) {
+                        case 0 -> item = new Shield("shield");
+                        case 1 -> item = new RankManipulator("rankmanipulator",game);
+                        case 2 -> item = new TimeManipulator("timemanipulator");
+                        case 3 -> item = new TeleportationTrap("teleportationtrap");
+                        case 4 -> item = new MotionTrap("motiontrap");
                     }
+                    this.maxItemAmount--;
                 }
                 this.fields.add(new FieldImpl(row, column, gamepiece, item));
 

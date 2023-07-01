@@ -15,6 +15,7 @@ public class CombinedView extends BorderPane {
     public MenuItem exitGame;
     public AlertPane alertPane;
     VBox topMenu;
+    VBox turns;
 
 
     CombinedView() {
@@ -30,7 +31,7 @@ public class CombinedView extends BorderPane {
         exitGame = new MenuItem("Main Menu");
         gameMenu.getItems().addAll(saveGame, exitGame);
         options.getMenus().add(gameMenu);
-        VBox turns = new VBox(nextTurn,playerTurn);
+        turns = new VBox(nextTurn,playerTurn);
         setLeft(turns);
         topMenu.getChildren().addAll(alertPane, options);
         //turns.setPadding(new Insets(50,0,0,0));

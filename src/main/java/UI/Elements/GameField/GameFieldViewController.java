@@ -5,11 +5,15 @@ import Business.GameLogic.Game;
 import Business.Gamepiece.Gamepiece;
 import Business.Item.Item;
 import Business.Item.Trap.Trap;
+import UI.Elements.FullGame.CombinedView;
+import UI.Elements.FullGame.CombinedViewController;
+import UI.Elements.Game.GameView;
 import UI.Presentation.MonsterApplication;
 import UI.ViewController;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -130,6 +134,11 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     int targetCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
                     Field targetField = game.getGamefield().getField(targetRow, targetCol);
                     game.getCurrentPlayer().setPosItemUsed(targetField, game.getCurrentPlayer().getCurrGamepiece(), game);
+                    CombinedView parent = ((CombinedView) view.getParent());
+                    GameView gameView = ((GameView)parent.getBottom());
+                    gameView.selPiece1Item.setImage(null);
+                    gameView.player1ItemDesc.setText("");
+                    clearMoves();
                 }
                 int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
                 int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
@@ -221,6 +230,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             return;
         }
         if (gamepiece) {
+            if (selField.getGamepiece().possibleMoves(game) == null) return;
             for (int row = 0; row < GameFieldView.BOARD_SIZE; row++)
                 for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
                     Node currNode = view.getChildren().get(row * view.getRowCount() + col);

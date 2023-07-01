@@ -7,11 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class chooseCompetitionView extends BorderPane {
+public class ChooseCompetitionView extends BorderPane {
     public Button calcGame;
     public Button clickGame;
 
-    public chooseCompetitionView(){
+    public ChooseCompetitionView(){
         Label header = new Label("Please choose your competition");
         header.setId("header");
         calcGame = new Button("Play the calculation game");
