@@ -22,7 +22,7 @@
                <children>
                   <VBox prefHeight="95.0" prefWidth="149.0">
                      <children>
-                        <Label fx:id="time" prefHeight="30.0" prefWidth="158.0" text="time" style="-fx-font-size: 20; -fx-font-weight: bold"/>
+                        <Label fx:id="time" prefHeight="30.0" prefWidth="158.0" style="-fx-font-size: 20; -fx-font-weight: bold" text="time" />
                      </children>
                   </VBox>
                </children>
@@ -31,16 +31,16 @@
       </VBox>
    </right>
    <center>
-      <VBox prefHeight="750.0" prefWidth="439.0" BorderPane.alignment="CENTER" style="-fx-spacing: 15">
+      <VBox prefHeight="750.0" prefWidth="439.0" style="-fx-spacing: 15" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="359.0" prefWidth="280.0" />
-            <Label fx:id="mathProblems" prefHeight="18.0" prefWidth="99.0" text="matheProblems" textAlignment="CENTER" style="-fx-font-size: 35; -fx-font-weight: bold"/>
-            <TextField fx:id="textField" prefHeight="26.0" prefWidth="346.0" style="-fx-font-size: 25"/>
+            <Label fx:id="mathProblems" prefHeight="51.0" prefWidth="317.0" style="-fx-font-size: 35; -fx-font-weight: bold" text="matheProblems" textAlignment="CENTER" />
+            <TextField fx:id="textField" prefHeight="26.0" prefWidth="346.0" style="-fx-font-size: 25" />
             <Label fx:id="message" prefHeight="11.0" prefWidth="266.0" text="message" />
             <HBox prefHeight="445.0" prefWidth="280.0" />
             <HBox prefHeight="256.0" prefWidth="439.0">
                <children>
-                  <Label fx:id="score" prefHeight="18.0" prefWidth="140.0" text="score" style="-fx-font-size: 25"/>
+                  <Label fx:id="score" prefHeight="18.0" prefWidth="140.0" style="-fx-font-size: 25" text="score" />
                </children>
             </HBox>
          </children>
