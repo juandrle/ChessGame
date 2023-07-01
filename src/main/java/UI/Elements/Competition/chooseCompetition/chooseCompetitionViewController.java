@@ -98,6 +98,7 @@ public class chooseCompetitionViewController extends ViewController<MonsterAppli
                         && game.getCurrentPlayer().getEnemyGamepiece().getPoints() != -1) {
                     Platform.runLater(() -> parent.setCenter(gameFieldViewController.getRootView()));
                     game.getCurrentPlayer().removeGamepiece(game.getNextPlayer(), competition);
+                    gameFieldViewController.clean();
                     parent.nextTurn.setDisable(false);
                 }
             }

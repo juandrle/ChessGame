@@ -41,7 +41,7 @@ public class ReactionGameViewController extends ViewController<MonsterApplicatio
 
         reactionGame.getActTime().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
 			time.setText(newValue.toString());
-			if (newValue.intValue() % 2 == 0) {
+			if (newValue.intValue() % 1 == 0) {
 				createCircle();
 				clickCircle();
 			}

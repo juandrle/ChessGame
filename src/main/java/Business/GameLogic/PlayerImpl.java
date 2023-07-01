@@ -155,14 +155,15 @@ public class PlayerImpl implements Player {
     public void removeGamepiece(Player player, Competition competition) {
 
         if (!currGamepiece.get().equals(competition.whoWin(currGamepiece.get(), enemyGamepiece))) {
+            this.ownGamepieces.remove(currGamepiece.get());
             if(competitionField == null){
                 enemyGamepiece.getPosition().setGamepiece(null);
                 competitionField = currGamepiece.get().getPosition();
             }
-            this.ownGamepieces.remove(currGamepiece.get());
                 enemyGamepiece.setPosition(competitionField);
                 competitionField.setGamepiece(enemyGamepiece);
                 enemyGamepiece.setPoints(-1);
+
 
         } else {
             player.setCurrGamepiece(enemyGamepiece);

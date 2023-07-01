@@ -134,7 +134,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                 int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
                 int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
                 game.getCurrentPlayer().chooseGamepiece(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
-                System.out.println(game.getGamefield().getField(sourceRow, sourceCol).getGamepiece());
                 if (!game.getEffectedGamepieces().containsKey(game.getCurrentPlayer().getCurrGamepiece())) {
                     showPossibleMoves(imageView, true);
 
@@ -261,5 +260,25 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             }
     }
 
+    public void clean() {
+        for (int row = 0; row < GameFieldView.BOARD_SIZE; row++) {
+            for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
+                Node currNode = view.getChildren().get(row * GameFieldView.BOARD_SIZE + col);
+
+                Gamepiece gamepiece = game.getGamefield().getField(row, col).getGamepiece();
+                Item item = game.getGamefield().getField(row, col).getItem();
+                if(gamepiece != null || item != null){
+                    continue;
+                }
+                if (currNode.getId().contains("white")) {
+                    ((ImageView) currNode).setImage(new Image("files/pictures/white_placeholder.png"));
+                    currNode.setId("white");
+                } else {
+                    ((ImageView) currNode).setImage(new Image("files/pictures/black_placeholder.jpg"));
+                    currNode.setId("black");
+                }
+            }
+        }
+    }
 
 }
