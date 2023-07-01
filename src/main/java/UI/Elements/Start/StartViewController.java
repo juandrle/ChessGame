@@ -1,10 +1,14 @@
 package UI.Elements.Start;
 
 import Business.GameLogic.Game;
+import Business.GameLogic.Player;
 import UI.Elements.FullGame.CombinedViewController;
 import UI.Presentation.MonsterApplication;
 import UI.Scenes;
 import UI.ViewController;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,12 +16,17 @@ import java.io.IOException;
 public class StartViewController extends ViewController<MonsterApplication> {
     private final Game game;
     private final StartView view;
+    private final Label header;
+
+    private final Player player;
     CombinedViewController combinedViewController;
-    public StartViewController(MonsterApplication application, Game game) {
+    public StartViewController(MonsterApplication application, Game game, Player player) {
         super(application);
         rootView = new StartView();
         this.game = game;
         view = (StartView) rootView;
+        this.header = view.header;
+        this.player = player;
         initialize();
 
     }
@@ -29,6 +38,7 @@ public class StartViewController extends ViewController<MonsterApplication> {
             combinedViewController = new CombinedViewController(application, game);
             application.getScenes().put(Scenes.COMBINED_VIEW, combinedViewController.getRootView());
             application.switchScene(Scenes.COMBINED_VIEW);
+            header.setText("Welcome to our Monsterappdemo!");
         });
         view.loadGame.setOnAction(e -> {
             try {
@@ -39,6 +49,17 @@ public class StartViewController extends ViewController<MonsterApplication> {
             combinedViewController = new CombinedViewController(application, game);
             application.getScenes().put(Scenes.COMBINED_VIEW, combinedViewController.getRootView());
             application.switchScene(Scenes.COMBINED_VIEW);
+            header.setText("Welcome to our Monsterappdemo!");
         });
+
+        if(player != null) {
+            if (player.getOwnGamepieces().isEmpty()) {
+                header.setText(player.getName() + " Wins!");
+            }
+        }
+    }
+
+    public Pane getRootView() {
+        return rootView;
     }
 }

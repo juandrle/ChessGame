@@ -8,7 +8,9 @@ import Business.Item.Trap.Trap;
 import UI.Elements.FullGame.CombinedView;
 import UI.Elements.FullGame.CombinedViewController;
 import UI.Elements.Game.GameView;
+import UI.Elements.Start.StartViewController;
 import UI.Presentation.MonsterApplication;
+import UI.Scenes;
 import UI.ViewController;
 
 import javafx.collections.ListChangeListener;
@@ -48,13 +50,30 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
                 {
                     gamefieldInitializer();
+                    checkGameEndCondition();
                 }
         );
         game.getGamefield().getPlayer2().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
                 {
                     gamefieldInitializer();
+                    checkGameEndCondition();
+
                 }
         );
+    }
+
+    private void checkGameEndCondition() {
+        if(game.getGamefield().getPlayer1().getOwnGamepieces().isEmpty()){
+            StartViewController startViewController = new StartViewController(application,game, game.getGamefield().getPlayer1());
+            application.getScenes().put(Scenes.START_VIEW, startViewController.getRootView());
+            application.switchScene(Scenes.START_VIEW);
+        }
+        if( game.getGamefield().getPlayer2().getOwnGamepieces().isEmpty()) {
+            StartViewController startViewController = new StartViewController(application, game, game.getGamefield().getPlayer2());
+            application.getScenes().put(Scenes.START_VIEW, startViewController.getRootView());
+            application.switchScene(Scenes.START_VIEW);
+        }
+
     }
 
     private void setDragAndDrop(ImageView imageView) {
