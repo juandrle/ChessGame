@@ -8,8 +8,9 @@ import javafx.scene.image.Image;
 public class MotionTrap extends TrapImpl {
     final Image image;
 
-    public MotionTrap(String description) {
-        super(description);
+    public MotionTrap() {
+        super();
+        setDescription(getDescription() + "Diese verhindert nach Aktivierung \n die Bewegung der Figur \n die sie aktiviert hat");
         image = new Image("files/pictures/Items/Motiontrap.png");
     }
 

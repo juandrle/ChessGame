@@ -13,8 +13,9 @@ import java.util.Objects;
 
 public class TeleportationTrap extends TrapImpl {
     final Image image;
-    public TeleportationTrap(String description) {
-        super(description);
+    public TeleportationTrap() {
+        super();
+        setDescription(getDescription() + "Diese Falle teleportiert \n die Figur, die auf sie tritt \n zur niedrigsten Figur \n des Gegners und fängt \n einen Wettkampf an");
         image = new Image("files/pictures/Items/Teleportationtrap.png");
     }
 

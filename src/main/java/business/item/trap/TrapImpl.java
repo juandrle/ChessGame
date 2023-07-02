@@ -15,10 +15,8 @@ public class TrapImpl implements Trap {
     private boolean isDropable = true;
     private boolean isActive = false;
     Field position;
-
-
-    public TrapImpl(String description) {
-        this.description = description;
+    TrapImpl(){
+        setDescription("Dies ist eine Falle \n du kannst sie ablegen \n Vorsicht sie wird unsichtbar!\n");
     }
 
     @Override

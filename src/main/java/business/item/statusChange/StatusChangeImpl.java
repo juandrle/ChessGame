@@ -9,10 +9,6 @@ public class StatusChangeImpl implements StatusChange {
     Image image;
     Field position;
 
-    public StatusChangeImpl(String description) {
-        this.description = description;
-    }
-
     @Override
     public boolean isDropable() {
         return false;

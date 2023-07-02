@@ -74,11 +74,11 @@ public class GamefieldImpl implements Gamefield {
                 if ((int) (Math.random() * 6) == 1 && this.maxItemAmount > 0 && gamepiece == null) {
                     randNum = (int) (Math.random() * 5);
                     switch (randNum) {
-                        case 0 -> item = new Shield("shield");
-                        case 1 -> item = new RankManipulator("rankmanipulator",game);
-                        case 2 -> item = new TimeManipulator("timemanipulator");
-                        case 3 -> item = new TeleportationTrap("teleportationtrap");
-                        case 4 -> item = new MotionTrap("motiontrap");
+                        case 0 -> item = new Shield();
+                        case 1 -> item = new RankManipulator(game);
+                        case 2 -> item = new TimeManipulator();
+                        case 3 -> item = new TeleportationTrap();
+                        case 4 -> item = new MotionTrap();
                     }
                     this.maxItemAmount--;
                 }

@@ -11,8 +11,8 @@ public class RankManipulator extends StatusChangeImpl {
     final Image image;
     final Game game;
 
-    public RankManipulator(String description, Game game) {
-        super(description);
+    public RankManipulator(Game game) {
+        setDescription("Mit diesem Item \n kann man den Rank \n dieser Spielfigur ändern");
         image = new Image("files/pictures/Items/Rankmanipulator.png");
         this.game = game;
     }

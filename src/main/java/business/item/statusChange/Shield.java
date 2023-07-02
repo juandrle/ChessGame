@@ -6,8 +6,8 @@ public class Shield extends StatusChangeImpl {
     final Image image;
 
 
-    public Shield(String description) {
-        super(description);
+    public Shield() {
+        this.setDescription("Mit diesem Item wird einer \n Spielfigur einmal das \n Leben gerettet");
         image = new Image("files/pictures/Items/Shield.png");
     }
 

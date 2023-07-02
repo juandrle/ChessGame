@@ -136,8 +136,8 @@ public class GameImpl implements Game {
                 case "column" -> column = Integer.parseInt(value);
                 case "inventory" -> {
                     if (!value.equals("null")) {
-                        if (value.equals("Shield")) inventory = new Shield("Shield");
-                        if (value.equals("TimeManipulator")) inventory = new TimeManipulator("TimeManipulator");
+                        if (value.equals("Shield")) inventory = new Shield();
+                        if (value.equals("TimeManipulator")) inventory = new TimeManipulator();
                     } else inventory = null;
                     Objects.requireNonNull(fig).setInventory(inventory);
                 }
@@ -167,11 +167,11 @@ public class GameImpl implements Game {
 
 
             switch (tag) {
-                case "TimeManipulator" -> it = new TimeManipulator("TimeManipulator");
-                case "RankManipulator" -> it = new RankManipulator("RankManipulator", this);
-                case "Shield" -> it = new Shield("Shield");
-                case "MotionTrap" -> it = new MotionTrap("MotionTrap");
-                case "TeleportationTrap" -> it = new TeleportationTrap("TeleportationTrap");
+                case "TimeManipulator" -> it = new TimeManipulator();
+                case "RankManipulator" -> it = new RankManipulator(this);
+                case "Shield" -> it = new Shield();
+                case "MotionTrap" -> it = new MotionTrap();
+                case "TeleportationTrap" -> it = new TeleportationTrap();
                 case "row" -> row = Integer.parseInt(value);
                 case "column" -> column = Integer.parseInt(value);
                 case "iDropable" -> {
