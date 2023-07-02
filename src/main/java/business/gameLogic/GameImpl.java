@@ -94,6 +94,7 @@ public class GameImpl implements Game {
         Item it = null;
         Gamefield loadedGamefield = new GamefieldImpl(false, this);
         this.gamefield = loadedGamefield;
+        switchPlayersTurn();
 
 
 
@@ -114,6 +115,10 @@ public class GameImpl implements Game {
                     pl1 = false;
                     pl2 = true;
                     loadedGamefield.getPlayer2().setName(value);
+                }
+                case "isTurn" -> {
+                    if (pl1) loadedGamefield.getPlayer1().setTurn(value.equals("true"));
+                    else loadedGamefield.getPlayer2().setTurn(value.equals("true"));
                 }
                 case "Pawn" -> {
                     fig = new Pawn();
@@ -178,7 +183,6 @@ public class GameImpl implements Game {
                     column = 0;
                 }
                 case "EverythingOk" -> {
-                    switchPlayersTurn();
                     return;
                 }
             }
@@ -201,8 +205,8 @@ public class GameImpl implements Game {
             FileWriter myWriter = new FileWriter(savedGame);
 
             myWriter.write("match between:" + p1.getName() + ":" + p2.getName() + ":" + date + "\n");
-            myWriter.write("Turn:" + turnCount + "\n");
-            myWriter.append("Player1:").append(p1.getName()).append("\n");
+            myWriter.write("Turn:" + (turnCount-1) + "\n");
+            myWriter.append("Player1:").append(p1.getName()).append("\n").append("isTurn:").append(gamefield.getPlayer1().getTurn() ? "true\n" : "false\n");
             for (Gamepiece p : p1.getOwnGamepieces()) {
                 if (p instanceof Pawn) myWriter.append("Pawn:_\n");
                 else if (p instanceof Tower) myWriter.append("Tower:_\n");
@@ -224,7 +228,7 @@ public class GameImpl implements Game {
                 myWriter.append("endGamepiece:_\n");
             }
 
-            myWriter.append("Player2:").append(p2.getName()).append("\n");
+            myWriter.append("Player2:").append(p2.getName()).append("\n").append("isTurn:").append(gamefield.getPlayer1().getTurn() ? "true\n" : "false\n");;
             for (Gamepiece p : p2.getOwnGamepieces()) {
                 if (p instanceof Pawn) myWriter.append("Pawn:_\n");
                 else if (p instanceof Tower) myWriter.append("Tower:_\n");
