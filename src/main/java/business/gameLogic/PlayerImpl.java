@@ -128,7 +128,7 @@ public class PlayerImpl implements Player {
                     itemUsed.set(false);
 
                     // neue Position setzten
-                    field.setItem((Trap) item);
+                    field.setItem(item);
                     gamepiece.setInventory(null);
                 }
             }

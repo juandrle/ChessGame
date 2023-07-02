@@ -19,7 +19,7 @@ public class RankManipulator extends StatusChangeImpl {
     
     @Override
     public void applyStatusChange(Gamepiece gamepiece) {
-        Gamepiece newPiece = null;
+        Gamepiece newPiece;
         if(gamepiece.getRank() == 0){//Bauer nimmt auf
             newPiece = new Tower();
         }

@@ -42,7 +42,7 @@ public class GamefieldImpl implements Gamefield {
     public void createGamefield() {
         Gamepiece gamepiece;
         int randNum;
-        Item item = null;
+        Item item;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
                 gamepiece = null;

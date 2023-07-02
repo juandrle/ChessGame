@@ -93,7 +93,7 @@ public abstract class GamepieceImpl implements Gamepiece {
             for (int i = curColumn + 1; i <= newPos.getColumn(); i++) {
                 Item tmpItem = game.getGamefield().getField(curRow, i).getItem();
                 Field tmpField = game.getGamefield().getField(curRow, i);
-                if (!checkField(gamepiece.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
+                if (checkField(gamepiece.getInventory(), tmpItem, newPos, tmpField, ownGamepiece)) return false;
             }
             return true;
         }
@@ -102,7 +102,7 @@ public abstract class GamepieceImpl implements Gamepiece {
             for (int i = curColumn - 1; i >= newPos.getColumn(); i--) {
                 Item tmpItem = game.getGamefield().getField(curRow, i).getItem();
                 Field tmpField = game.getGamefield().getField(curRow, i);
-                if (!checkField(gamepiece.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
+                if (checkField(gamepiece.getInventory(), tmpItem, newPos, tmpField, ownGamepiece)) return false;
             }
             return true;
         }
@@ -116,7 +116,7 @@ public abstract class GamepieceImpl implements Gamepiece {
             for (int i = curRow + 1; i <= newPos.getRow(); i++) {
                 Item tmpItem = game.getGamefield().getField(i, curColumn).getItem();
                 Field tmpField = game.getGamefield().getField(i, curColumn);
-                if (!checkField(gamepiece.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
+                if (checkField(gamepiece.getInventory(), tmpItem, newPos, tmpField, ownGamepiece)) return false;
             }
             return true;
         }
@@ -125,7 +125,7 @@ public abstract class GamepieceImpl implements Gamepiece {
             for (int i = curRow - 1; i >= newPos.getRow(); i--) {
                 Item tmpItem = game.getGamefield().getField(i, curColumn).getItem();
                 Field tmpField = game.getGamefield().getField(i, curColumn);
-                if (!checkField(gamepiece.getInventory(),tmpItem, newPos, tmpField, ownGamepiece)) return false;
+                if (checkField(gamepiece.getInventory(), tmpItem, newPos, tmpField, ownGamepiece)) return false;
             }
             return true;
         }
@@ -146,21 +146,15 @@ public abstract class GamepieceImpl implements Gamepiece {
     protected boolean checkField(Item inventory, Item tmpItem, Field newPos, Field tmpField, List<Gamepiece> ownGamepieces) {
 
         for (Gamepiece g : ownGamepieces) {
-            if (tmpField == g.getPosition()) return false;
+            if (tmpField == g.getPosition()) return true;
         }
         if (newPos == tmpField) {
-            if (inventory != null && tmpItem != null) {
-                return false;
-            }
-            return true;
+            return inventory != null && tmpItem != null;
         }
         if (tmpItem != null) {
-            if (tmpItem instanceof Trap && !tmpItem.isDropable())
-                return true;
-            return false;
+            return !(tmpItem instanceof Trap) || tmpItem.isDropable();
         }
-        if (tmpField.getGamepiece() != null) return false;
-        return true;
+        return tmpField.getGamepiece() != null;
     }
 
     public void setTimeMultiplier(int timeMultiplier) {

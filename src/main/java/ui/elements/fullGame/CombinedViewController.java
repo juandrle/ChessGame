@@ -22,7 +22,6 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
     final CombinedView view;
     private final GameFieldViewController gameFieldViewController;
     private final GameViewController gameViewController;
-    private ChooseCompetitionViewController chooseCompetitionViewController;
 
     public CombinedViewController(MonsterApplication application, Game game) {
         super(application);
@@ -102,7 +101,7 @@ public class CombinedViewController extends ViewController<MonsterApplication> {
         });
         if (newValue) {
 
-            chooseCompetitionViewController = new ChooseCompetitionViewController(application, game, gameFieldViewController);
+            ChooseCompetitionViewController chooseCompetitionViewController = new ChooseCompetitionViewController(application, game, gameFieldViewController);
 
             view.setCenter(chooseCompetitionViewController.getRootView());
             view.nextTurn.setDisable(true);

@@ -9,6 +9,8 @@ import business.gamepiece.Tower;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 public class TeleportationTrap extends TrapImpl {
     final Image image;
     public TeleportationTrap(String description) {
@@ -26,7 +28,7 @@ public class TeleportationTrap extends TrapImpl {
             enemyPlayer =game.getGamefield().getPlayer1();
         }
 
-        for(Gamepiece enemygamepiece :  enemyPlayer.getOwnGamepieces()){
+        for(Gamepiece enemygamepiece :  Objects.requireNonNull(enemyPlayer).getOwnGamepieces()){
             System.out.println("enemy: "+enemygamepiece);
             System.out.println("own: "+gamepiece);
             if(enemygamepiece instanceof Pawn){

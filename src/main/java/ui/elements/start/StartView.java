@@ -10,7 +10,7 @@ public class StartView extends StackPane {
     public final Button loadGame;
     public final Button startNewGame;
 
-    public  Label header;
+    public final Label header;
 
     public StartView() {
 

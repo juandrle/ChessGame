@@ -25,7 +25,7 @@ public class Pawn extends GamepieceImpl{
             }
             if(newPos.getItem() != null){
                 if(newPos.getItem() instanceof Trap && !newPos.getItem().isDropable())return true;
-                if(this.inventory != null) return false;
+                return this.inventory == null;
             }
             return true;
         }

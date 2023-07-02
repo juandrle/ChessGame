@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GameImpl implements Game {
 
@@ -51,7 +52,7 @@ public class GameImpl implements Game {
             this.nextPlayer = this.gamefield.getPlayer1();
             this.gamefield.getPlayer2().setTurn(true);
         }
-        if (effectedGamepieces != null) checkEffectedGamepieces();
+        checkEffectedGamepieces();
         turnCount++;
     }
 
@@ -83,7 +84,7 @@ public class GameImpl implements Game {
         //load a file from path
         File file = new File(filepath);
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String line = null;
+        String line;
 
         int row = 0, column = 0;
         Item inventory = null;
@@ -103,7 +104,6 @@ public class GameImpl implements Game {
 
             switch (tag) {
                 case "match between" -> {
-                    continue;
                 }
                 case "Turn" -> turnCount = Integer.parseInt(value);
                 case "Player1" -> {
@@ -134,20 +134,19 @@ public class GameImpl implements Game {
                         if (value.equals("Shield")) inventory = new Shield("Shield");
                         if (value.equals("TimeManipulator")) inventory = new TimeManipulator("TimeManipulator");
                     } else inventory = null;
-                    fig.setInventory(inventory);
+                    Objects.requireNonNull(fig).setInventory(inventory);
                 }
                 case "isMoveable" -> {
-                    if (value.equals("false")) fig.setMoveable(false);
-                    else fig.setMoveable(true);
+                    fig.setMoveable(!value.equals("false"));
                 }
                 case "endGamepiece" -> {
                     if (pl1) {
                         loadedGamefield.getPlayer1().addNewGamepiece(fig);
-                        fig.setPosition(loadedGamefield.getField(row, column));
+                        Objects.requireNonNull(fig).setPosition(loadedGamefield.getField(row, column));
                     }
                     if (pl2) {
                         loadedGamefield.getPlayer2().addNewGamepiece(fig);
-                        fig.setPosition(loadedGamefield.getField(row, column));
+                        Objects.requireNonNull(fig).setPosition(loadedGamefield.getField(row, column));
                     }
                     fig = null;
                     inventory = null;
@@ -171,11 +170,10 @@ public class GameImpl implements Game {
                 case "row" -> row = Integer.parseInt(value);
                 case "column" -> column = Integer.parseInt(value);
                 case "iDropable" -> {
-                    if (value.equals("true")) it.setIsDropable(true);
-                    else it.setIsDropable(false);
+                    it.setIsDropable(value.equals("true"));
                 }
                 case "endItem" -> {
-                    it.setPosition(loadedGamefield.getField(row, column));
+                    Objects.requireNonNull(it).setPosition(loadedGamefield.getField(row, column));
                     row = 0;
                     column = 0;
                 }

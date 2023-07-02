@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MonsterApplication extends Application {
     private Scene scene;
@@ -32,7 +33,7 @@ public class MonsterApplication extends Application {
 
             Pane root = scenes.get(Scenes.START_VIEW);
             scene = new Scene(root, 700, 800);
-            scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/application.css")).toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

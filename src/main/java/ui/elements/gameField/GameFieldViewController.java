@@ -14,7 +14,6 @@ import ui.ViewController;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -80,7 +79,8 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             int sourceRow = ((int) imageView.getLayoutY() / GameFieldView.CELL_SIZE);
             int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
             Gamepiece selGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece();
-            if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece)) return;
+            if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece) ||
+                    game.getEffectedGamepieces().containsKey(game.getCurrentPlayer().getCurrGamepiece())) return;
             showPossibleMoves(imageView, true);
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
@@ -261,8 +261,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
         } else {
             // Anzeige der möglichen Platzierungen für eine Falle
             Field sel2Field = game.getGamefield().getField(selRow, selCol);
-            if (sel2Field.getGamepiece() != null && sel2Field.getGamepiece().getInventory() instanceof Trap) {
-                Trap trap = (Trap) sel2Field.getGamepiece().getInventory();
+            if (sel2Field.getGamepiece() != null && sel2Field.getGamepiece().getInventory() instanceof Trap trap) {
                 for (int row = 0; row < GameFieldView.BOARD_SIZE; row++) {
                     for (int col = 0; col < GameFieldView.BOARD_SIZE; col++) {
                         Node currNode = view.getChildren().get(row * view.getRowCount() + col);
