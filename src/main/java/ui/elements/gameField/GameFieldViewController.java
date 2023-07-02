@@ -96,21 +96,6 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             }
             event.consume();
         });
-
-        imageView.setOnDragEntered(event -> {
-            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
-                imageView.setOpacity(0.7); // fix this
-            }
-            event.consume();
-        });
-
-        imageView.setOnDragExited(event -> {
-            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
-                imageView.setOpacity(1.0);
-            }
-            event.consume();
-        });
-
         imageView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
