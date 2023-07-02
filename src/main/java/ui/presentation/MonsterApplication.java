@@ -27,7 +27,7 @@ public class MonsterApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             ViewController<MonsterApplication> controller;
-            controller = new StartViewController(this, game);
+            controller = new StartViewController(this, game,null);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
             Pane root = scenes.get(Scenes.START_VIEW);

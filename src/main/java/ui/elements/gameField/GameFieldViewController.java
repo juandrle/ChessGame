@@ -5,13 +5,16 @@ import business.gameLogic.Game;
 import business.gamepiece.Gamepiece;
 import business.item.Item;
 import business.item.trap.Trap;
+import ui.Scenes;
 import ui.elements.fullGame.CombinedView;
 import ui.elements.game.GameView;
+import ui.elements.start.StartViewController;
 import ui.presentation.MonsterApplication;
 import ui.ViewController;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -44,11 +47,32 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             }
         });
         game.getGamefield().getPlayer1().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
-                gamefieldInitializer()
+                {
+                    gamefieldInitializer();
+                    checkGameEndCondition();
+                }
         );
         game.getGamefield().getPlayer2().getOwnGamepieces().addListener((ListChangeListener<Gamepiece>) change ->
-                gamefieldInitializer()
+                {
+                    gamefieldInitializer();
+                    checkGameEndCondition();
+
+                }
         );
+    }
+
+    private void checkGameEndCondition() {
+        if(game.getGamefield().getPlayer1().getOwnGamepieces().isEmpty()){
+            StartViewController startViewController = new StartViewController(application,game, game.getGamefield().getPlayer1());
+            application.getScenes().put(Scenes.START_VIEW, startViewController.getRootView());
+            application.switchScene(Scenes.START_VIEW);
+        }
+        if( game.getGamefield().getPlayer2().getOwnGamepieces().isEmpty()) {
+            StartViewController startViewController = new StartViewController(application, game, game.getGamefield().getPlayer2());
+            application.getScenes().put(Scenes.START_VIEW, startViewController.getRootView());
+            application.switchScene(Scenes.START_VIEW);
+        }
+
     }
 
     private void setDragAndDrop(ImageView imageView) {
