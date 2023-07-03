@@ -22,6 +22,7 @@ import javafx.scene.input.*;
 public class GameFieldViewController extends ViewController<MonsterApplication> {
     private final GameFieldView view;
     private final Game game;
+    private final static boolean HIDDEN = true;
 
     public GameFieldViewController(MonsterApplication application, Game game) {
         super(application);
@@ -189,7 +190,9 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                         }
                 }
                 Item tempItem = game.getGamefield().getField(row, col).getItem();
+                if(HIDDEN)
                 if (tempItem != null) {
+
                     if (tempItem instanceof Trap) {
                         if (!((Trap) tempItem).isActive())
                             ((ImageView) currNode).setImage(new Image("files/pictures/Item.png"));
@@ -198,6 +201,8 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
                     }
 
                 }
+                if(!HIDDEN && tempItem != null)
+                    ((ImageView) currNode).setImage(tempItem.getImage());
 
                 setDragAndDrop((ImageView) currNode);
             }
