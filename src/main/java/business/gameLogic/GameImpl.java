@@ -90,6 +90,9 @@ public class GameImpl implements Game {
         Item inventory = null;
         boolean pl1 = false;
         boolean pl2 = false;
+        boolean effekt = false;
+        int effektvalue = 0;
+
         Gamepiece fig = null;
         Item it = null;
         Gamefield loadedGamefield = new GamefieldImpl(false, this);
@@ -144,7 +147,16 @@ public class GameImpl implements Game {
                 case "isMoveable" -> {
                     fig.setMoveable(!value.equals("false"));
                 }
+                case "effekt"-> {
+                    if(!value.equals("0")){
+                        effektvalue = Integer.parseInt(value);
+                        effekt = true;
+                    }
+                }
                 case "endGamepiece" -> {
+                    if (effekt){
+                        effectedGamepieces.put(fig,effektvalue);
+                    }
                     if (pl1) {
                         loadedGamefield.getPlayer1().addNewGamepiece(fig);
                         Objects.requireNonNull(fig).setPosition(loadedGamefield.getField(row, column));
@@ -153,6 +165,8 @@ public class GameImpl implements Game {
                         loadedGamefield.getPlayer2().addNewGamepiece(fig);
                         Objects.requireNonNull(fig).setPosition(loadedGamefield.getField(row, column));
                     }
+                    effektvalue = 0;
+                    effekt = false;
                     fig = null;
                     inventory = null;
                     row = 0;
@@ -225,6 +239,9 @@ public class GameImpl implements Game {
                 } else myWriter.append("inventory:null\n");
                 if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
+                if(this.effectedGamepieces.containsKey(p)){
+                    myWriter.append("effekt:" + effectedGamepieces.get(p)+"\n");
+                }else  myWriter.append("effekt:0\n");
                 myWriter.append("endGamepiece:_\n");
             }
 
@@ -244,6 +261,9 @@ public class GameImpl implements Game {
                 } else myWriter.append("inventory:null\n");
                 if (p.isMoveable()) myWriter.append("isMoveable:true\n");
                 else myWriter.append("isMoveable:false\n");
+                if(this.effectedGamepieces.containsKey(p)){
+                    myWriter.append("effekt:" + effectedGamepieces.get(p)+"\n");
+                }else  myWriter.append("effekt:0\n");
                 myWriter.append("endGamepiece:_\n");
             }
 
