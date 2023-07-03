@@ -80,7 +80,7 @@ public class GameFieldViewController extends ViewController<MonsterApplication> 
             int sourceCol = ((int) imageView.getLayoutX() / GameFieldView.CELL_SIZE);
             Gamepiece selGamepiece = game.getGamefield().getField(sourceRow, sourceCol).getGamepiece();
             if (selGamepiece == null || !game.getCurrentPlayer().getOwnGamepieces().contains(selGamepiece) ||
-                    game.getEffectedGamepieces().containsKey(game.getCurrentPlayer().getCurrGamepiece())) return;
+                    !selGamepiece.isMoveable()) return;
             showPossibleMoves(imageView, true);
             Dragboard dragboard = imageView.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
